@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianyi.whcase.dao.CaseAttachItemMapper" >
+  <resultMap id="BaseResultMap" type="com.tianyi.whcase.model.CaseAttachItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="case_attch_id" property="caseAttchId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="uri" property="uri" jdbcType="VARCHAR" />
+    <result column="item_type" property="itemType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, case_attch_id, name, uri, item_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_case_attch_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_case_attch_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tianyi.whcase.model.CaseAttachItem" >
+    insert into t_case_attch_item (id, case_attch_id, name, 
+      uri, item_type)
+    values (#{id,jdbcType=VARCHAR}, #{caseAttchId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{uri,jdbcType=VARCHAR}, #{itemType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tianyi.whcase.model.CaseAttachItem" >
+    insert into t_case_attch_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="caseAttchId != null" >
+        case_attch_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="uri != null" >
+        uri,
+      </if>
+      <if test="itemType != null" >
+        item_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="caseAttchId != null" >
+        #{caseAttchId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="uri != null" >
+        #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null" >
+        #{itemType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tianyi.whcase.model.CaseAttachItem" >
+    update t_case_attch_item
+    <set >
+      <if test="caseAttchId != null" >
+        case_attch_id = #{caseAttchId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="uri != null" >
+        uri = #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null" >
+        item_type = #{itemType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tianyi.whcase.model.CaseAttachItem" >
+    update t_case_attch_item
+    set case_attch_id = #{caseAttchId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      uri = #{uri,jdbcType=VARCHAR},
+      item_type = #{itemType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
