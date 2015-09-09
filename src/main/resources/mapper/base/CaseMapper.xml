@@ -18,14 +18,10 @@
     <result column="latitude" property="latitude" jdbcType="VARCHAR" />
     <result column="organization_id" property="organizationId" jdbcType="INTEGER" />
     <result column="detectedunit_id" property="detectedunitId" jdbcType="INTEGER" />
-    <result column="receive_status" property="receiveStatus" jdbcType="VARCHAR" />
-    <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" />
-    <result column="sender_time" property="senderTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, creator, create_time, code, categories_id, start_time, summary, status, 
-    case_group_id, isregister, level, longitude, latitude, organization_id, detectedunit_id, 
-    receive_status, receive_time, sender_time
+    case_group_id, isregister, level, longitude, latitude, organization_id, detectedunit_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -43,197 +39,14 @@
       start_time, summary, status, 
       case_group_id, isregister, level, 
       longitude, latitude, organization_id, 
-      detectedunit_id, receive_status, receive_time, 
-      sender_time)
+      detectedunit_id)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{creator,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}, #{categoriesId,jdbcType=VARCHAR}, 
       #{startTime,jdbcType=TIMESTAMP}, #{summary,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
       #{caseGroupId,jdbcType=VARCHAR}, #{isregister,jdbcType=BIT}, #{level,jdbcType=VARCHAR}, 
       #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, #{organizationId,jdbcType=INTEGER}, 
-      #{detectedunitId,jdbcType=INTEGER}, #{receiveStatus,jdbcType=VARCHAR}, #{receiveTime,jdbcType=TIMESTAMP}, 
-      #{senderTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.tianyi.whcase.model.Case" >
-    insert into t_case
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="creator != null" >
-        creator,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="code != null" >
-        code,
-      </if>
-      <if test="categoriesId != null" >
-        categories_id,
-      </if>
-      <if test="startTime != null" >
-        start_time,
-      </if>
-      <if test="summary != null" >
-        summary,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="caseGroupId != null" >
-        case_group_id,
-      </if>
-      <if test="isregister != null" >
-        isregister,
-      </if>
-      <if test="level != null" >
-        level,
-      </if>
-      <if test="longitude != null" >
-        longitude,
-      </if>
-      <if test="latitude != null" >
-        latitude,
-      </if>
-      <if test="organizationId != null" >
-        organization_id,
-      </if>
-      <if test="detectedunitId != null" >
-        detectedunit_id,
-      </if>
-      <if test="receiveStatus != null" >
-        receive_status,
-      </if>
-      <if test="receiveTime != null" >
-        receive_time,
-      </if>
-      <if test="senderTime != null" >
-        sender_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="creator != null" >
-        #{creator,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="code != null" >
-        #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="categoriesId != null" >
-        #{categoriesId,jdbcType=VARCHAR},
-      </if>
-      <if test="startTime != null" >
-        #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="summary != null" >
-        #{summary,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="caseGroupId != null" >
-        #{caseGroupId,jdbcType=VARCHAR},
-      </if>
-      <if test="isregister != null" >
-        #{isregister,jdbcType=BIT},
-      </if>
-      <if test="level != null" >
-        #{level,jdbcType=VARCHAR},
-      </if>
-      <if test="longitude != null" >
-        #{longitude,jdbcType=VARCHAR},
-      </if>
-      <if test="latitude != null" >
-        #{latitude,jdbcType=VARCHAR},
-      </if>
-      <if test="organizationId != null" >
-        #{organizationId,jdbcType=INTEGER},
-      </if>
-      <if test="detectedunitId != null" >
-        #{detectedunitId,jdbcType=INTEGER},
-      </if>
-      <if test="receiveStatus != null" >
-        #{receiveStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="receiveTime != null" >
-        #{receiveTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="senderTime != null" >
-        #{senderTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tianyi.whcase.model.Case" >
-    update t_case
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="creator != null" >
-        creator = #{creator,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="code != null" >
-        code = #{code,jdbcType=VARCHAR},
-      </if>
-      <if test="categoriesId != null" >
-        categories_id = #{categoriesId,jdbcType=VARCHAR},
-      </if>
-      <if test="startTime != null" >
-        start_time = #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="summary != null" >
-        summary = #{summary,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="caseGroupId != null" >
-        case_group_id = #{caseGroupId,jdbcType=VARCHAR},
-      </if>
-      <if test="isregister != null" >
-        isregister = #{isregister,jdbcType=BIT},
-      </if>
-      <if test="level != null" >
-        level = #{level,jdbcType=VARCHAR},
-      </if>
-      <if test="longitude != null" >
-        longitude = #{longitude,jdbcType=VARCHAR},
-      </if>
-      <if test="latitude != null" >
-        latitude = #{latitude,jdbcType=VARCHAR},
-      </if>
-      <if test="organizationId != null" >
-        organization_id = #{organizationId,jdbcType=INTEGER},
-      </if>
-      <if test="detectedunitId != null" >
-        detectedunit_id = #{detectedunitId,jdbcType=INTEGER},
-      </if>
-      <if test="receiveStatus != null" >
-        receive_status = #{receiveStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="receiveTime != null" >
-        receive_time = #{receiveTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="senderTime != null" >
-        sender_time = #{senderTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+      #{detectedunitId,jdbcType=INTEGER})
+  </insert> 
   <update id="updateByPrimaryKey" parameterType="com.tianyi.whcase.model.Case" >
     update t_case
     set name = #{name,jdbcType=VARCHAR},
@@ -250,10 +63,7 @@
       longitude = #{longitude,jdbcType=VARCHAR},
       latitude = #{latitude,jdbcType=VARCHAR},
       organization_id = #{organizationId,jdbcType=INTEGER},
-      detectedunit_id = #{detectedunitId,jdbcType=INTEGER},
-      receive_status = #{receiveStatus,jdbcType=VARCHAR},
-      receive_time = #{receiveTime,jdbcType=TIMESTAMP},
-      sender_time = #{senderTime,jdbcType=TIMESTAMP}
+      detectedunit_id = #{detectedunitId,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

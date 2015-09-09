@@ -1,28 +1,49 @@
 package com.tianyi.whcase.model;
 
+import java.util.Date;
+
 /**
- * °¸¼þÍÆËÍ¶ÔÓ¦×éÖ¯»ú¹¹ÐÅÏ¢
- * Ò»¶Ô¶à¹ØÏµ£¬
- * Ò»¸ö°¸¼þ¿ÉÍ¬Ê±ÍÆËÍµ½ÆäËû¼¸¸ö»ú¹¹Í¬Ê±ÕìÆÆ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¶ï¿½Ó¦ï¿½ï¿½Ö¯ï¿½ï¿½ï¿½ï¿½Ï¢
+ * Ò»ï¿½Ô¶ï¿½ï¿½Ïµï¿½ï¿½
+ * Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬Ê±ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬Ê±ï¿½ï¿½ï¿½ï¿½
  * @author lq
  *
  */
 public class CaseOrgan {
 	
 	/**
-	 * Ö÷¼üid
+	 * ï¿½ï¿½ï¿½ï¿½id
 	 */
     private String id;
 
     /**
-     * ¹ØÁª°¸¼þid
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½id
      */
     private String caseId;
 
     /**
-     * ½ÓÊÕµ¥Î»id
+     * ï¿½ï¿½ï¿½Õµï¿½Î»id
      */
     private Integer organizationId;
+
+    /**
+     * ï¿½ï¿½ï¿½ï¿½×´Ì¬
+     * 0ï¿½ï¿½Î´ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½ï¿½Ðµï¿½ï¿½Ã½Ó¿ï¿½Ð´ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ä¬ï¿½ï¿½Îª0ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½
+     * 1ï¿½ï¿½ï¿½Ñ½ï¿½ï¿½Õ£ï¿½
+     * 2ï¿½ï¿½ï¿½Ñ·ï¿½ï¿½ï¿½ï¿½ï¿½
+     * 9ï¿½ï¿½ï¿½ï¿½ï¿½Õ£ï¿½ï¿½ï¿½ï¿½Ã¹Ü¡ï¿½Ô¤ï¿½ï¿½ï¿½Ú´Ë£ï¿½
+     */
+    private String receiveStatus;
+
+    /**
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+     */
+    private Date receiveTime;
+
+    /**
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+     */
+    private Date senderTime;
 
     public String getId() {
         return id;
@@ -46,5 +67,29 @@ public class CaseOrgan {
 
     public void setOrganizationId(Integer organizationId) {
         this.organizationId = organizationId;
+    }
+
+    public String getReceiveStatus() {
+        return receiveStatus;
+    }
+
+    public void setReceiveStatus(String receiveStatus) {
+        this.receiveStatus = receiveStatus;
+    }
+
+    public Date getReceiveTime() {
+        return receiveTime;
+    }
+
+    public void setReceiveTime(Date receiveTime) {
+        this.receiveTime = receiveTime;
+    }
+
+    public Date getSenderTime() {
+        return senderTime;
+    }
+
+    public void setSenderTime(Date senderTime) {
+        this.senderTime = senderTime;
     }
 }

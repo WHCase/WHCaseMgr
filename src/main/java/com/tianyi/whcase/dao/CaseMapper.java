@@ -7,12 +7,8 @@ public interface CaseMapper {
     int deleteByPrimaryKey(String id);
 
     int insert(Case record);
-
-    int insertSelective(Case record);
-
-    Case selectByPrimaryKey(String id);
-
-    int updateByPrimaryKeySelective(Case record);
+ 
+    Case selectByPrimaryKey(String id); 
 
     int updateByPrimaryKey(Case record);
 }

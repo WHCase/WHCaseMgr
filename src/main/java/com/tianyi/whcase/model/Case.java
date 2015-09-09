@@ -3,121 +3,102 @@ package com.tianyi.whcase.model;
 import java.util.Date;
 
 /**
- * °¸¼þÖ÷ÌåÐÅÏ¢
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
  * @author lq
  *
  */
 public class Case {
 	
 	/**
-	 * Ö÷¼üid£¬guidÀàÐÍ£¬
-	 * mysqlÀïÃæ£ºvarchar(36)
+	 * ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½guidï¿½ï¿½ï¿½Í£ï¿½
+	 * mysqlï¿½ï¿½ï¿½æ£ºvarchar(36)
 	 */
     private String id;
 
     /**
-     * °¸¼þÃû³Æ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     private String name;
 
     /**
-     * °¸¼þÂ¼ÈëÈËÔ±
+     * ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½Ô±
      */
     private Integer creator;
 
     /**
-     * Â¼ÈëÊ±¼ä
+     * Â¼ï¿½ï¿½Ê±ï¿½ï¿½
      */
     private Date createTime;
 
     /**
-     * °¸¼þ±àºÅ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     private String code;
 
     /**
-     * °¸¼þÀàÐÍid£¬¶ÔÓ¦ÀàÐÍÊý¾Ý×Öµä
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½
      */
     private String categoriesId;
 
     /**
-     * °¸·¢Ê±¼ä
+     * ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
      */
     private Date startTime;
 
     /**
-     * °¸Çé¼òÊö
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     private String summary;
 
     /**
-     * °¸¼þ×´Ì¬ 
-     * Handling - ÊÜÀí£¬
-     * Detected - ÒÑÆÆ
-     * CloseCase - Ïú°¸
+     * ï¿½ï¿½ï¿½ï¿½×´Ì¬ 
+     * Handling - ï¿½ï¿½ï¿½?
+     * Detected - ï¿½ï¿½ï¿½ï¿½
+     * CloseCase - ï¿½ï¿½
      *  
      */
     private String status;
 
     /**
-     * ¹ØÁª´®°¸²¢°¸id£¬GuidÀàÐÍ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½Guidï¿½ï¿½ï¿½ï¿½
      */
     private String caseGroupId;
 
     /**
-     * ÊÇ·ñÁ¢°¸
-     *  true - ÊÇ£¬
-     *  false - ·ñ
+     * ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½
+     *  true - ï¿½Ç£ï¿½
+     *  false - ï¿½ï¿½
      */
     private Boolean isregister;
 
     /**
-     * °¸¼þµÈ¼¶£º 
-     * ½ÝÉÐÄÇ±ßºÃÏñÃ»´¦Àí£¬Ä¬ÈÏ¶¼ÊÇ0£»
+     * ï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ç±ßºï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½?Ä¬ï¿½Ï¶ï¿½ï¿½ï¿½0ï¿½ï¿½
      */
     private String level;
 
     /**
-     * °¸·¢µØµãÎ³¶È
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½Î³ï¿½ï¿½
      */
     private String longitude;
 
     /**
-     * °¸·¢µØµã¾­¶È
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Øµã¾­ï¿½ï¿½
      */
     private String latitude;
 
     /**
-     * °¸¼þËùÊôÏ½Çøµ¥Î»ID 
-     * £¨¼´°¸¼þËùÊôÇøÓò£¬ ²Î¿¼µ¥Î»×Öµä£©
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ï¿½Î»ID 
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ï¿½ï¿½Î»ï¿½Öµä£©
      */
     private Integer organizationId;
 
     /**
-     * ÕìÆÆµ¥Î»ID 
-     * (Ï½Çøµ¥Î»ID£¬ ²Î¿¼µ¥Î»×Öµä) 
-     * -1±íÊ¾ÎÞ
+     * ï¿½ï¿½ï¿½Æµï¿½Î»ID 
+     * (Ï½ï¿½ï¿½Î»IDï¿½ï¿½ ï¿½Î¿ï¿½ï¿½ï¿½Î»ï¿½Öµï¿½) 
+     * -1ï¿½ï¿½Ê¾ï¿½ï¿½
      */
     private Integer detectedunitId;
-
-    /**
-     * ½ÓÊÕ×´Ì¬
-     * 0£ºÎ´½ÓÊÜ£¬½ÝÉÐµ÷ÓÃ½Ó¿ÚÐ´ÈëµÄÊ±ºòÄ¬ÈÏÎª0£¬¾ùÎ´½ÓÊÜ
-     * 1£ºÒÑ½ÓÊÕ£¬
-     * 2£ºÒÑ·´À¡£¬
-     * 9£º¾ÜÊÕ£¨²»ÓÃ¹Ü¡¢Ô¤ÁôÔÚ´Ë£©
-     */
-    private String receiveStatus;
-
-    /**
-     * °¸¼þ½ÓÊÕÊ±¼ä
-     */
-    private Date receiveTime;
-
-    /**
-     * °¸¼þÍÆËÍÊ±¼ä
-     */
-    private Date senderTime;
 
     public String getId() {
         return id;
@@ -245,29 +226,5 @@ public class Case {
 
     public void setDetectedunitId(Integer detectedunitId) {
         this.detectedunitId = detectedunitId;
-    }
-
-    public String getReceiveStatus() {
-        return receiveStatus;
-    }
-
-    public void setReceiveStatus(String receiveStatus) {
-        this.receiveStatus = receiveStatus;
-    }
-
-    public Date getReceiveTime() {
-        return receiveTime;
-    }
-
-    public void setReceiveTime(Date receiveTime) {
-        this.receiveTime = receiveTime;
-    }
-
-    public Date getSenderTime() {
-        return senderTime;
-    }
-
-    public void setSenderTime(Date senderTime) {
-        this.senderTime = senderTime;
     }
 }
