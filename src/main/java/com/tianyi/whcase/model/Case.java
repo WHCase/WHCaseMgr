@@ -99,6 +99,10 @@ public class Case {
      * -1��ʾ��
      */
     private Integer detectedunitId;
+    /**
+     * 案件接收类型
+     */
+    private Integer receiveStatus;
 
     public String getId() {
         return id;
@@ -227,4 +231,12 @@ public class Case {
     public void setDetectedunitId(Integer detectedunitId) {
         this.detectedunitId = detectedunitId;
     }
+
+	public Integer getReceiveStatus() {
+		return receiveStatus;
+	}
+
+	public void setReceiveStatus(Integer receiveStatus) {
+		this.receiveStatus = receiveStatus;
+	}
 }

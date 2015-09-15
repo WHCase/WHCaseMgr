@@ -27,15 +27,6 @@ public class CaseOrgan {
     private Integer organizationId;
 
     /**
-     * ����״̬
-     * 0��δ���ܣ����е��ýӿ�д���ʱ��Ĭ��Ϊ0����δ����
-     * 1���ѽ��գ�
-     * 2���ѷ�����
-     * 9�����գ����ùܡ�Ԥ���ڴˣ�
-     */
-    private String receiveStatus;
-
-    /**
      * ��������ʱ��
      */
     private Date receiveTime;
@@ -67,14 +58,6 @@ public class CaseOrgan {
 
     public void setOrganizationId(Integer organizationId) {
         this.organizationId = organizationId;
-    }
-
-    public String getReceiveStatus() {
-        return receiveStatus;
-    }
-
-    public void setReceiveStatus(String receiveStatus) {
-        this.receiveStatus = receiveStatus;
     }
 
     public Date getReceiveTime() {

@@ -8,15 +8,22 @@
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="INTEGER" />
     <result column="message_type" property="messageType" jdbcType="VARCHAR" />
+    <result column="resource_type" property="resourceType" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, case_id, description, creator, message_type
+    id, name, case_id, description, creator, message_type,resource_type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from t_case_attach
     where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByCaseId" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_case_attach
+    where case_id = #{0} and resource_type = #{1}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_case_attach

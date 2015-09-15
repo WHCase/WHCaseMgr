@@ -1,5 +1,8 @@
 package com.tianyi.whcase.dao;
 
+import java.util.List;
+
+import com.tianyi.whcase.core.ListResult;
 import com.tianyi.whcase.core.MyBatisRepository;
 import com.tianyi.whcase.model.CaseAttachItem;
 @MyBatisRepository
@@ -15,4 +18,6 @@ public interface CaseAttachItemMapper {
     int updateByPrimaryKeySelective(CaseAttachItem record);
 
     int updateByPrimaryKey(CaseAttachItem record);
+
+	List<CaseAttachItem> selectByCaseAttachId(String caseAttachId);
 }

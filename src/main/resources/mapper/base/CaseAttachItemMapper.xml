@@ -17,6 +17,14 @@
     from t_case_attch_item
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectByCaseAttachId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_case_attch_item
+    where case_attch_id = #{id,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_case_attch_item
     where id = #{id,jdbcType=VARCHAR}

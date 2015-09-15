@@ -1,9 +1,15 @@
-var m_caseType;
+var m_receiveStatus = 0;
 var m_caseInfo_Object = {};
 var m_caseInfo_dlg;
 var m_casePush_dlg;
 var m_caseNo;
 var m_caseId;
+/**
+ * 列表中选中的行号和行数据
+ */
+var m_rowIndex = -1;
+var m_rowData;
+
 $(function() { 
 	var obj = getUrlArgs();
 	m_caseType = obj.caseType; 
@@ -14,25 +20,30 @@ $(function() {
 	}
 	CasePushManage.packageObject();
 	CasePushManage.loadCaseList();
-	$("#pushCase").bind("click", CasePushManage.pushCase);
+	$("#openPushCaseDlg").bind("click", CasePushManage.openPushCaseDlg);
 	$("#editCase").bind("click", CasePushManage.editCase);
 	$("#showCaseInfo").bind("click", CasePushManage.showCaseInfo);
 	$("#showCaseBackInfo").bind("click", CasePushManage.showCaseBackInfo);
-	$("#btnSavePushInfo").bind("click", CasePushManage.savePushInfo);
+	$("#btnPushCase").bind("click", CasePushManage.pushCase);
 	$("#btnCancelSave").bind("click", CasePushManage.cancelSave);
+
 });
 
 var CasePushManage = { 
 		packageObject : function(row) {
-			m_caseInfo_Object.caseType = m_caseType;
-			m_caseInfo_Object.startTime = $("#sch_startTime").datebox("getValue");
-			m_caseInfo_Object.endTime = $("#sch_endTime").datebox("getValue"); 
+			m_caseInfo_Object.receiveStatus = m_receiveStatus;
+			//m_caseInfo_Object.startTime = $("#sch_startTime").datebox("getValue");
+			//m_caseInfo_Object.endTime = $("#sch_endTime").datebox("getValue"); 
 		},
+		/**
+		 * 加载案件列表
+		 */
 		loadCaseList:function(){
+			CasePushManage.packageObject();
 			$('#casePushListGrid').datagrid({
 				url : 'case/getCasePushList.do',
 				queryParams : {
-					'case_Query' : JSON.stringify(m_caseInfo_Object)
+					'caseInfo' : JSON.stringify(m_caseInfo_Object)
 				},
 				fitColumns : true,
 				rownumbers : true,
@@ -41,40 +52,38 @@ var CasePushManage = {
 				pageSize : 20,
 				nowrap : false,
 				idField : 'id', 
+				onClickRow:CasePushManage.setRowInfoBySelect,
 				onDblClickRow : CasePushManage.showCaseInfo,
 				toolbar : "#casePushTb",
 				columns : [ [ 
 				              { title : 'id', field : 'id', hidden : true },
-				              { title : '案件状态', field : 'caseStatus', align : 'center', width : 150 },
-				              { title : '案件编号', field : 'caseNo', align : 'center', width : 150 },
-				              { title : '案件名称', field : 'caseName', align : 'center', width : 150 },
-				              { title : '案件类型', field : 'caseType', align : 'center', width : 150 },
-				              { title : '案件时间', field : 'caseTime', align : 'center', width : 150 },
-				              { title : '案件所属区域', field : 'regionName', align : 'center', width : 150 },
-				              { title : '简要案情', field : 'caseNote', align : 'center', width : 150 },
-				              { title : '案件编号', field : 'caseNo', align : 'center', width : 150 }
+				              { title : '案件状态', field : 'status', align : 'center', width : 150 },
+				              { title : '案件编号', field : 'code', align : 'center', width : 150 },
+				              { title : '案件名称', field : 'name', align : 'center', width : 150 },
+				              { title : '案件类型', field : 'categoryName', align : 'center', width : 150 },
+				              { title : '案件时间', field : 'startTime', align : 'center', width : 150 },
+				              { title : '案件所属区域', field : 'organizationame', align : 'center', width : 150 },
+				              { title : '简要案情', field : 'summary', align : 'center', width : 150 },
+				              { title : '案件编号', field : 'code', align : 'center', width : 150 }
 				          ] ]
 			});
 		},
+		/**
+		 * 编辑
+		 */
 		editCase:function(){
+			if(m_rowIndex ==-1){
+				$.messager.alert('操作提示', "请先选择案件", "warning");
+				return;
+			}
 			try {
-				/*var dataRows = $('#casePushListGrid').datagrid('getRows');
-				if (dataRows.length == 0) {
-					$.messager.alert('操作提示', "没有可操作数据", "warning");
-					return;
-				}
-				var target = $("#casePushListGrid").datagrid("getChecked");
-				if (!target || target.length == 0) {
-					$.messager.alert('操作提示', "请选择操作项!", "warning");
-					return;
-				} */
-				var caseId = 0;//target[0].id;
-				var caseNo = 0;//target[0].caseNo;
+				var caseId = 0;
+				var caseNo = 0;
 				m_caseInfo_dlg = art
 						.dialog({
 							id : 'dlgShowCaseInfo',
-							title : '案件信息查看', 
-							content : "<iframe scrolling='yes' frameborder='0' src='view/common/caseInfoEdit.jsp?caseId="+caseId+"&caseNo="+caseNo+"' style='width:710px;height:450px;overflow:hidden'/>",
+							title : '案件信息编辑 查看', 
+							content : "<iframe scrolling='yes' frameborder='0' src='view/common/caseInfoEdit.jsp?caseId="+m_rowData.id+"&caseNo="+caseNo+"' style='width:710px;height:450px;overflow:hidden'/>",
 							lock : true,
 							initFn : function() {
 							}
@@ -83,20 +92,15 @@ var CasePushManage = {
 				$.messager.alert("操作提示", ex.message, "error");
 			}
 		},
-		pushCase:function(){
+		/**
+		 * 打开案件分配弹出框
+		 */
+		openPushCaseDlg:function(){
+			if(m_rowIndex ==-1){
+				$.messager.alert('操作提示', "请先选择案件", "warning");
+				return;
+			}
 			try {
-				/*var dataRows = $('#casePushListGrid').datagrid('getRows');
-				if (dataRows.length == 0) {
-					$.messager.alert('操作提示', "没有可操作数据", "warning");
-					return;
-				}
-				var target = $("#casePushListGrid").datagrid("getChecked");
-				if (!target || target.length == 0) {
-					$.messager.alert('操作提示', "请选择操作项!", "warning");
-					return;
-				} 
-				m_caseId = target[0].id;
-				m_caseNo = target[0].caseNo;*/
 				m_casePush_dlg = art
 						.dialog({
 							id : 'dlgpushCase',
@@ -106,6 +110,9 @@ var CasePushManage = {
 							content : document.getElementById("div_orgtree"),
 							lock : true,
 							initFn : function() {
+								$('#txtCaseLevel').combobox({
+									value:0
+								});
 								$('#organTreeView').tree({
 									checkbox : true
 								});
@@ -115,25 +122,31 @@ var CasePushManage = {
 				$.messager.alert("操作提示", ex.message, "error");
 			}
 		},
-		showCaseInfo:function(){
+		/**
+		 * 列表单击响应
+		 * @param rowIndex
+		 * @param rowData
+		 */
+		setRowInfoBySelect:function(rowIndex,rowData){
+			m_rowIndex = rowIndex;
+			m_rowData = rowData;
+		},
+		/**
+		 * 查看详情
+		 */
+		showCaseInfo:function(rowIndex, rowData){
+			if(m_rowIndex ==-1){
+				$.messager.alert('操作提示', "请先选择案件", "warning");
+				return;
+			}
 			try {
-				/*var dataRows = $('#casePushListGrid').datagrid('getRows');
-				if (dataRows.length == 0) {
-					$.messager.alert('操作提示', "没有可操作数据", "warning");
-					return;
-				}
-				var target = $("#casePushListGrid").datagrid("getChecked");
-				if (!target || target.length == 0) {
-					$.messager.alert('操作提示', "请选择操作项!", "warning");
-					return;
-				} */
 				var caseId = 0;//target[0].id;
 				var caseNo = 0;//target[0].caseNo;
 				m_caseInfo_dlg = art
 						.dialog({
 							id : 'dlgShowCaseInfo',
-							title : '案件信息查看', 
-							content : "<iframe scrolling='yes' frameborder='0' src='view/common/casedetailInfo.jsp?caseId="+caseId+"&caseNo="+caseNo+"' style='width:710px;height:450px;overflow:hidden'/>",
+							title : '案件信息详情查看', 
+							content : "<iframe scrolling='yes' frameborder='0' src='view/common/casedetailInfo.jsp?caseId="+m_rowData.id+"&caseNo="+caseNo+"' style='width:710px;height:450px;overflow:hidden'/>",
 							lock : true,
 							initFn : function() {
 							}
@@ -142,25 +155,22 @@ var CasePushManage = {
 				$.messager.alert("操作提示", ex.message, "error");
 			}
 		},
+		/**
+		 * 查看反馈
+		 */
 		showCaseBackInfo:function(){
+			if(m_rowIndex ==-1){
+				$.messager.alert('操作提示', "请先选择案件", "warning");
+				return;
+			}
 			try {
-				/*var dataRows = $('#casePushListGrid').datagrid('getRows');
-				if (dataRows.length == 0) {
-					$.messager.alert('操作提示', "没有可操作数据", "warning");
-					return;
-				}
-				var target = $("#casePushListGrid").datagrid("getChecked");
-				if (!target || target.length == 0) {
-					$.messager.alert('操作提示', "请选择操作项!", "warning");
-					return;
-				} */
 				var caseId = 0;//target[0].id;
 				var caseNo = 0;//target[0].caseNo;
 				m_caseInfo_dlg = art
 						.dialog({
 							id : 'dlgShowCaseInfo',
 							title : '案件反馈信息查看', 
-							content : "<iframe scrolling='yes' frameborder='0' src='view/common/caseBackInfo.jsp?caseId="+caseId+"&caseNo="+caseNo+"' style='width:710px;height:450px;overflow:hidden'/>",
+							content : "<iframe scrolling='yes' frameborder='0' src='view/common/caseBackInfo.jsp?caseId="+m_rowData.id+"&caseNo="+caseNo+"' style='width:710px;height:450px;overflow:hidden'/>",
 							lock : true,
 							initFn : function() {
 							}
@@ -169,9 +179,58 @@ var CasePushManage = {
 				$.messager.alert("操作提示", ex.message, "error");
 			}
 		},
-		savePushInfo:function(){
+		/**
+		 * 案件分配
+		 */
+		pushCase:function(){
+			/**
+			 * 将案件分配给选中的机构
+			 */
+			//获取案件类型
+			var caseLevel = $('#txtCaseLevel').combobox('getValue');
+			
+			//获取选中机构
+			var organNodes = $('#organTreeView').tree('getChecked');
+			if(caseLevel==""||organNodes==undefined||organNodes.length ==0){
+				$.messager.alert('操作提示', "请先选择案件需要推送的派出所", "warning");
+				m_casePush_dlg.close();
+				return;
+			}
+			var organIdArray = [];
+			var count = 0;
+			$.each(organNodes,function(index,item){
+				if(index !=0){
+					organIdArray[count++] = item.id;
+				}
+			});
+			$.ajax('CaseOrgan/pushCaseToOrgans.do',{
+				type:'POST',
+				data:{caseOrgan:JSON.stringify({caseId:m_rowData.id,organList:organIdArray})},
+				success:function(responce){
+					if(responce.isSuccess){
+						$.ajax('CaseLevel/setCaseLevel.do',{
+							type:'POST',
+							data:{caseLevel:JSON.stringify({caseId:m_rowData.id,caseLevel:caseLevel})},
+							success:function(responce){
+								if(responce.isSuccess){
+									$.messager.confirm("提示","案件推送成功。");
+									CasePushManage.loadCaseList();
+								}else{
+									$.messager.alert("提示",responce.msg,"warning");
+								}
+							}
+						});
+					}else{
+						$.messager.alert("提示",responce.msg,"warning");
+					}
+				}
+			});
+			
 			
 		},
+		/**
+		 * 关闭分配
+		 */
 		cancelSave:function(){
 			m_casePush_dlg.close();
 		},

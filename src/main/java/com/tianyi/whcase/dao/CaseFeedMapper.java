@@ -15,4 +15,6 @@ public interface CaseFeedMapper {
     int updateByPrimaryKeySelective(CaseFeed record);
 
     int updateByPrimaryKey(CaseFeed record);
+
+	CaseFeed selectByCaseId(String id);
 }

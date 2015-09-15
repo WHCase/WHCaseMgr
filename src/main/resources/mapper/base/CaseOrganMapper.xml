@@ -5,13 +5,12 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="case_id" property="caseId" jdbcType="VARCHAR" />
     <result column="organization_id" property="organizationId" jdbcType="INTEGER" />
-    <result column="receive_status" property="receiveStatus" jdbcType="VARCHAR" />
     <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" />
     <result column="sender_time" property="senderTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, case_id, organization_id, 
-    receive_status, receive_time, sender_time
+    receive_time, sender_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -19,15 +18,21 @@
     from t_case_organ
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectByCaseIdAndOrganId" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_case_organ
+    where case_id = #{0} and organization_id = #{1}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_case_organ
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.tianyi.whcase.model.CaseOrgan" >
-    insert into t_case_organ (id, case_id, organization_id, receive_status, receive_time, 
+    insert into t_case_organ (id, case_id, organization_id, receive_time, 
       sender_time
       )
-    values (#{id,jdbcType=VARCHAR}, #{caseId,jdbcType=VARCHAR}, #{organizationId,jdbcType=INTEGER}, #{receiveStatus,jdbcType=VARCHAR}, #{receiveTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=VARCHAR}, #{caseId,jdbcType=VARCHAR}, #{organizationId,jdbcType=INTEGER}, #{receiveTime,jdbcType=TIMESTAMP}, 
       #{senderTime,jdbcType=TIMESTAMP}
       )
   </insert> 
@@ -35,7 +40,6 @@
     update t_case_organ
     set case_id = #{caseId,jdbcType=VARCHAR},
       organization_id = #{organizationId,jdbcType=INTEGER},
-      receive_status = #{receiveStatus,jdbcType=VARCHAR},
       receive_time = #{receiveTime,jdbcType=TIMESTAMP},
       sender_time = #{senderTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}

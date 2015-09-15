@@ -15,4 +15,6 @@ public interface CaseAttachMapper {
     int updateByPrimaryKeySelective(CaseAttach record);
 
     int updateByPrimaryKey(CaseAttach record);
+
+	CaseAttach selectByCaseId(String caseId,int resourceType);
 }

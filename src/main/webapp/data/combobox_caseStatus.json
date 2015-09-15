@@ -1,0 +1,10 @@
+[{
+	"id": "Handling",
+	"text": "受理"
+	},{
+	 "id": "Detected",
+	 "text": "已破"
+	},{
+	 "id": "CloseCase",
+	 "text": "销案"
+}]

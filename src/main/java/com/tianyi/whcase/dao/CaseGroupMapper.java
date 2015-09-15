@@ -1,5 +1,7 @@
 package com.tianyi.whcase.dao;
 
+import java.util.List;
+
 import com.tianyi.whcase.core.MyBatisRepository;
 import com.tianyi.whcase.model.CaseGroup;
 @MyBatisRepository
@@ -15,4 +17,6 @@ public interface CaseGroupMapper {
     int updateByPrimaryKeySelective(CaseGroup record);
 
     int updateByPrimaryKey(CaseGroup record);
+
+	List<CaseGroup> selectByCaseId(String id);
 }

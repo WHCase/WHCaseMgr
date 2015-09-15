@@ -14,7 +14,7 @@
      <div id="casePushTb" >
         <div>
             <p> 
-                <a id="pushCase" name="pushCase" doc="casePushAction"
+                <a id="openPushCaseDlg" name="openPushCaseDlg" doc="casePushAction"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-add"
                     plain="true">案件分配</a>
                 <a id="editCase" name="editCase" doc="casePushAction"
@@ -39,62 +39,13 @@
     <div style="display:none">
     	<div id="div_orgtree" style="width:100%">
     		<p id="tb_operation" style="padding:2px;border-bottom:1px solid black;width:99%;">
-		 		<a id="btnSavePushInfo" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-save" plain="true">分配</a> 
+		 		<a id="btnPushCase" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-save" plain="true">分配</a> 
 				<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-close" plain="true">关闭</a> 
 		 	</p>
-    		<label style="font-size:12px">案情等级：</label><input id="txtCaseLevel" class="easyui-combobox"  data-options="valueField:'id',textField:'name',data:[{id: 0,name: '一级警情(默认)'},{id: 1,name: '二级警情'},{id: 2,name: '三级警情'},{id: 2,name: '特殊警情'}]" />
+    		<label style="font-size:12px">案情等级：</label><input id="txtCaseLevel" class="easyui-combobox"  data-options="valueField:'id',textField:'name',url:'data/combobox_caseType.json'" />
     		<div style="height:300px;padding:5px">
     			<label style="font-size:14px">选择派出所推送案件:</label>
-    			
-    		<ul id="organTreeView">
-    			<li> 
-				<span>武侯区分局</span>
-					<ul>
-						<li>
-							<span>武侯区分局簇桥派出所</span>
-						</li>
-						<li>
-							<span>武侯区分局机投派出所</span>
-						</li> 
-						<li>
-							<span>武侯区分局浆洗街派出所</span>
-						</li> 
-						<li>
-							<span>武侯区分局金花派出所</span>
-						</li>
-						<li>
-							<span>武侯区分局晋阳派出所</span>
-						</li> 
-						<li>
-							<span>武侯区分局南站地区派出所</span>
-						</li> 
-						<li>
-							<span>武侯区分局双楠派出所</span>
-						</li> 
-						<li>
-							<span>武侯区分局跳伞塔派出所</span>
-						</li> 
-						<li>
-							<span>武侯区分局望江路派出所</span>
-						</li> 
-						<li>
-							<span>武侯区分局小天竺街派出所</span>
-						</li> 
-						<li>
-							<span>武侯区分局红牌楼派出所</span>
-						</li> 
-						<li>
-							<span>武侯区分局玉林派出所</span>
-						</li> 
-						<li>
-							<span>武侯区分局站前派出所</span>
-						</li> 
-						<li>
-							<span>武侯区分局致民路派出所</span>
-						</li> 
-						</ul> 
-					</li>
-    			</ul>
+    			<ul id="organTreeView" class="easyui-tree" data-options="url:'data/tree_organ.json',method:'get',animate:true,checkbox:true"></ul>
     		</div>
     	</div>
     </div>

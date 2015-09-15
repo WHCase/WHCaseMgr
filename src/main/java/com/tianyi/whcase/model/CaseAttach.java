@@ -1,44 +1,54 @@
 package com.tianyi.whcase.model;
 
 /**
- * °¸¼þ¹ØÁª¸½¼þÐÅÏ¢
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
  * @author lq
  *
  */
 public class CaseAttach {
 	
 	/**
-	 * ¸½¼þid£¬Óë½ÝÉÐÒ»ÖÂ£¬²ÉÓÃGuidÀàÐÍ
-	 * mysqlÀïÃævarchar(36)
+	 * ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Â£ï¿½ï¿½ï¿½ï¿½ï¿½Guidï¿½ï¿½ï¿½ï¿½
+	 * mysqlï¿½ï¿½ï¿½ï¿½varchar(36)
 	 */
     private String id;
 
     /**
-     * ¸½¼þÃû³Æ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     private String name;
 
     /**
-     * ¹ØÁª°¸¼þµÄid GuidÀàÐÍ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½id Guidï¿½ï¿½ï¿½ï¿½
      */
     private String caseId;
 
     /**
-     * ¸½¼þÃèÊö
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     private String description;
 
     /**
-     * ¸½¼þ´´½¨Õß
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     private Integer creator;
 
     /**
-     * ¸½¼þÀàÐÍ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     private String messageType;
+    
+    private String resourceType;
 
-    public String getId() {
+    public String getResourceType() {
+		return resourceType;
+	}
+
+	public void setResourceType(String resourceType) {
+		this.resourceType = resourceType;
+	}
+
+	public String getId() {
         return id;
     }
 

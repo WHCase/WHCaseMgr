@@ -63,7 +63,7 @@
 			</li> 
 		</ul>
 	</div> 
-	<div region=center title="案件分配推送" > 
+	<div region="center" title="案件分配推送" > 
 		<iframe id="ifrContent" frameborder='0'  style="width:100%;height:98%;" onLoad="iframeSize()">
 		</iframe>
 	</div> 
