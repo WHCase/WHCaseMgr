@@ -26,7 +26,10 @@ var CaseManage = {
 		
 		loadCaseList:function(){
 			$('#caseReceiveListGrid').datagrid({
-				url : 'case/getCaseReceiveList.do?caseType='+m_caseType,
+				url : 'case/getCaseList.do',
+				queryParams : {
+					'caseInfo' : JSON.stringify(m_caseInfo_Object)
+				},
 				fitColumns : true,
 				rownumbers : true,
 				pagination : true,

@@ -25,7 +25,10 @@
                     plain="true">查看详情</a> 
                 <a id="showCaseBackInfo" name="showCaseInfo" doc="caseReback"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-show"
-                    plain="true">查看详情</a> 
+                    plain="true">查看详情</a>
+                <a id="sendCaseByXMl" name="showCaseInfo" doc="casePushAction"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-show"
+                    plain="true">发送(以XML格式)</a>  
                 <span style="padding-left:25px">
 					<label>起始时间:</label><input id="sch_startTime" class="easyui-datebox" style="width:120px" data-options="editable:false" />
             		<label>截止时间:</label><input id="sch_endTime" class="easyui-datebox" style="width:120px"  data-options="editable:false" />

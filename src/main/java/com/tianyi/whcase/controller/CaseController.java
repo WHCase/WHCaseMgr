@@ -40,7 +40,7 @@ public class CaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "getCasePushList.do", produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "getCaseList.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String getCasePushList(
 		@RequestParam(value="caseInfo",required = false) String caseInfo,
 		HttpServletRequest request)throws Exception{

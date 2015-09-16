@@ -84,7 +84,7 @@ var CaseDetailsManage = {
 				data:{'caseInfo':JSON.stringify(caseInfo)},
 				success:function(responce){
 					if(responce.isSuccess){
-						$.messager.confirm("提示","案件修改成功。");
+						$.messager.alert("提示","案件修改成功","normal");
 					}else{
 						$.messager.alert("提示",responce.msg,"normal");
 					}

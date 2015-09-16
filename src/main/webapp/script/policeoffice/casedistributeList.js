@@ -26,14 +26,75 @@ $(function() {
 	$("#showCaseBackInfo").bind("click", CasePushManage.showCaseBackInfo);
 	$("#btnPushCase").bind("click", CasePushManage.pushCase);
 	$("#btnCancelSave").bind("click", CasePushManage.cancelSave);
+	/**
+	 * for test
+	 */
+	$("#sendCaseByXMl").bind("click", CasePushManage.sendXML);	
 
 });
 
 var CasePushManage = { 
+		sendXML:function(){
+			/**
+			 * 生成xml格式的文件，post到后台
+			 */
+			var doc = CasePushManage.createXML();
+			var xmlHttp = CasePushManage.createXMLHttpRequest();
+			xmlHttp.open("POST",'xml/receiveXML.do',true);
+			xmlHttp.onreadystatechange = CasePushManage.handleStateChange;
+			xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			xmlHttp.send("doc="+doc.toString());
+			
+		},
+		handleStateChange:function(xmlHttp){
+			if(xmlHttp.readyState == 4){
+				if(xmlHttp.status ==200){
+					parseResults();
+				}
+			}
+		},
+		parseResults:function(){
+			
+		},
+		createXMLHttpRequest:function(){
+			var xmlhttp;
+			if(window.ActiveXObject){
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}else{
+				xmlhttp = new XMLHttpRequest();
+			}
+			return xmlhttp;
+		},
+		/**
+		 * for test
+		 * @returns
+		 */
+		createXML:function(){
+			var doc = document.implementation.createDocument("", "", null);
+			var root = doc.createElement("CCase");
+			doc.appendChild(root);
+			
+			root.setAttribute("id","df4da455-f1a8-0d7d-b886-bd6305050505");
+			root.setAttribute("Name", "有视频图片的案件");
+			root.setAttribute("Creator", "1");
+			root.setAttribute("CreateTime", "2015-08-19T08:39:59.763Z");
+			root.setAttribute("Code", "xxxxxx");
+			root.setAttribute("Categories", "dc440454-34dc-10c6-78fc-aa4e05050505");
+			root.setAttribute("StartTime", "2015-08-19T16:31:34");
+			root.setAttribute("Summary", "xxxx");
+			root.setAttribute("Status", "Handling");
+			root.setAttribute("IsRegister", "false");
+			root.setAttribute("UserGroupId", "0");
+			root.setAttribute("Level", "0");
+			root.setAttribute("Longitude", "9999");
+			root.setAttribute("Latitude", "9999");
+			root.setAttribute("OrganizationID", "8");
+			root.setAttribute("DetectedUnit", "-1");
+			return doc;
+			
+		},
 		packageObject : function(row) {
 			m_caseInfo_Object.receiveStatus = m_receiveStatus;
-			//m_caseInfo_Object.startTime = $("#sch_startTime").datebox("getValue");
-			//m_caseInfo_Object.endTime = $("#sch_endTime").datebox("getValue"); 
 		},
 		/**
 		 * 加载案件列表
@@ -41,7 +102,7 @@ var CasePushManage = {
 		loadCaseList:function(){
 			CasePushManage.packageObject();
 			$('#casePushListGrid').datagrid({
-				url : 'case/getCasePushList.do',
+				url : 'case/getCaseList.do',
 				queryParams : {
 					'caseInfo' : JSON.stringify(m_caseInfo_Object)
 				},
