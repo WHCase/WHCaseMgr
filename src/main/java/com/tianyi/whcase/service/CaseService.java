@@ -1,10 +1,12 @@
 package com.tianyi.whcase.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.tianyi.whcase.core.ListResult;
+import com.tianyi.whcase.model.Case;
 import com.tianyi.whcase.model.CaseCategory;
 import com.tianyi.whcase.model.CaseUnit;
 import com.tianyi.whcase.viewmodel.CaseVM;
@@ -26,5 +28,9 @@ public interface CaseService {
 	List<CaseCategory> getCatogory();
 
 	List<CaseUnit> getCaseUnit();
+
+	String insert(Case c);
+
+	ListResult<CaseVM> getCasePushListByPageAndRow(Map<String, Object> map);
 
 }

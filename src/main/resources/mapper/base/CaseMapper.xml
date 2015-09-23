@@ -83,7 +83,13 @@
     left join t_case_category_type b on a.categories_id = b.category_id
     left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id
     left join t_case_organ_type d on a.organization_id = d.organization_id
-    where receive_status = #{receiveStatus,jdbcType=INTEGER}
+    where a.receive_status = #{receiveStatus,jdbcType=INTEGER}
+  </select>
+  <select id="selectVMCountByReceiveStatus" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+  	select 
+    count(*)
+    from t_case a 
+    where a.receive_status = #{receiveStatus,jdbcType=INTEGER}
   </select>
   <select id="selectCaseCategory" resultMap="BaseCCResultMap">
   select 
@@ -127,4 +133,22 @@
       detectedunit_id = #{detectedunitId,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="loaCaselistWithPage" parameterType="java.util.Map"  resultMap="BaseVMResultMap">
+  		select <include refid="BaseVM_Column_List" /> 
+  		from t_case a 
+  		left join t_case_category_type b on a.categories_id = b.category_id
+    	left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id
+    	left join t_case_organ_type d on a.organization_id = d.organization_id
+  		where a.receive_status = #{receiveStatus,jdbcType=INTEGER}
+  		<if test="pageStart !=null">
+  		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+  		</if>
+  </select>
+  <select id="countByMap" resultType="java.lang.Integer"   parameterType="java.util.Map" >
+  		select count(*) from t_case 
+  		where 1=1 
+  		<if test="userId!=null">
+  			and receive_status = #{receiveStatus,jdbcType=INTEGER}
+  		</if>
+  </select>
 </mapper>

@@ -26,6 +26,8 @@ $(function() {
 	$("#showCaseBackInfo").bind("click", CasePushManage.showCaseBackInfo);
 	$("#btnPushCase").bind("click", CasePushManage.pushCase);
 	$("#btnCancelSave").bind("click", CasePushManage.cancelSave);
+	
+	$("#exportCaseInfo").bind("click",CasePushManage.exportCaseInfo);
 	/**
 	 * for test
 	 */
@@ -40,16 +42,36 @@ var CasePushManage = {
 			 */
 			var doc = CasePushManage.createXML();
 			var xmlHttp = CasePushManage.createXMLHttpRequest();
-			xmlHttp.open("POST",'xml/receiveXML.do',true);
+			xmlHttp.open("post",'http://223.223.183.242:40000/center/UpdateCCase',true);
 			xmlHttp.onreadystatechange = CasePushManage.handleStateChange;
-			xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-			xmlHttp.send("doc="+doc.toString());
+			xmlHttp.setRequestHeader("Content-Type","application/xml;charset=utf-8");
+			xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+//			xmlHttp.send(doc.documentElement.outerHTML);
+//			xmlHttp.send(doc.documentElement);
+			xmlHttp.send(doc);
+			
+//			$.ajax('http://223.223.183.242:40000/center/UpdateCCase',{
+//				type:'POST',
+//				data:doc,
+//				contentType:'application/xml;charset=utf-8',
+//				success:function(responce){
+//					if(responce["isSuccess"]){
+//						$.messager.confirm("提示","案件推送成功。");
+//						CasePushManage.loadCaseList();
+//					}else{
+//						$.messager.alert("提示",responce["msg"],"warning");
+//					}
+//				}
+//			});
 			
 		},
 		handleStateChange:function(xmlHttp){
 			if(xmlHttp.readyState == 4){
 				if(xmlHttp.status ==200){
-					parseResults();
+					var responce = xmlHttp.responceText;
+					$("#sendCaseByXMl").text = "结果:"+responce;
+				}else{
+					$("#sendCaseByXMl").text ="不允许跨域请求";
 				}
 			}
 		},
@@ -62,6 +84,7 @@ var CasePushManage = {
 				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 			}else{
 				xmlhttp = new XMLHttpRequest();
+				
 			}
 			return xmlhttp;
 		},
@@ -77,10 +100,10 @@ var CasePushManage = {
 			root.setAttribute("id","df4da455-f1a8-0d7d-b886-bd6305050505");
 			root.setAttribute("Name", "有视频图片的案件");
 			root.setAttribute("Creator", "1");
-			root.setAttribute("CreateTime", "2015-08-19T08:39:59.763Z");
+			root.setAttribute("CreateTime", "2015-09-09 10:44:06");
 			root.setAttribute("Code", "xxxxxx");
 			root.setAttribute("Categories", "dc440454-34dc-10c6-78fc-aa4e05050505");
-			root.setAttribute("StartTime", "2015-08-19T16:31:34");
+			root.setAttribute("StartTime", "2015-09-09 10:44:06");
 			root.setAttribute("Summary", "xxxx");
 			root.setAttribute("Status", "Handling");
 			root.setAttribute("IsRegister", "false");
@@ -90,6 +113,10 @@ var CasePushManage = {
 			root.setAttribute("Latitude", "9999");
 			root.setAttribute("OrganizationID", "8");
 			root.setAttribute("DetectedUnit", "-1");
+			
+//			var node = doc.createElement("Attach");
+			
+//			root.appendChild(node);
 			return doc;
 			
 		},
@@ -254,16 +281,23 @@ var CasePushManage = {
 			var organNodes = $('#organTreeView').tree('getChecked');
 			if(caseLevel==""||organNodes==undefined||organNodes.length ==0){
 				$.messager.alert('操作提示', "请先选择案件需要推送的派出所", "warning");
-				m_casePush_dlg.close();
 				return;
 			}
 			var organIdArray = [];
+			
 			var count = 0;
-			$.each(organNodes,function(index,item){
-				if(index !=0){
+			if(organNodes.length ==15){
+				$.each(organNodes,function(index,item){
+					if(index !=0){
+						organIdArray[count++] = item.id;
+					}
+				});
+			}else{
+				$.each(organNodes,function(index,item){
 					organIdArray[count++] = item.id;
-				}
-			});
+				});
+			}
+			
 			$.ajax('CaseOrgan/pushCaseToOrgans.do',{
 				type:'POST',
 				data:{caseOrgan:JSON.stringify({caseId:m_rowData.id,organList:organIdArray})},
@@ -302,5 +336,26 @@ var CasePushManage = {
 		doClean:function(){
 			$("#sch_startTime").datebox("setValue","");
 			$("#sch_endTime").datebox("setValue",""); 
-		}
+		},
+		exportCaseInfo:function(){
+			if(m_rowIndex ==-1){
+				$.messager.alert('操作提示', "请先选择案件", "warning");
+				return;
+			}
+		/**
+		 * 
+		 */	
+			$.ajax('Export/CaseInfoExportInExcel.do',{
+				type:'POST',
+				data:{caseId:m_rowData.id},
+				success:function(responce){
+					if(responce["isSuccess"]){
+						$.messager.confirm("提示","案件推送成功。");
+						CasePushManage.loadCaseList();
+					}else{
+						$.messager.alert("提示",responce["msg"],"warning");
+					}
+				}
+			});
+		}		
 };

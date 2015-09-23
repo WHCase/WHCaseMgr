@@ -1,5 +1,6 @@
 package com.tianyi.whcase.service.impl;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,8 @@ public class CaseOrganServiceImpl implements CaseOrganService {
 	@Autowired CaseOrganMapper caseOrganMapper;
 	public String insertCaseOrgan(String caseId, int indexOf) {
 		
-		if(caseOrganMapper.selectByCaseIdAndOrganId(caseId,indexOf)!=null){
+		List<CaseOrgan> tempList = caseOrganMapper.selectByCaseIdAndOrganId(caseId,indexOf);
+		if(tempList.size()!=0){
 			return "本案件已经向相关的派出所推送过了";
 		}
 		CaseOrgan record = new CaseOrgan();

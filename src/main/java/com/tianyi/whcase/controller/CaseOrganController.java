@@ -43,10 +43,10 @@ public class CaseOrganController {
 				}
 			}
 			return new Result<caseOrganVM>(null, true, true, true,
-					"查询成功").toJson();
+					"分配成功").toJson();
 		}catch(Exception ex){
 			Result<caseOrganVM> result = new Result<caseOrganVM>(null, false, false, false,
-					"查询失败");
+					"分配异常");
 			return result.toJson();
 		}
 		

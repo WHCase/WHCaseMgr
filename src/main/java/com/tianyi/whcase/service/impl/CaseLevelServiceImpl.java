@@ -1,5 +1,6 @@
 package com.tianyi.whcase.service.impl;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,8 @@ public class CaseLevelServiceImpl implements CaseLevelService {
 
 	@Autowired CaseLevelMapper caseLevelMapper;
 	public String insertCaseLevel(String caseId, int levelId) {
-		if(caseLevelMapper.selectByCaseId(caseId)!=null){
+		List<CaseLevel> tempList= caseLevelMapper.selectByCaseId(caseId);
+		if(tempList.size()!=0){
 			return "本案件已经作为等级"+levelId+"推送过了";
 		}
 		CaseLevel caseLevel = new CaseLevel();

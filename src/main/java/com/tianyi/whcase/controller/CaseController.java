@@ -1,6 +1,8 @@
 package com.tianyi.whcase.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -52,9 +54,28 @@ public class CaseController {
 		
 		Integer receiveStatus = caseinfo.getReceiveStatus();
 		ListResult<CaseVM> caseList =caseService.getCasePushListByReceiveStatus(receiveStatus); 
-		if(caseList ==null){
-			return null;
-		}
+
+		return caseList.toJson();
+	}
+	@RequestMapping(value = "loaCaselistWithPage.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String loaCaselistWithPage(
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "rows", required = false) Integer rows,
+			@RequestParam(value="caseInfo",required = false) String caseInfo,
+		HttpServletRequest request)throws Exception{
+		/**
+		 * 根据案件接收类型、查询时间段来查询案件，返回一个案件列表
+		 */
+		JSONObject jObj = JSONObject.fromObject(caseInfo);
+		Case caseinfo = (Case) JSONObject.toBean(jObj,Case.class);
+		
+		Map<String, Object> map = new HashMap<String, Object>();   
+		page = page == 0 ? 1 : page;
+		map.put("pageStart", (page - 1) * rows);
+		map.put("pageSize", rows);
+		map.put("receiveStatus",caseinfo.getReceiveStatus());
+
+		ListResult<CaseVM> caseList =caseService.getCasePushListByPageAndRow(map); 
 		return caseList.toJson();
 	}
 	@RequestMapping(value = "getCaseMainInfo.do", produces = "application/json;charset=UTF-8")
@@ -124,6 +145,48 @@ public class CaseController {
 					"获取侦查单位失败");
 			return result.toJson();
 		}
+	}
+	/**
+	 * （优创提供外调接口）新增案件
+	 * @param caseId 新增案件Id
+	 * @param request
+	 * @return 大于0  案件接收成功；-1 接收失败；
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "AddCase.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody int AddCase(
+			@RequestParam(value="caseId",required = false) String caseId,
+			HttpServletRequest request)throws Exception{
+		
+		return 0;
+	}
+	/**
+	 * （优创提供外调接口） 删除指定案件
+	 * @param caseId 待删除的案件ID
+	 * @param request
+	 * @return -1删除失败 ； 大于0 删除成功；
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "DeleteCase.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody int DeleteCase(
+			@RequestParam(value="caseId",required = false) String caseId,
+			HttpServletRequest request)throws Exception{
+		
+		return 0;
+	}
+	/**
+	 * (优创提供外调接口)更新相关案件
+	 * @param caseInfo 案件
+	 * @param request
+	 * @return	-1更新失败 ； 大于0 更新成功；
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "UpdateCase.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody int UpdateCase(
+			@RequestParam(value="caseInfo",required = false) String caseInfo,
+			HttpServletRequest request)throws Exception{
+		
+		return 0;
 	}
 	
 }

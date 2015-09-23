@@ -49,7 +49,7 @@ var CaseDetailsManage = {
 				              { title : '串案编号', field : 'caseId', align : 'center', width : 150 },
 				              { title : '串案名称', field : 'name', align : 'center', width : 150 }, 
 				              { title : '创建时间', field : 'createTime', align : 'center', width : 150 },
-				              { title : '负责人', field : 'creator', align : 'center', width : 150 },
+				              { title : '负责人', field : 'contactPerson', align : 'center', width : 150 },
 				              { title : '审核状态', field : 'auditstate', align : 'center', width : 150 },
 				              { title : '操作', field : 'operation', align : 'center', width : 150 }
 				          ] ]

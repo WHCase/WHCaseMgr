@@ -1,6 +1,7 @@
 package com.tianyi.whcase.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,10 @@ public class CaseServiceImpl implements CaseService {
 	 * @return 
 	 */
 	public ListResult<CaseVM> getCasePushListByReceiveStatus(Integer receiveStatus) {
+		int count = caseMapper.selectVMCountByReceiveStatus(receiveStatus);
 		List<CaseVM> caseList =caseMapper.selectByReceiveStatus(receiveStatus); 
-		return new ListResult<CaseVM>(caseList);
+		ListResult<CaseVM> list = new ListResult<CaseVM>(count,caseList);
+		return list;
 	}
 
 	public CaseVM getCaseMainInfo(String caseId) {
@@ -46,6 +49,29 @@ public class CaseServiceImpl implements CaseService {
 
 	public List<CaseUnit> getCaseUnit() {
 		return caseMapper.selectCaseUnit();
+	}
+
+	public String insert(Case c) {
+		Case tempC = caseMapper.selectByPrimaryKey(c.getId());
+		if(tempC!=null){
+			return "获取的案件已经存在";
+		}
+		int temp = caseMapper.insert(c); 
+		if(temp>0){
+			return "";
+		}else{
+			return "案件插入失败";
+		}
+		
+		
+	}
+
+	public ListResult<CaseVM> getCasePushListByPageAndRow(
+			Map<String, Object> map) {
+		int count=caseMapper.countByMap(map);
+		List<CaseVM> ls=caseMapper.loaCaselistWithPage(map);
+		ListResult<CaseVM> result=new ListResult<CaseVM>(count,ls);
+		return result;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.tianyi.whcase.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.tianyi.whcase.core.MyBatisRepository;
 import com.tianyi.whcase.model.Case;
@@ -24,4 +25,10 @@ public interface CaseMapper {
 	List<CaseCategory> selectCaseCategory();
 
 	List<CaseUnit> selectCaseUnit();
+
+	int selectVMCountByReceiveStatus(Integer receiveStatus);
+
+	int countByMap(Map<String, Object> map);
+
+	List<CaseVM> loaCaselistWithPage(Map<String, Object> map);
 }
