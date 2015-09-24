@@ -37,6 +37,8 @@ public interface CaseService {
 
 	int updateCase(Case c);
 
-	String updateCaseReceiveStatus(int receiveStatus, String caseId);
+	String updateCaseReceiveStatus(int receiveStatus,String level, String caseId);
+
+	List<CaseVM> getDistributeCase(int receiveStatus, List<String> caseIdList);
 
 }

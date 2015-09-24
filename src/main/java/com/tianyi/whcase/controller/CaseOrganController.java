@@ -1,5 +1,7 @@
 package com.tianyi.whcase.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONObject;
@@ -10,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tianyi.whcase.core.ListResult;
 import com.tianyi.whcase.core.Result;
 import com.tianyi.whcase.model.Case;
+import com.tianyi.whcase.model.CaseOrgan;
 import com.tianyi.whcase.service.CaseOrganService;
 import com.tianyi.whcase.viewmodel.CaseVM;
 import com.tianyi.whcase.viewmodel.caseOrganVM;
@@ -25,7 +29,20 @@ import com.tianyi.whcase.viewmodel.caseOrganVM;
 @RequestMapping("/CaseOrgan")
 public class CaseOrganController {
 	@Autowired CaseOrganService caseOrganService;
-	
+	@RequestMapping(value = "getCaseListByOrganId.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getCaseListByOrganId(
+			@RequestParam(value="organId",required = false) int organId,
+			HttpServletRequest request)throws Exception{
+		List<String> caseIdList = caseOrganService.selectCaseLiseByOrganId(organId);
+		String temp = "";
+		if(caseIdList ==null){
+			temp = "该机构下暂无推送案件";
+		}else{
+			temp = "案件获取成功";
+		}
+		ListResult<String> result = new ListResult<String>(caseIdList,true,temp);
+		return result.toJson();
+	}
 	@RequestMapping(value = "pushCaseToOrgans.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String pushCaseToOrgans(
 			@RequestParam(value="caseOrgan",required = false) String caseOrgan,

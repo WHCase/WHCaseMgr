@@ -24,6 +24,12 @@
     from t_case_organ
     where case_id = #{0} and organization_id = #{1}
   </select>
+  <select id="selectByOrganId" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+    from t_case_organ
+    where organization_id = #{0}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_case_organ
     where id = #{id,jdbcType=VARCHAR}

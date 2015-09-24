@@ -32,6 +32,7 @@ import com.tianyi.whcase.model.CaseCategory;
 import com.tianyi.whcase.model.CaseUnit;
 import com.tianyi.whcase.service.CaseService;
 import com.tianyi.whcase.viewmodel.CaseVM;
+import com.tianyi.whcase.viewmodel.DistributeCase;
 
 /**
  * 
@@ -64,6 +65,23 @@ public class CaseController {
 		ListResult<CaseVM> caseList =caseService.getCasePushListByReceiveStatus(receiveStatus); 
 
 		return caseList.toJson();
+	}
+	@RequestMapping(value = "getDistributeCaseList.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getDistributeCaseList(
+		@RequestParam(value="caseInfo",required = false) String caseInfo,
+		HttpServletRequest request)throws Exception{
+		/**
+		 * 根据案件接收类型、查询时间段来查询案件，返回一个案件列表
+		 */
+		JSONObject jObj = JSONObject.fromObject(caseInfo);
+		DistributeCase distributeCase = (DistributeCase)JSONObject.toBean(jObj,DistributeCase.class);
+		if(distributeCase.getCaseIdList() ==null){
+			return new ListResult<CaseVM>(null).toJson();
+		}
+		List<CaseVM> caseList =caseService.getDistributeCase(distributeCase.getReceiveStatus(),distributeCase.getCaseIdList()); 
+		ListResult<CaseVM> result = new ListResult<CaseVM>(caseList);
+
+		return result.toJson();
 	}
 	@RequestMapping(value = "loaCaselistWithPage.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String loaCaselistWithPage(
@@ -161,11 +179,12 @@ public class CaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "changeCaseReceiveStatus.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody String changeCaseReceiveStatus(
+	@RequestMapping(value = "changeCaseReceiveStatusAndLevel.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String changeCaseReceiveStatusAndLevel(
 			@RequestParam(value="caseId",required = false) String caseId,
+			@RequestParam(value="caseLevel",required = false) String caseLevel,
 			HttpServletRequest request)throws Exception{
-		String temp = caseService.updateCaseReceiveStatus(Constants.RECEIVE_STATUS__DISTRIBUTED,caseId);
+		String temp = caseService.updateCaseReceiveStatus(Constants.RECEIVE_STATUS__DISTRIBUTED,caseLevel,caseId);
 		Result<Case> result = new Result<Case>(null,true,false,false,temp);
 		return result.toJson();
 	}

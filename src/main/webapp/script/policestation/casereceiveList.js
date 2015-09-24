@@ -1,3 +1,5 @@
+var m_receiveStatus = 2;
+var m_organ_id = 860;//机投派出所
 var m_caseType;
 var m_caseInfo_Object = {};
 var m_caseInfo_dlg;
@@ -14,7 +16,8 @@ $(function() {
 		isShow = true;
 		$("#caseBackTb a[doc='caseReceive']").attr("style","display:none");
 	}
-	CaseManage.loadCaseList();
+	CaseManage.packageObject();
+	
 	$("#receiveCase").bind("click", CaseManage.receiveCase);
 	$("#rebackCase").bind("click", CaseManage.rebackCase);
 	$("#showCaseInfo").bind("click", CaseManage.showCaseInfo);
@@ -23,10 +26,24 @@ $(function() {
 });
 
 var CaseManage = {  
-		
+		packageObject : function() {
+			m_caseInfo_Object.receiveStatus = m_receiveStatus;
+			/*获取该机构下的案件*/
+			$.ajax('CaseOrgan/getCaseListByOrganId.do',{
+				type:'POST',
+				data:{organId:m_organ_id},
+				success:function(responce){
+					if(responce.rows!=undefined){
+						m_caseInfo_Object.caseIdList = responce.rows;
+					}
+					CaseManage.loadCaseList();
+				}
+			});
+		},
 		loadCaseList:function(){
+			
 			$('#caseReceiveListGrid').datagrid({
-				url : 'case/getCaseList.do',
+				url : 'case/getDistributeCaseList.do',
 				queryParams : {
 					'caseInfo' : JSON.stringify(m_caseInfo_Object)
 				},
@@ -47,15 +64,15 @@ var CaseManage = {
 				            		  		+'>接收</a>';
 				            	  return html;
 				              },hidden:isShow},
-				              { title : '案件等级', field : 'caseLevel', align : 'center', width : 150 },
-				              { title : '案件状态', field : 'caseStatus', align : 'center', width : 150 },
+				              { title : '案件等级', field : 'level', align : 'center', width : 150 },
+				              { title : '案件状态', field : 'status', align : 'center', width : 150 },
 				              { title : '案件编号', field : 'caseNo', align : 'center', width : 150 },
-				              { title : '案件名称', field : 'caseName', align : 'center', width : 150 },
-				              { title : '案件类型', field : 'caseType', align : 'center', width : 150 },
-				              { title : '案件时间', field : 'caseTime', align : 'center', width : 150 },
-				              { title : '案件所属区域', field : 'regionName', align : 'center', width : 150 },
-				              { title : '简要案情', field : 'caseNote', align : 'center', width : 150 },
-				              { title : '案件编号', field : 'caseNo', align : 'center', width : 150 }
+				              { title : '案件名称', field : 'name', align : 'center', width : 150 },
+				              { title : '案件类型', field : 'categoryName', align : 'center', width : 150 },
+				              { title : '案件时间', field : 'startTime', align : 'center', width : 150 },
+				              { title : '案件所属区域', field : 'organizationame', align : 'center', width : 150 },
+				              { title : '简要案情', field : 'summary', align : 'center', width : 150 },
+				              { title : '案件编号', field : 'code', align : 'center', width : 150 }
 				          ] ]
 			});
 		},

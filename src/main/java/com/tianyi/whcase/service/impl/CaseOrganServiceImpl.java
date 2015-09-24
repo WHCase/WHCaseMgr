@@ -1,5 +1,6 @@
 package com.tianyi.whcase.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,6 +30,17 @@ public class CaseOrganServiceImpl implements CaseOrganService {
 			return "推送失败";
 		}
 		return "";
+	}
+	public List<String> selectCaseLiseByOrganId(int organId) {
+		List<CaseOrgan> temp = caseOrganMapper.selectByOrganId(organId);
+		if(temp ==null||temp.size()==0){
+			return null;
+		}
+		List<String> caseIdList = new ArrayList<String>();
+		for(int i = 0;i<temp.size();i++){
+			caseIdList.add(temp.get(i).getCaseId());
+		}
+		return caseIdList;
 	}
 
 }

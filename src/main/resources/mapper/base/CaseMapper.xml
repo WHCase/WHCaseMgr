@@ -101,6 +101,15 @@
    detectedunit_id,detectedunit_name
    from t_case_detectedunit_type
   </select>
+  <select id="selectByCaseIdAndReceiveStatus" resultMap="BaseVMResultMap">
+  	select
+  	<include refid="BaseVM_Column_List" />
+    from t_case a 
+    left join t_case_category_type b on a.categories_id = b.category_id
+    left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id
+    left join t_case_organ_type d on a.organization_id = d.organization_id
+    where a.id = #{1} and a.receive_status =#{0}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_case
     where id = #{id,jdbcType=VARCHAR}
@@ -135,8 +144,9 @@
   </update>
   <update id="updateCaseReceiveStatus">
   	update t_case
-  	set receive_status = #{0}
-  	where id = #{1}
+  	set receive_status = #{0},
+  		level = #{1}
+  	where id = #{2}
   </update>
   <select id="loaCaselistWithPage" parameterType="java.util.Map"  resultMap="BaseVMResultMap">
   		select <include refid="BaseVM_Column_List" /> 

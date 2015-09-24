@@ -32,5 +32,7 @@ public interface CaseMapper {
 
 	List<CaseVM> loaCaselistWithPage(Map<String, Object> map);
 
-	int updateCaseReceiveStatus(int receiveStatus, String caseId);
+	int updateCaseReceiveStatus(int receiveStatus, String level, String caseId);
+
+	CaseVM selectByCaseIdAndReceiveStatus(int receiveStatus, String string);
 }

@@ -1,5 +1,6 @@
 package com.tianyi.whcase.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -82,13 +83,25 @@ public class CaseServiceImpl implements CaseService {
 		return caseMapper.updateByPrimaryKey(c);
 	}
 
-	public String updateCaseReceiveStatus(int receiveStatus, String caseId) {
-		int temp = caseMapper.updateCaseReceiveStatus(receiveStatus,caseId);
+	public String updateCaseReceiveStatus(int receiveStatus,String level,  String caseId) {
+		int temp = caseMapper.updateCaseReceiveStatus(receiveStatus,level,caseId);
 		if(temp>0){
 			return "修改状态成功";
 		}else{
 			return "修改失败";
 		}
+	}
+
+	public List<CaseVM> getDistributeCase(int receiveStatus,
+			List<String> caseIdList) {
+		List<CaseVM> caseVMList = new ArrayList<CaseVM>();
+		for(int i = 0;i<caseIdList.size();i++){
+			CaseVM temp = caseMapper.selectByCaseIdAndReceiveStatus(receiveStatus,caseIdList.get(i));
+			if(temp !=null){
+				caseVMList.add(temp);
+			}
+		}
+		return caseVMList;
 	}
 
 }

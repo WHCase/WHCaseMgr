@@ -298,9 +298,12 @@ var CasePushManage = {
 				});
 			}
 			/*修改案件接收状态*/
-			$.ajax('case/changeCaseReceiveStatus.do',{
+			$.ajax('case/changeCaseReceiveStatusAndLevel.do',{
 				type:'POST',
-				data:{caseId:m_rowData.id},
+				data:{
+					caseId:m_rowData.id,
+					caseLevel:caseLevel
+					},
 				success:function(responce){
 					
 				}
