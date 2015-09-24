@@ -74,4 +74,21 @@ public class CaseServiceImpl implements CaseService {
 		return result;
 	}
 
+	public int deleteByCaseId(String caseId) {
+		return caseMapper.deleteByPrimaryKey(caseId);
+	}
+
+	public int updateCase(Case c) {
+		return caseMapper.updateByPrimaryKey(c);
+	}
+
+	public String updateCaseReceiveStatus(int receiveStatus, String caseId) {
+		int temp = caseMapper.updateCaseReceiveStatus(receiveStatus,caseId);
+		if(temp>0){
+			return "修改状态成功";
+		}else{
+			return "修改失败";
+		}
+	}
+
 }

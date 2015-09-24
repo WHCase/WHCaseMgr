@@ -1,4 +1,4 @@
-var m_receiveStatus = 0;
+var m_receiveStatus = 1;
 var m_caseInfo_Object = {};
 var m_caseInfo_dlg;
 var m_casePush_dlg;
@@ -297,7 +297,15 @@ var CasePushManage = {
 					organIdArray[count++] = item.id;
 				});
 			}
-			
+			/*修改案件接收状态*/
+			$.ajax('case/changeCaseReceiveStatus.do',{
+				type:'POST',
+				data:{caseId:m_rowData.id},
+				success:function(responce){
+					
+				}
+			});
+			/*将案件推送的派出所进行保存*/
 			$.ajax('CaseOrgan/pushCaseToOrgans.do',{
 				type:'POST',
 				data:{caseOrgan:JSON.stringify({caseId:m_rowData.id,organList:organIdArray})},

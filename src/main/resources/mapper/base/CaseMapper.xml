@@ -133,6 +133,11 @@
       detectedunit_id = #{detectedunitId,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <update id="updateCaseReceiveStatus">
+  	update t_case
+  	set receive_status = #{0}
+  	where id = #{1}
+  </update>
   <select id="loaCaselistWithPage" parameterType="java.util.Map"  resultMap="BaseVMResultMap">
   		select <include refid="BaseVM_Column_List" /> 
   		from t_case a 

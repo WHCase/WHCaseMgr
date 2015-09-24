@@ -33,4 +33,10 @@ public interface CaseService {
 
 	ListResult<CaseVM> getCasePushListByPageAndRow(Map<String, Object> map);
 
+	int deleteByCaseId(String caseId);
+
+	int updateCase(Case c);
+
+	String updateCaseReceiveStatus(int receiveStatus, String caseId);
+
 }

@@ -1,5 +1,8 @@
 package com.tianyi.whcase.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,12 +13,17 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tianyi.whcase.core.Constants;
 import com.tianyi.whcase.core.DateJsonValueProcessor;
 import com.tianyi.whcase.core.ListResult;
 import com.tianyi.whcase.core.Result;
@@ -147,18 +155,89 @@ public class CaseController {
 		}
 	}
 	/**
-	 * （优创提供外调接口）新增案件
-	 * @param caseId 新增案件Id
+	 * 
+	 * @param caseId
 	 * @param request
-	 * @return 大于0  案件接收成功；-1 接收失败；
+	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "AddCase.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody int AddCase(
+	@RequestMapping(value = "changeCaseReceiveStatus.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String changeCaseReceiveStatus(
 			@RequestParam(value="caseId",required = false) String caseId,
 			HttpServletRequest request)throws Exception{
+		String temp = caseService.updateCaseReceiveStatus(Constants.RECEIVE_STATUS__DISTRIBUTED,caseId);
+		Result<Case> result = new Result<Case>(null,true,false,false,temp);
+		return result.toJson();
+	}
+	/**
+	 * （优创提供外调接口）新增案件
+	 * @param requestBody
+	 * @param request
+	 * @return 0：新添案件成功
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "AddCase", produces = "application/xml;charset=UTF-8")
+	public @ResponseBody String AddCase(
+			@RequestBody String requestBody,
+			HttpServletRequest request)throws Exception{
+		Document document = DocumentHelper.parseText(requestBody);
 		
-		return 0;
+		Case c = getCaseInfoFromDocument(document);
+		
+		String temp = caseService.insert(c);
+		
+		if(!temp.isEmpty()){
+			return getReturnXml(-1);
+		}else{
+			
+			return getReturnXml(0);
+		}
+		
+	}
+	private Case getCaseInfoFromDocument(Document document) {
+		Element root =  document.getRootElement();
+		Case c = new Case();
+		c.setId(root.attributeValue("id"));
+		c.setName(root.attributeValue("Name"));
+		c.setCreator(Integer.parseInt(root.attributeValue("Creator")));
+		c.setReceiveStatus(Constants.RECEIVE_STATUS_NOT_DISTRIBUTE);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+	    
+		try {
+			Date date;
+			date = sdf.parse(root.attributeValue("CreateTime"));
+			c.setCreateTime(date);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
+		
+		
+		c.setCode(root.attributeValue("Code"));
+		c.setCategoriesId(root.attributeValue("Categories"));
+		
+		
+		try {
+			Date date1;
+			date1 = sdf.parse(root.attributeValue("StartTime"));
+			c.setStartTime(date1);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		c.setSummary(root.attributeValue("Summary"));
+		c.setStatus(root.attributeValue("Status"));
+		
+		c.setIsregister(false);
+		c.setLevel(root.attributeValue("Level"));
+		c.setLongitude(root.attributeValue("Longitude"));
+		c.setLatitude(root.attributeValue("Latitude"));
+		
+		c.setOrganizationId(Integer.parseInt(root.attributeValue("OrganizationID")));
+		c.setDetectedunitId(Integer.parseInt(root.attributeValue("DetectedUnit")));
+		return c;
 	}
 	/**
 	 * （优创提供外调接口） 删除指定案件
@@ -167,12 +246,15 @@ public class CaseController {
 	 * @return -1删除失败 ； 大于0 删除成功；
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "DeleteCase.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody int DeleteCase(
+	@RequestMapping(value = "DeleteCase", produces = "application/xml;charset=UTF-8")
+	public @ResponseBody String DeleteCase(
 			@RequestParam(value="caseId",required = false) String caseId,
 			HttpServletRequest request)throws Exception{
-		
-		return 0;
+		/*
+		 * 是否要删除案件相关的串并案、附件等相关信息？
+		 * */
+		caseService.deleteByCaseId(caseId);
+		return getReturnXml(0);
 	}
 	/**
 	 * (优创提供外调接口)更新相关案件
@@ -181,12 +263,24 @@ public class CaseController {
 	 * @return	-1更新失败 ； 大于0 更新成功；
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "UpdateCase.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody int UpdateCase(
-			@RequestParam(value="caseInfo",required = false) String caseInfo,
+	@RequestMapping(value = "UpdateCase.do", produces = "application/xml;charset=UTF-8")
+	public @ResponseBody String UpdateCase(
+			@RequestBody String requestBody,			
 			HttpServletRequest request)throws Exception{
-		
-		return 0;
+		Document document = DocumentHelper.parseText(requestBody);
+		/**
+		 * 是否需要重新获取案件附件？
+		 */
+		Case c = getCaseInfoFromDocument(document);
+		caseService.updateCase(c);
+		return getReturnXml(0);
 	}
 	
+	private String getReturnXml(int returnNum){
+		StringBuilder sb = new StringBuilder();  
+        sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");  
+        sb.append("<int>"+returnNum+"</int>");  
+          
+        return sb.toString();  
+	}
 }

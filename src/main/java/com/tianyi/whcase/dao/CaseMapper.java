@@ -31,4 +31,6 @@ public interface CaseMapper {
 	int countByMap(Map<String, Object> map);
 
 	List<CaseVM> loaCaselistWithPage(Map<String, Object> map);
+
+	int updateCaseReceiveStatus(int receiveStatus, String caseId);
 }
