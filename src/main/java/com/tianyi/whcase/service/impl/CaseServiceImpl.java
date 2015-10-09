@@ -25,10 +25,19 @@ public class CaseServiceImpl implements CaseService {
 	 * @return 
 	 */
 	public ListResult<CaseVM> getCasePushListByReceiveStatus(Integer receiveStatus) {
-		int count = caseMapper.selectVMCountByReceiveStatus(receiveStatus);
-		List<CaseVM> caseList =caseMapper.selectByReceiveStatus(receiveStatus); 
-		ListResult<CaseVM> list = new ListResult<CaseVM>(count,caseList);
-		return list;
+		if(receiveStatus ==0){
+			int count = caseMapper.selectCountDistributedCase(1);
+			List<CaseVM> caseList =caseMapper.selectDistributedCase(1);
+			ListResult<CaseVM> list = new ListResult<CaseVM>(count,caseList);
+			return list;
+		}else{
+			int count = caseMapper.selectVMCountByReceiveStatus(receiveStatus);
+			List<CaseVM> caseList =caseMapper.selectByReceiveStatus(receiveStatus); 
+			ListResult<CaseVM> list = new ListResult<CaseVM>(count,caseList);
+			return list;
+		}
+		
+		
 	}
 
 	public CaseVM getCaseMainInfo(String caseId) {

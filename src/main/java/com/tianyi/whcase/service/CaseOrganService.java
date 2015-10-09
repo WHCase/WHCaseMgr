@@ -10,5 +10,5 @@ public interface CaseOrganService {
 	String insertCaseOrgan(String caseId, int indexOf);
 
 	List<String> selectCaseLiseByOrganId(int organId);
-	
+
 }

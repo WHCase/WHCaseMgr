@@ -31,6 +31,7 @@ import com.tianyi.whcase.model.Case;
 import com.tianyi.whcase.model.CaseCategory;
 import com.tianyi.whcase.model.CaseUnit;
 import com.tianyi.whcase.service.CaseService;
+import com.tianyi.whcase.service.JieShangService;
 import com.tianyi.whcase.viewmodel.CaseVM;
 import com.tianyi.whcase.viewmodel.DistributeCase;
 
@@ -44,6 +45,7 @@ import com.tianyi.whcase.viewmodel.DistributeCase;
 public class CaseController {
 	
 	@Autowired CaseService caseService;
+	@Autowired JieShangService jieShangService;
 	/**
 	 * 
 	 * @param caseInfo
@@ -70,9 +72,7 @@ public class CaseController {
 	public @ResponseBody String getDistributeCaseList(
 		@RequestParam(value="caseInfo",required = false) String caseInfo,
 		HttpServletRequest request)throws Exception{
-		/**
-		 * 根据案件接收类型、查询时间段来查询案件，返回一个案件列表
-		 */
+
 		JSONObject jObj = JSONObject.fromObject(caseInfo);
 		DistributeCase distributeCase = (DistributeCase)JSONObject.toBean(jObj,DistributeCase.class);
 		if(distributeCase.getCaseIdList() ==null){
@@ -139,6 +139,9 @@ public class CaseController {
 			}
 			Result<CaseVM> result = new Result<CaseVM>(null, true, false,
 					false, "查询数据成功");
+			/*调用捷尚更新案件接口*/
+			jieShangService.updateCCase(caseinfo);
+			
 			return result.toJson();
 		} catch (Exception ex) {
 			Result<CaseVM> result = new Result<CaseVM>(null, false, false, false,
@@ -189,13 +192,31 @@ public class CaseController {
 		return result.toJson();
 	}
 	/**
+	 * 派出所接收案件
+	 * @param caseId
+	 * @param receiveStatus
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "acceptPushCase.do",produces = "application/json;charset=UTF-8")
+	public @ResponseBody String acceptPushCase(
+			@RequestParam(value="caseId",required= false) String caseId,
+			@RequestParam(value="caseLevel", required = false) String caseLevel,
+			HttpServletRequest request)throws Exception{
+			
+		String temp = caseService.updateCaseReceiveStatus(Constants.RECEIVE_STATUS__ACCEPTED,caseLevel,caseId);
+		Result<Case> result = new Result<Case>(null,true,false,false,temp);
+		return result.toJson();
+	}
+	/**
 	 * （优创提供外调接口）新增案件
 	 * @param requestBody
 	 * @param request
 	 * @return 0：新添案件成功
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "AddCase", produces = "application/xml;charset=UTF-8")
+	@RequestMapping(value = "AddCase.do", produces = "application/xml;charset=UTF-8")
 	public @ResponseBody String AddCase(
 			@RequestBody String requestBody,
 			HttpServletRequest request)throws Exception{
@@ -216,19 +237,18 @@ public class CaseController {
 	private Case getCaseInfoFromDocument(Document document) {
 		Element root =  document.getRootElement();
 		Case c = new Case();
-		c.setId(root.attributeValue("id"));
+		c.setId(root.attributeValue("ID"));
 		c.setName(root.attributeValue("Name"));
 		c.setCreator(Integer.parseInt(root.attributeValue("Creator")));
 		c.setReceiveStatus(Constants.RECEIVE_STATUS_NOT_DISTRIBUTE);
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");  
 	    
 		try {
 			Date date;
 			date = sdf.parse(root.attributeValue("CreateTime"));
 			c.setCreateTime(date);
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} 
 		

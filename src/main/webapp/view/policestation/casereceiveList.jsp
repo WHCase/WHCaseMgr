@@ -42,7 +42,7 @@
        	 </p>
        	  <p>
        		<label style="font-size:12px">反馈结果：</label><input id="txtCaseResult" class="easyui-validatebox"  />
-       		<label style="font-size:12px">反馈时间：</label><input id="txtCaseTime" class="easyui-validatebox"  />
+       		<label style="font-size:12px">反馈时间：</label><input id="txtCaseTime" class="easyui-datebox"  />
        	 </p>  
        	 <p>
        		<label style="font-size:12px">录入单位：</label><input id="txtCaseOrgan" class="easyui-validatebox"  />
@@ -56,7 +56,7 @@
     <div style="display:none">
     	<div id="caseBackAttchMentsTb" style="height:40px" >
             <p>  
-            	 <a id="btnUploadFile" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-add" plain="true">上传</a>
+            	 <a id="btnUploadFile" href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传</a>
             </p>  
         </div>
     </div>

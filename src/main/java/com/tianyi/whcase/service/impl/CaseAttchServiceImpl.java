@@ -11,14 +11,26 @@ import com.tianyi.whcase.dao.CaseAttachMapper;
 import com.tianyi.whcase.model.CaseAttach;
 import com.tianyi.whcase.model.CaseAttachItem;
 import com.tianyi.whcase.service.CaseAttchService;
+import com.tianyi.whcase.service.JieShangService;
 import com.tianyi.whcase.viewmodel.CaseAttachVM;
 
 @Service
 public class CaseAttchServiceImpl implements CaseAttchService {
 	@Autowired CaseAttachMapper caseAttachMapper;
 	@Autowired CaseAttachItemMapper caseAttachItemMapper;
+	@Autowired JieShangService jieShangService; 
 	
 	public ListResult<CaseAttachItem> getCaseRelativeByCaseId(String id,int resourceType ) {
+		CaseAttach attach = caseAttachMapper.selectByCaseId(id,resourceType);
+		if(attach==null){
+			return null;
+		}
+		String caseAttachId = attach.getId();
+		List<CaseAttachItem> attachItemList = caseAttachItemMapper.selectByCaseAttachId(caseAttachId);
+		return new ListResult<CaseAttachItem>(attachItemList);
+		
+	}
+	public ListResult<CaseAttachItem> getCaseRelativeByCaseId(String id,String resourceType ) {
 		CaseAttach attach = caseAttachMapper.selectByCaseId(id,resourceType);
 		if(attach==null){
 			return null;
@@ -32,6 +44,7 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 	public int AddAttachVM(CaseAttachVM caseAttachVM) {
 		int temp =0;
 		CaseAttach caseAttach = caseAttachVM.getCaseAttach();
+		caseAttach.setResourceType("1");
 		if(caseAttachMapper.selectByPrimaryKey(caseAttach.getId())!=null){
 			return -2;
 		}
@@ -50,6 +63,8 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 				return -3;
 			}
 			temp = caseAttachItemMapper.insert(attachItemList.get(i));
+			/*调用捷尚接口下载相应的附件*/
+			jieShangService.downloadAttachFiles(attachItemList.get(i).getUri());
 		}
 		return temp;
 	}

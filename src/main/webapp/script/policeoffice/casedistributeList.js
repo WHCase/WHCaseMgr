@@ -121,7 +121,7 @@ var CasePushManage = {
 			
 		},
 		packageObject : function(row) {
-			m_caseInfo_Object.receiveStatus = m_receiveStatus;
+			m_caseInfo_Object.receiveStatus = m_caseType;
 		},
 		/**
 		 * 加载案件列表
@@ -228,8 +228,7 @@ var CasePushManage = {
 				return;
 			}
 			try {
-				var caseId = 0;//target[0].id;
-				var caseNo = 0;//target[0].caseNo;
+				var caseNo = 0;
 				m_caseInfo_dlg = art
 						.dialog({
 							id : 'dlgShowCaseInfo',
@@ -331,8 +330,8 @@ var CasePushManage = {
 					}
 				}
 			});
-			
-			
+			/*重新加载案件列表*/
+			CasePushManage.loadCaseList();
 		},
 		/**
 		 * 关闭分配

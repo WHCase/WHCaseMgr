@@ -26,20 +26,6 @@ public class CaseFeedServiceImpl implements CaseFeedService{
 	public List<CaseAttachItem> getCaseBackAttchMents(String id,int resourceType) {
 		
 		/**
-		 * 获取反馈信息
-		 */
-//		CaseFeed caseFeed = caseFeedMapper.selectByCaseId(id);
-//		if(caseFeed==null){
-//			return null;
-//		}
-//		CaseFeedVM caseFeedVM = new CaseFeedVM(caseFeed);
-		/**
-		 * 获取案件名称
-		 */
-//		CaseVM caseInfo= caseMapper.selectVMByPrimaryKey(id);
-//		caseFeedVM.setCaseName(caseInfo.getName());
-//		caseFeedVM.setCaseName(id);
-		/**
 		 * 获取反馈案件的附件
 		 */
 		CaseAttach attach = caseAttachMapper.selectByCaseId(id,resourceType);
@@ -65,9 +51,17 @@ public class CaseFeedServiceImpl implements CaseFeedService{
 		 */
 		CaseVM caseInfo= caseMapper.selectVMByPrimaryKey(id);
 		caseFeedVM.setCaseName(caseInfo.getName());
-		caseFeedVM.setCaseName(id);
+		caseFeedVM.setCaseId(id);
 		
 		return caseFeedVM;
+	}
+
+	public String insertCaseFeed(CaseFeed feedBack) {
+		if(caseFeedMapper.insert(feedBack)>0){
+			return "";
+		}else{
+			return "添加案件反馈信息失败";
+		}
 	}
 
 }

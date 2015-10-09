@@ -2,7 +2,8 @@ var m_caseInfo_id;
 var m_caseInfo_no; 
 $(function() { 
 	var obj = getUrlArgs(); 
-	m_caseInfo_no = obj.caseNo;  
+	m_caseInfo_no = obj.caseNo; 
+	/*案件编号*/
 	m_caseInfo_id = obj.caseId;  
 	CaseDetailsManage.loadCaseInfo();
 	$("#btnCancelSave").bind("click", CaseDetailsManage.cancelSave);

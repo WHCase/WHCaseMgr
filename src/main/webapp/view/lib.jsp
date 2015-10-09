@@ -28,5 +28,6 @@
 <script src='<%=basePath%>script/json2.js' type='text/javascript'></script>
 <script src='<%=basePath%>script/easyui/easyui-lang-zh_CN.js' type='text/javascript'></script>
 <script src='<%=basePath%>script/common.js' type='text/javascript'></script>
+<script src='<%=basePath%>script/ajaxupload.3.9.js' type='text/javascript'></script>
 
 

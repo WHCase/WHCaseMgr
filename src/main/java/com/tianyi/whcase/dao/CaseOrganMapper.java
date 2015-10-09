@@ -17,4 +17,5 @@ public interface CaseOrganMapper {
     List<CaseOrgan> selectByCaseIdAndOrganId(String caseId, int indexOf);
     
     List<CaseOrgan> selectByOrganId(int organId);
+
 }

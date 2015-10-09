@@ -8,7 +8,7 @@
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="INTEGER" />
     <result column="message_type" property="messageType" jdbcType="VARCHAR" />
-    <result column="resource_type" property="resourceType" jdbcType="INTEGER" />
+    <result column="resource_type" property="resourceType" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, case_id, description, creator, message_type,resource_type
@@ -31,10 +31,10 @@
   </delete>
   <insert id="insert" parameterType="com.tianyi.whcase.model.CaseAttach" >
     insert into t_case_attach (id, name, case_id, 
-      description, creator, message_type
+      description, creator, message_type,resource_type
       )
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{caseId,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{creator,jdbcType=INTEGER}, #{messageType,jdbcType=VARCHAR}
+      #{description,jdbcType=VARCHAR}, #{creator,jdbcType=INTEGER}, #{messageType,jdbcType=VARCHAR}, #{resourceType,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.tianyi.whcase.model.CaseAttach" >
@@ -108,6 +108,7 @@
       description = #{description,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=INTEGER},
       message_type = #{messageType,jdbcType=VARCHAR}
+      resource_type = #{resourceType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

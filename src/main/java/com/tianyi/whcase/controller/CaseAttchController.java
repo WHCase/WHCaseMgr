@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tianyi.whcase.core.Constants;
 import com.tianyi.whcase.core.ListResult;
 import com.tianyi.whcase.model.CaseAttachItem;
 import com.tianyi.whcase.service.CaseAttchService;
+import com.tianyi.whcase.service.JieShangService;
 import com.tianyi.whcase.viewmodel.CaseAttachVM;
 
 
@@ -31,20 +33,28 @@ import com.tianyi.whcase.viewmodel.CaseAttachVM;
 @Controller
 @RequestMapping("/caseAttch")
 public class CaseAttchController {
-	@Autowired CaseAttchService caseAttchService;
+	@Autowired CaseAttchService caseAttchService;	
 	
 	@RequestMapping(value = "getCaseAttchMents.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String getCaseAttchMents(
 		@RequestParam(value="caseId",required = false) String id,
 		HttpServletRequest request)throws Exception{
 		
-		ListResult<CaseAttachItem> caseGroupList= caseAttchService.getCaseRelativeByCaseId(id,1);
+		ListResult<CaseAttachItem> caseGroupList= caseAttchService.getCaseRelativeByCaseId(id,"1");
 		
 		if(caseGroupList ==null){
 			return null;
 		}
 		return caseGroupList.toJson();
 	}
+	/**
+	 * (优创接口)当用户添加附件，捷尚通过调用这个接口来通知优创
+	 * @param id
+	 * @param requestBody
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "AddCaseAttach.do", produces = "application/xml;charset=UTF-8")
 	public @ResponseBody String AddCaseAttach(
 			@RequestParam(value="caseId",required = false) String id,
@@ -56,6 +66,7 @@ public class CaseAttchController {
 		int temp = 0;
 		for(int i = 0;i<caseAttachVMList.size();i++){
 			temp = caseAttchService.AddAttachVM(caseAttachVMList.get(i));
+
 		}
 		return getReturnXml(temp);
 	}
@@ -76,6 +87,8 @@ public class CaseAttchController {
 			caseAttachVM.setDescription(messageItemList.get(i).attributeValue("Description"));
 			caseAttachVM.setMessageType(messageItemList.get(i).attributeValue("MessageType"));
 			caseAttachVM.setName(messageItemList.get(i).attributeValue("Name"));
+			/*'1'未自身附件，'2'为添加附件*/
+			caseAttachVM.setResourceType("1");
 			@SuppressWarnings("unchecked")
 			List<Element> itemList = messageItemList.get(i).element("Attachments").elements();
 			

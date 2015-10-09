@@ -1,35 +1,27 @@
-package com.whcase.test;
+package com.tianyi.whcase.controller;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.junit.Test;
+import javax.servlet.http.HttpServletRequest;
 
-public class XmlTest {
-	@Test
-	public void main() {
-		//xmlCfg();
-		try {
-			createFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	private void createFile() throws IOException{
-		File f = new File("/data/tempFile/download/imag/1.txt");
-		if(!f.exists()){
-			f.createNewFile();
-		}
-	}
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-	private void xmlCfg() {
-		// TODO Auto-generated method stub
+@Controller
+@RequestMapping("/JieShang")
+public class JieShangInterfaceController {
+	
+	@RequestMapping(value = "updateCCase.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String updateCCase(
+		@RequestParam(value="caseInfo",required = false) String caseInfo,
+		HttpServletRequest request)throws Exception{
+		
 		try {
 			String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
 			URL url = new URL(urlStr);
@@ -53,12 +45,11 @@ public class XmlTest {
 		} catch (Exception ex) {
 
 		}
+		return"";
 	}
-
 	private String getXmlInfo() {
 		// TODO Auto-generated method stub
-		 StringBuilder sb = new StringBuilder(); 
-		 sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+		 StringBuilder sb = new StringBuilder();  
 	        sb.append("<CCase ID=\"df40d455-f1a8-0d7d-b886-bd6305050505\"");  
 	        sb.append(" Name=\"有视频图片的案件\" ");  
 	        sb.append(" Creator=\"1\" ");  
@@ -71,5 +62,31 @@ public class XmlTest {
 	        sb.append(" DetectedUnit=\"-1\"> ");  
 	        sb.append(" </CCase> ");    
 	        return sb.toString();  
+	}
+	
+	@RequestMapping(value = "getCaseMessages.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getCaseMessages(
+		@RequestParam(value="caseID",required = false) String caseID,
+		@RequestParam(value="messageType",required = false) Integer messageType,
+		HttpServletRequest request)throws Exception{
+		return"";
+	}
+	
+	@RequestMapping(value = "getAllMsSvrStatus.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getAllMsSvrStatus(
+		HttpServletRequest request)throws Exception{
+		return"";
+	}
+	
+	@RequestMapping(value = "getWorkspaceInfo.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getWorkspaceInfo(
+		HttpServletRequest request)throws Exception{
+		return"";
+	}
+	
+	@RequestMapping(value = "DownloadAttachFiles.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String DownloadAttachFiles(
+		HttpServletRequest request)throws Exception{
+		return"";
 	}
 }

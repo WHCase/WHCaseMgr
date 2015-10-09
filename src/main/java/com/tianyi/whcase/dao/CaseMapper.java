@@ -35,4 +35,8 @@ public interface CaseMapper {
 	int updateCaseReceiveStatus(int receiveStatus, String level, String caseId);
 
 	CaseVM selectByCaseIdAndReceiveStatus(int receiveStatus, String string);
+
+	List<CaseVM> selectDistributedCase(Integer receiveStatus);
+
+	int selectCountDistributedCase(int i);
 }

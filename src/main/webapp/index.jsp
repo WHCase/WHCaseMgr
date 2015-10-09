@@ -16,52 +16,7 @@
 		</div> 
 	</div> 
 	<div region="west" title="功能菜单" split=true style="width:220px;">
-		<ul id="treeMenu">
-			<li>
-				<span>案件分配(分局)</span>
-					<ul>
-						<li>
-							<span>案件分配</span>
-						</li>
-						<li>
-							<span>案件查看</span>
-						</li> 
-					</ul>  
-			</li>
-			<li>
-				<span>案件接收(派出所)</span> 
-					<ul>
-						<li>
-							<span>案件接收</span>
-						</li>
-						<li>
-							<span>案件反馈</span>
-						</li> 
-					</ul> 
-			</li>
-			<li>
-				<span>统计报表</span>
-					<ul>
-						<li>
-							<span>统计1</span>
-						</li>
-						<li>
-							<span>统计2</span>
-						</li> 
-					</ul> 
-			</li> 
-			<li>
-				<span>督查考核</span>
-					<ul>
-						<li>
-							<span>考核1</span>
-						</li>
-						<li>
-							<span>考核2</span>
-						</li> 
-					</ul> 
-			</li> 
-		</ul>
+		<ul id="treeMenu"></ul>
 	</div> 
 	<div region="center" title="案件分配推送" > 
 		<iframe id="ifrContent" frameborder='0'  style="width:100%;height:98%;" onLoad="iframeSize()">

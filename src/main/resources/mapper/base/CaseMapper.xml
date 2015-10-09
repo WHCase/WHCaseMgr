@@ -91,6 +91,12 @@
     from t_case a 
     where a.receive_status = #{receiveStatus,jdbcType=INTEGER}
   </select>
+  <select id="selectCountDistributedCase" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+  	select 
+    count(*)
+    from t_case a 
+    where a.receive_status != #{receiveStatus,jdbcType=INTEGER}
+  </select>
   <select id="selectCaseCategory" resultMap="BaseCCResultMap">
   select 
   	category_id,category_name
@@ -109,6 +115,15 @@
     left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id
     left join t_case_organ_type d on a.organization_id = d.organization_id
     where a.id = #{1} and a.receive_status =#{0}
+  </select>
+    <select id="selectDistributedCase" resultMap="BaseVMResultMap">
+  	select
+  	<include refid="BaseVM_Column_List" />
+    from t_case a 
+    left join t_case_category_type b on a.categories_id = b.category_id
+    left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id
+    left join t_case_organ_type d on a.organization_id = d.organization_id
+    where a.receive_status !=#{0}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_case

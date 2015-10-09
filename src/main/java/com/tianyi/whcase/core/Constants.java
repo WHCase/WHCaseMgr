@@ -19,5 +19,8 @@ public class Constants {
 	/*案件接收状态*/
 	public static final int RECEIVE_STATUS_NOT_DISTRIBUTE = 1;//未分配
 	public static final int RECEIVE_STATUS__DISTRIBUTED = 2;//已分配
-	public static final int RECEIVE_STATUS__FEEDBACK = 3;//已反馈
+	public static final int RECEIVE_STATUS__NOT_ACCEPTED = 3;//未接收
+	public static final int RECEIVE_STATUS__ACCEPTED = 4;//已接收
+	public static final int RECEIVE_STATUS__NOT_FEEDBACK = 5;//
+	public static final int RECEIVE_STATUS__FEEDBACK = 6;//已反馈
 }

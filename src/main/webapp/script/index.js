@@ -1,13 +1,25 @@
-var m_index_orgId;   
+var m_index_organTye;   
 
-$(function() {    
+$(function() {
+	var obj = getUrlArgs();
+	m_index_organTye = obj.organTye; 
+	var url = "";
+	if(m_index_organTye==0||m_index_organTye=="0"){
+		url = "data/policeofficeMenu.json";
+		var obj = {};
+		obj.text = "案件分配";
+		onTreeMenuDblClick(obj);
+	}else{
+		url = "data/policestationMenu.json";
+		var obj = {};
+		obj.text = "案件接收";
+		onTreeMenuDblClick(obj);
+	}
 	$('#treeMenu').tree({
 		checkbox : false, 
+		url:url,
 		onClick : onTreeMenuDblClick
 	}); 
-	var obj = {};
-	obj.text = "案件分配";
-	onTreeMenuDblClick(obj);
 });
 
 /**
@@ -17,16 +29,16 @@ function onTreeMenuDblClick(row) {
 	var src = null;  
 	switch (row.text) {
 	case "案件分配":
-		src = "view/policeoffice/casedistributeList.jsp?caseType=1";
+		src = "view/policeoffice/casedistributeList.jsp?caseType=1";//未分配
 		break;
 	case "案件查看":
-		src = "view/policeoffice/casedistributeList.jsp?caseType=2";
+		src = "view/policeoffice/casedistributeList.jsp?caseType=0";//除去"未分配"的所有案件
 		break;
 	case "案件接收":
-		src = "view/policestation/casereceiveList.jsp?caseType=1";
+		src = "view/policestation/casereceiveList.jsp?caseType=2";//未接收
 		break; 
 	case "案件反馈":
-		src = "view/policestation/casereceiveList.jsp?caseType=2";
+		src = "view/policestation/casereceiveList.jsp?caseType=4";//已接收
 		break; 
 	}
 	$("#ifrContent").attr("src", src); 

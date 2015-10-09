@@ -11,6 +11,7 @@ import com.tianyi.whcase.viewmodel.CaseAttachVM;
 public interface CaseAttchService {
 
 	ListResult<CaseAttachItem> getCaseRelativeByCaseId(String id,int resourceType);
+	ListResult<CaseAttachItem> getCaseRelativeByCaseId(String id,String resourceType);
 
 	int AddAttachVM(CaseAttachVM caseAttachVM);
 

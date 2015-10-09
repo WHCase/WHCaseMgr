@@ -24,6 +24,7 @@
     from t_case_organ
     where case_id = #{0} and organization_id = #{1}
   </select>
+
   <select id="selectByOrganId" resultMap="BaseResultMap">
   	select
   	<include refid="Base_Column_List" />
