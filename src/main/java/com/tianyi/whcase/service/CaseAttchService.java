@@ -14,5 +14,6 @@ public interface CaseAttchService {
 	ListResult<CaseAttachItem> getCaseRelativeByCaseId(String id,String resourceType);
 
 	int AddAttachVM(CaseAttachVM caseAttachVM);
+	String deleteCaseAttach(String caseId,String caseattachId);
 
 }

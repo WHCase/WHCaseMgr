@@ -1,6 +1,7 @@
 package com.tianyi.whcase.controller;
 
 import java.io.File;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -87,15 +88,25 @@ public class FileUpLoadController {
 					attchType = "一般文件"; 
 				}
 				CaseAttach attach = new CaseAttach();
+				UUID u = java.util.UUID.randomUUID();
+				attach.setId(u.toString());
 				attach.setCaseId(id);
 				attach.setResourceType("2");
 				//设置附件相关信息
 				attach.setName("派出所上传附件");
-				if(caseAttachMapper.selectByCaseId(id, "2") ==null){
+				String caseAttachId = "";
+				CaseAttach c = caseAttachMapper.selectByCaseId(id, "2");
+				if( c==null){
 					caseAttachMapper.insert(attach);
+					caseAttachId = u.toString();
+				}else{
+					caseAttachId =c.getId(); 
 				}
 				
 				CaseAttachItem attch = new CaseAttachItem();
+				UUID d = java.util.UUID.randomUUID();
+				attch.setId(d.toString());
+				attch.setCaseAttchId(caseAttachId);
 				attch.setUri(filePath);
 				attch.setItemType(attchType);
 				attch.setName(name);

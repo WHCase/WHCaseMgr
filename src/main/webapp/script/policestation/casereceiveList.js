@@ -17,6 +17,8 @@ var m_rowData;
 $(function() { 
 	var obj = getUrlArgs();
 	m_caseType = obj.caseType; 
+	m_organ_id = obj.organId;
+	
 	if(m_caseType==2||m_caseType == "2"){
 		$("#caseBackTb a[doc='caseReBack']").attr("style","display:none");
 		$("#caseBackTb a[doc='caseReceive']").attr("style","display:none");
@@ -54,10 +56,30 @@ $(function() {
 		onComplete:function(file,response){
 			// button.text('上传图片(只允许上传大小不得大于10M)');
 			// 清楚按钮的状态
+			$("#caseBackAttchs").datagrid({
+				url : 'caseAttch/getUpCaseAttchMents.do?caseId='+m_rowData.id,
+				rownumbers : true,
+				pagination : false, 
+				nowrap : false,
+				idField : 'id',  
+				toolbar : '#caseBackAttchMentsTb',  
+				columns : [ [ 
+				              { title : 'id', field : 'id', hidden : true },
+				              { title : '附件名称', field : 'name', align : 'center', width : 150 },
+				              { title : '附件类型', field : 'itemType', align : 'center', width : 150 },
+				              { title : '操作', field : 'operation', align : 'center', width : 150,formatter:function(value,rowData,index){
+				            	  var html = '<a id="deleteAttchs" name="deleteAttchs"'
+			            		  		+'href="javascript:void(0);" onclick=CaseManage.deleteAttchs("'+rowData.id+'") class="easyui-linkbutton" iconcls="icon-udq-add"'
+			            		  		+'>删除</a>';
+				            	  return html;
+				              } }
+				          ] ]
+			});
+			
 			button.text('文件上传');
 			window.clearInterval(interval);
 			this.enable();
-			button.text('选择文件');
+			button.text('上传');
 		}
 	});
 });
@@ -159,6 +181,7 @@ var CaseManage = {
 							initFn : function() {
 								CaseManage.loadCaseMainInfo(m_rowData.id);
 								 $("#caseBackAttchs").datagrid({
+									 	url : 'caseAttch/getUpCaseAttchMents.do?caseId='+m_rowData.id,
 										rownumbers : true,
 										pagination : false, 
 										nowrap : false,
@@ -166,11 +189,12 @@ var CaseManage = {
 										toolbar : '#caseBackAttchMentsTb',  
 										columns : [ [ 
 										              { title : 'id', field : 'id', hidden : true },
-										              { title : '附件名称', field : 'caseStatus', align : 'center', width : 150 },
-										              { title : '附件类型', field : 'caseNo', align : 'center', width : 150 },
-										              { title : '操作', field : 'caseName', align : 'center', width : 150,formatter:function(value,rowData,index){
+										              { title : '附件名称', field : 'name', align : 'center', width : 150 },
+										              { title : '附件类型', field : 'itemType', align : 'center', width : 150 },
+										              { title : '操作', field : 'operation', align : 'center', width : 150,formatter:function(value,row,index){
+										            	  //var attachItemId = row.id;
 										            	  var html = '<a id="deleteAttchs" name="deleteAttchs"'
-									            		  		+'href="javascript:void(0);" onclick="CaseManage.deleteAttchs(caseNo)" class="easyui-linkbutton" iconcls="icon-udq-add"'
+									            		  		+'href="javascript:void(0);" onclick=CaseManage.deleteAttchs("'+row.id+'") class="easyui-linkbutton" iconcls="icon-udq-add"'
 									            		  		+'>删除</a>';
 										            	  return html;
 										              } }
@@ -181,6 +205,38 @@ var CaseManage = {
 			} catch (ex) {
 				$.messager.alert("操作提示", ex.message, "error");
 			}
+		},
+		deleteAttchs:function(attachItemId){
+			$.ajax('caseAttch/deleteCaseAttach.do',{
+				type:'POST',
+				data:{caseId:m_rowData.id,
+					caseattachId:attachItemId},
+				success:function(responce){
+					if(responce.isSuccess){
+						$("#caseBackAttchs").datagrid({
+							url : 'caseAttch/getUpCaseAttchMents.do?caseId='+m_rowData.id,
+							rownumbers : true,
+							pagination : false, 
+							nowrap : false,
+							idField : 'id',  
+							toolbar : '#caseBackAttchMentsTb',  
+							columns : [ [ 
+							              { title : 'id', field : 'id', hidden : true },
+							              { title : '附件名称', field : 'name', align : 'center', width : 150 },
+							              { title : '附件类型', field : 'itemType', align : 'center', width : 150 },
+							              { title : '操作', field : 'operation', align : 'center', width : 150,formatter:function(value,rowData,index){
+							            	  var html = '<a id="deleteAttchs" name="deleteAttchs"'
+						            		  		+'href="javascript:void(0);" onclick=CaseManage.deleteAttchs("'+rowData.id+'") class="easyui-linkbutton" iconcls="icon-udq-add"'
+						            		  		+'>删除</a>';
+							            	  return html;
+							              } }
+							          ] ]
+						});
+					}else{
+						$.messager.alert('删除上传附件', responce.msg, "warning");
+					}
+				}
+			});
 		},
 		loadCaseMainInfo:function(caseId){
 			$.ajax('case/getCaseMainInfo.do',{
@@ -215,7 +271,7 @@ var CaseManage = {
 				return;
 			}
 			try {
-				var caseId =0;// target[0].id;
+				//var caseId =0;// target[0].id;
 				var caseNo =0;// target[0].caseNo;
 				m_caseInfo_dlg = art
 						.dialog({

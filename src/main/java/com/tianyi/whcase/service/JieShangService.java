@@ -311,6 +311,47 @@ public class JieShangService {
 		}
 		return"";
 	}
+	/*删除附件*/
+	public int deleteCaseAttach(String caseId,String attachItemId){
+		try {
+			String urlStr = "http://223.223.183.242:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
+			URL url = new URL(urlStr);
+			URLConnection con = url.openConnection();
+			con.setDoOutput(true); 
+			con.setRequestProperty("Content-Type", "application/xml");
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(con  
+                    .getInputStream())); 
+            
+            String line = "";  
+            int s = 0;
+            for (line = br.readLine(); line != null; line = br.readLine()) {
+            	System.out.println(line);
+                s = getCodeFromLine(line);
+            }
+            return s;
+            
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+			return -1;
+		}
+
+	}
+	
+	private int getCodeFromLine(String line){	
+		try {
+			Document document = DocumentHelper.parseText(line);
+			Element root =  document.getRootElement();
+			String temp = root.getText();
+			return Integer.parseInt(temp);
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
+		}
+		
+		//return 0;
+	}
 	private String getXmlInfoForAttach(CaseAttachVM attach) {
 		StringBuilder sb = new StringBuilder();
 		 

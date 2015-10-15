@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tianyi.whcase.core.Constants;
 import com.tianyi.whcase.core.ListResult;
+import com.tianyi.whcase.core.Result;
 import com.tianyi.whcase.model.CaseAttachItem;
 import com.tianyi.whcase.service.CaseAttchService;
 import com.tianyi.whcase.service.JieShangService;
@@ -46,6 +47,33 @@ public class CaseAttchController {
 			return null;
 		}
 		return caseGroupList.toJson();
+	}
+	@RequestMapping(value = "getUpCaseAttchMents.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getUpCaseAttchMents(
+		@RequestParam(value="caseId",required = false) String id,
+		HttpServletRequest request)throws Exception{
+		
+		ListResult<CaseAttachItem> caseGroupList= caseAttchService.getCaseRelativeByCaseId(id,"2");
+		
+		if(caseGroupList ==null){
+			return null;
+		}
+		return caseGroupList.toJson();
+	}
+	@RequestMapping(value = "deleteCaseAttach.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String deleteCaseAttach(
+			@RequestParam(value="caseId",required = false) String caseId,
+		@RequestParam(value="caseattachId",required = false) String caseattachId,
+		HttpServletRequest request)throws Exception{
+		String temp = caseAttchService.deleteCaseAttach(caseId,caseattachId);
+		if(temp ==""){
+			Result<CaseAttachItem> result = new Result<CaseAttachItem>(null, true, "删除成功");
+			return result.toJson();
+		}else{
+			Result<CaseAttachItem> result = new Result<CaseAttachItem>(null, false, temp);
+			return result.toJson();
+		}
+		
 	}
 	/**
 	 * (优创接口)当用户添加附件，捷尚通过调用这个接口来通知优创

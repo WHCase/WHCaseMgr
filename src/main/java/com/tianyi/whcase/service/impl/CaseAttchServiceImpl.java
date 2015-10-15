@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tianyi.whcase.controller.JieShangInterfaceController;
 import com.tianyi.whcase.core.ListResult;
 import com.tianyi.whcase.dao.CaseAttachItemMapper;
 import com.tianyi.whcase.dao.CaseAttachMapper;
@@ -67,6 +68,16 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 			jieShangService.downloadAttachFiles(attachItemList.get(i).getUri());
 		}
 		return temp;
+	}
+	public String deleteCaseAttach(String caseId,String caseattachId) {
+		/*本地数据库删除，调用捷尚接口删除远程文件*/
+		if(caseAttachItemMapper.deleteByPrimaryKey(caseattachId)<0){
+			return "删除失败";
+		}
+		if(jieShangService.deleteCaseAttach(caseId,caseattachId)<0){
+			return "调用捷尚删除接口删除失败";
+		}
+		return "";
 	}
 
 }

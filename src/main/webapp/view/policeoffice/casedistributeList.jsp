@@ -26,9 +26,6 @@
                 <a id="showCaseBackInfo" name="showCaseInfo" doc="caseReback"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-show"
                     plain="true">查看详情</a>
-                <a id="sendCaseByXMl" name="showCaseInfo" doc="casePushAction"
-                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-show"
-                    plain="true">发送(以XML格式)</a>
                 <a id="exportCaseInfo" name="showCaseInfo" doc="casePushAction"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-show"
                     plain="true">导出案件相关信息</a>   
