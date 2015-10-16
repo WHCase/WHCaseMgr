@@ -106,6 +106,7 @@ var CaseManage = {
 				queryParams : {
 					'caseInfo' : JSON.stringify(m_caseInfo_Object)
 				},
+				title:'案件接收',
 				fitColumns : true,
 				rownumbers : true,
 				pagination : true,
@@ -115,7 +116,7 @@ var CaseManage = {
 				idField : 'id',
 				onClickRow:CaseManage.setRowInfoBySelect,
 				onDblClickRow : CaseManage.showCaseInfo,
-				toolbar : "#caseBackTb",
+				//toolbar : "#caseBackTb",
 				columns : [ [ 
 				              { title : 'id', field : 'id', hidden : true },
 				              { title : '操作', field : 'operation', align : 'center', width : 150,formatter:function(value,rowData,index){
@@ -152,13 +153,14 @@ var CaseManage = {
 			$.ajax('case/acceptPushCase.do',{
 				type:'POST',
 				data:{caseId:caseId,
-					caseLevel:caseLevel
+					caseLevel:caseLevel,
+					organId:m_organ_id
 					},
 				success:function(responce){
-					if(responce.isSuccess){
+					if(responce.msg==""){
 						$.messager.alert('提示', "接收案件成功", "normal");
 					}else{
-						$.messager.alert('提示', "案件接收失败", "warning");
+						$.messager.alert('提示', responce.msg, "warning");
 					}
 					CaseManage.loadCaseList();
 				}

@@ -19,6 +19,7 @@ import com.tianyi.whcase.core.Result;
 import com.tianyi.whcase.model.CaseAttachItem;
 import com.tianyi.whcase.model.CaseFeed;
 import com.tianyi.whcase.service.CaseFeedService;
+import com.tianyi.whcase.service.CaseService;
 import com.tianyi.whcase.viewmodel.CaseFeedVM;
 import com.tianyi.whcase.viewmodel.CaseVM;
 
@@ -31,7 +32,7 @@ import com.tianyi.whcase.viewmodel.CaseVM;
 @RequestMapping("/caseFeed")
 public class CaseFeedController {
 	@Autowired CaseFeedService caseFeedService;
-	
+	@Autowired CaseService caseService;
 	
 	@RequestMapping(value = "getCaseBackAttchMents.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String getCaseMainInfo(
@@ -76,6 +77,8 @@ public class CaseFeedController {
 			feedBack.setId(uuid.toString());
 			
 			String temp = caseFeedService.insertCaseFeed(feedBack);
+			temp = caseService.updateCaseReceiveStatus(Constants.RECEIVE_STATUS__FEEDBACK, feedBack.getCaseId());
+			
 			if(!temp.isEmpty()){
 				Result<CaseVM> result = new Result<CaseVM>(null, false, false, false,
 						temp);

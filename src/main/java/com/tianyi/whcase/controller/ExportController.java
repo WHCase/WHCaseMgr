@@ -58,11 +58,11 @@ public class ExportController {
 			}
 			
 			String temp = createCaseExcel(caseInfo,groupList,attachList);
-			if(temp=="1"||temp=="2"){
-				Result<String> result = new Result<String>(null,false,false,false,"下载案件信息失败");
+			if(temp.equals("1")||temp.equals("2")){
+				Result<String> result = new Result<String>(null,false,"下载案件信息失败");
 				return result.toJson();
 			}
-			return new Result<String>(temp,false,true,false,"下载案件成功").toJson();
+			return new Result<String>(temp,true,"下载案件成功").toJson();
 		} catch (Exception ex) {
 			Result<CaseVM> result = new Result<CaseVM>(null, false, false, false,
 					"查询失败");

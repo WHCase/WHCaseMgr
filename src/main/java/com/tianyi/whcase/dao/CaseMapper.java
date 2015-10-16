@@ -32,11 +32,20 @@ public interface CaseMapper {
 
 	List<CaseVM> loaCaselistWithPage(Map<String, Object> map);
 
-	int updateCaseReceiveStatus(int receiveStatus, String level, String caseId);
+	int updateCaseReceiveStatusAndLevel(int receiveStatus, String level, String caseId);
+	int updateCaseReceiveStatus(int receiveStatus, String caseId);
 
 	CaseVM selectByCaseIdAndReceiveStatus(int receiveStatus, String string);
 
 	List<CaseVM> selectDistributedCase(Integer receiveStatus);
 
 	int selectCountDistributedCase(int i);
+
+	List<CaseVM> selectUnFeedBackDistributedCase();
+
+	int selectUnFeedBackVMCount();
+
+	int selectCountCaseByReceiveStatus(int i);
+
+	int selectCountCase();
 }

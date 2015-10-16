@@ -57,6 +57,10 @@ public class CaseFeedServiceImpl implements CaseFeedService{
 	}
 
 	public String insertCaseFeed(CaseFeed feedBack) {
+		if(caseFeedMapper.selectByCaseId(feedBack.getCaseId())!=null){
+			caseFeedMapper.updateByPrimaryKey(feedBack);
+			return "";
+		}
 		if(caseFeedMapper.insert(feedBack)>0){
 			return "";
 		}else{

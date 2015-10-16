@@ -1,5 +1,6 @@
 package com.tianyi.whcase.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import com.tianyi.whcase.core.Result;
 import com.tianyi.whcase.model.Case;
 import com.tianyi.whcase.model.CaseOrgan;
 import com.tianyi.whcase.service.CaseOrganService;
+import com.tianyi.whcase.viewmodel.CaseTJVM;
 import com.tianyi.whcase.viewmodel.CaseVM;
 import com.tianyi.whcase.viewmodel.caseOrganVM;
 
@@ -67,6 +69,26 @@ public class CaseOrganController {
 			return result.toJson();
 		}
 		
+	}
+	@RequestMapping(value = "getCaseDistributeRecordList.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getCaseDistributeRecordList(
+			@RequestParam(value="caseId",required = false) String caseId,
+			HttpServletRequest request)throws Exception{
+		List<caseOrganVM> recordList = caseOrganService.selectRecordLiseByCaseId(caseId);
+		 
+		ListResult<caseOrganVM> result = new ListResult<caseOrganVM>(recordList,true,"");
+		return result.toJson();
+	}
+	@RequestMapping(value = "getCaseTJInfo.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getCaseDistributeRecordList(
+			@RequestParam(value="organId",required = false) int organId,
+			HttpServletRequest request)throws Exception{
+		CaseTJVM caseTJ = caseOrganService.getCaseTJInfo(organId);
+		List<CaseTJVM> list = new ArrayList<CaseTJVM>();
+		list.add(caseTJ);
+		ListResult<CaseTJVM> caseTJResult = new ListResult<CaseTJVM>(list);
+		 
+		return caseTJResult.toJson();
 	}
 	
 }

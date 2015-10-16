@@ -114,7 +114,7 @@ var CaseDetailsManage = {
 			if(caseInfo==undefined){
 				return;
 			}
-			$('#txtCaseNo').val(caseInfo.id);
+			$('#txtCaseNo').val(caseInfo.code);
 			$('#txtCaseName').val(caseInfo.name);
 			$('#txtCaseType').combobox({
 				value:caseInfo.categoryName

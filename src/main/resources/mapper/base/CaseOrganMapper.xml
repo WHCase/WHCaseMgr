@@ -24,8 +24,31 @@
     from t_case_organ
     where case_id = #{0} and organization_id = #{1}
   </select>
+  <select id="selectRecordLiseByCaseId" resultType="com.tianyi.whcase.viewmodel.caseOrganVM" parameterType="java.lang.String"  >
+    select 
+     c.id as id,
+     o.name as organName
+    from t_case_organ c 
+    left join t_organ o on c.organization_id = o.id
+    where case_id = #{0} 
+  </select>
+  <select id="selectRecordLiseByorganId" resultType="com.tianyi.whcase.viewmodel.caseOrganVM" parameterType="java.lang.String">
+  	select 
+     c.id as id,
+     o.name as organName
+    from t_case_organ c 
+    left join t_organ o on c.organization_id = o.id
+    where organization_id = #{0} 
+  </select>
+  <select id="selectCountCaseByReceiveStatusAndOrganId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+  	select
+  	count(*)
+  	from t_case_organ c 
+  	left join t_case a on c.case_id = a.id
+  	where c.organization_id = #{0} and a.receive_status= #{1}
+  </select>
 
-  <select id="selectByOrganId" resultMap="BaseResultMap">
+  <select id="selectByOrganId" resultMap="BaseResultMap" >
   	select
   	<include refid="Base_Column_List" />
     from t_case_organ

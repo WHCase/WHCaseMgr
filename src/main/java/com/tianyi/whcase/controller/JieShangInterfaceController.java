@@ -23,7 +23,8 @@ public class JieShangInterfaceController {
 		HttpServletRequest request)throws Exception{
 		
 		try {
-			String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
+			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
+			String urlStr = "http://192.168.0.201:40000/center/UpdateCCase";
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true); 

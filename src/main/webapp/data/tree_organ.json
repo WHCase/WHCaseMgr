@@ -2,59 +2,76 @@
 	"id":1,
 	"text":"武侯区分局",
 	"children":[{
-		"id":856,
-		"text":"簇桥派出所",
-		"state":"closed"},
-		{
-		"id":860,
-		"text":"机投派出所",
-		"state":"closed"},
-		{
+		"id":1,
+		"text":"一中队",
+		"children":[{
 		"id":862,
 		"text":"浆洗街派出所",
-		"state":"closed"},
+		"state":"open"},
 		{
 		"id":863,
 		"text":"金花派出所",
-		"state":"closed"},
-		{
+		"state":"open"},{
+		"id":867,
+		"text":"华兴派出所",
+		"state":"open" 
+		}]
+	},{
+		"id":2,
+		"text":"二中队",
+		"children":[{
+		"id":856,
+		"text":"簇桥派出所",
+		"state":"open"},{
+		"id":865,
+		"text":"华西坝派出所",
+		"state":"open"},{
+		"id":871,
+		"text":"望江派出所",
+		"state":"open"}]
+	},{
+		"id":3,
+		"text":"三中队",
+		"children":[{
 		"id":864,
 		"text":"晋阳派出所",
-		"state":"closed"},
-		{
-		"id":868,
-		"text":"南站地区派出所",
-		"state":"closed"},
-		{
+		"state":"open"},{
 		"id":869,
 		"text":"双楠派出所",
-		"state":"closed"},
+		"state":"open"},
 		{
 		"id":870,
 		"text":"跳伞塔派出所",
-		"state":"closed"},
-		{
-		"id":871,
-		"text":"望江路派出所",
-		"state":"closed"},
-		{
-		"id":873,
-		"text":"小天竺街派出所",
-		"state":"closed"},
-		{
-		"id":877,
-		"text":"红牌楼派出所",
-		"state":"closed"},
+		"state":"open"}
+		]
+	},{
+		"id":4,
+		"text":"四中队",
+		"children":[{
+		"id":861,
+		"text":"簇锦派出所",
+		"state":"open"},
 		{
 		"id":878,
 		"text":"玉林派出所",
-		"state":"closed"},
+		"state":"open"},{
+		"id":868,
+		"text":"南站派出所",
+		"state":"open"}]
+	},{
+		"id":5,
+		"text":"五中队",
+		"children":[{
+		"id":860,
+		"text":"机投派出所",
+		"state":"open"}, 
+		{
+		"id":877,
+		"text":"红牌楼派出所",
+		"state":"open"},
 		{
 		"id":879,
-		"text":"站前派出所",
-		"state":"closed"},
-		{
-		"id":882,
-		"text":"致民路派出所",
-		"state":"closed"}]
-}]
+		"text":"工业园派出所",
+		"state":"open"}]
+	}]
+}] 

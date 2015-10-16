@@ -12,7 +12,8 @@ var m_rowData;
 
 $(function() { 
 	var obj = getUrlArgs();
-	m_caseType = obj.caseType; 
+	m_caseType = obj.caseType;
+	
 	if(m_caseType==1||m_caseType == "1"){
 		$("#casePushTb a[doc='caseReback']").attr("style","display:none");
 	}else{
@@ -145,7 +146,13 @@ var CasePushManage = {
 				toolbar : "#casePushTb",
 				columns : [ [ 
 				              { title : 'id', field : 'id', hidden : true },
-				              { title : '案件状态', field : 'status', align : 'center', width : 150 },
+				              { title : '分配状态', field : 'distributeStatus', align : 'center', width : 150,formatter:function(value,rowData,index){
+				            	  if(value>0||value !="0"){
+				            		  return "<a href='javascript:void(0);' style='text-decoration:none;' onclick=CasePushManage.showDistrubutInfo('"+rowData.id+"')>查看分配记录</a>";
+				            	  }else{
+				            		  return "未分配";
+				            	  }
+				              }},
 				              { title : '案件编号', field : 'code', align : 'center', width : 150 },
 				              { title : '案件名称', field : 'name', align : 'center', width : 150 },
 				              { title : '案件类型', field : 'categoryName', align : 'center', width : 150 },
@@ -155,6 +162,36 @@ var CasePushManage = {
 				              { title : '案件编号', field : 'code', align : 'center', width : 150 }
 				          ] ]
 			});
+		},
+		showDistrubutInfo:function(caseId){
+
+			$('#distributeRecGrid').datagrid({
+				url : 'CaseOrgan/getCaseDistributeRecordList.do?caseId='+caseId, 
+				fitColumns : true,
+				rownumbers : true,
+				pagination : false, 
+				nowrap : false,  
+				title : "案件分配记录",
+				columns : [ [  
+				              { title : '分配单位', field : 'organName', align : 'center', width : 150},
+				              { title : '分配状态', field : 'status', align : 'center', width : 150,formatter:function(value,rowData,index){
+				            	  return "已分配";
+				              }},
+				              { title : '分配时间', field : 'disTime', align : 'center', width : 150,hidden:true }
+				          ] ]
+			});
+			var s = art
+			.dialog({
+				id : 'dlgdistributeCase',
+				title : '案件分配记录',
+				height: 280,
+				width: 490,
+				content : document.getElementById("div_distributeInfo"),
+				lock : true,
+				initFn : function() {
+					
+				}
+			}); 
 		},
 		/**
 		 * 编辑
@@ -293,10 +330,18 @@ var CasePushManage = {
 				});
 			}else{
 				$.each(organNodes,function(index,item){
-					organIdArray[count++] = item.id;
+					//将选中的分局和中队排除在外
+					if(item.id>6){
+						organIdArray[count++] = item.id;
+					}
+					
 				});
 			}
 			/*修改案件接收状态*/
+			if(organIdArray.length==0){
+				$.messager.alert('操作提示', "请选择相关的派出所", "warning");
+				return;
+			}
 			$.ajax('case/changeCaseReceiveStatusAndLevel.do',{
 				type:'POST',
 				data:{
@@ -359,7 +404,7 @@ var CasePushManage = {
 				type:'POST',
 				data:{caseId:m_rowData.id},
 				success:function(responce){
-					if(responce["isSuccess"]){
+					if(responce.isSuccess){
 						$.messager.confirm("提示","案件推送成功。");
 						CasePushManage.loadCaseList();
 					}else{

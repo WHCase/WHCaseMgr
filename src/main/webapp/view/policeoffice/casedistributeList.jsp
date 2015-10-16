@@ -45,11 +45,16 @@
 		 		<a id="btnPushCase" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-save" plain="true">分配</a> 
 				<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-close" plain="true">关闭</a> 
 		 	</p>
-    		<label style="font-size:12px">案情等级：</label><input id="txtCaseLevel" class="easyui-combobox"  data-options="valueField:'id',textField:'name',url:'data/combobox_caseType.json'" />
+    		<label style="font-size:12px">案情等级：</label><input id="txtCaseLevel" class="easyui-combobox" style="width:154px;"  data-options="valueField:'id',textField:'name',url:'data/combobox_caseType.json'" />
     		<div style="height:300px;padding:5px">
     			<label style="font-size:14px">选择派出所推送案件:</label>
     			<ul id="organTreeView" class="easyui-tree" data-options="url:'data/tree_organ.json',method:'get',animate:true,checkbox:true"></ul>
     		</div>
+    	</div>
+    </div>
+    <div style="display:none">
+    	<div id="div_distributeInfo" style="width:100%">
+    		  <div id="distributeRecGrid"  style="width:450px;height:260px;margin:5px" ></div>
     	</div>
     </div>
   </body>

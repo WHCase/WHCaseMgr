@@ -77,7 +77,7 @@ var CaseDetailsManage = {
 			if(caseInfo==undefined){
 				return;
 			}
-			$('#txtCaseNo').val(caseInfo.id);
+			$('#txtCaseNo').val(caseInfo.code);
 			$('#txtCaseName').val(caseInfo.name);
 			$('#txtCaseType').val(caseInfo.categoryName);
 			$('#txtCaseTime').val(caseInfo.startTime);

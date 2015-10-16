@@ -1,8 +1,11 @@
-var m_index_organTye;   
+var m_index_organTye;
+var m_index_organId;
 
 $(function() {
 	var obj = getUrlArgs();
-	m_index_organTye = obj.organType; 
+	m_index_organTye = obj.organType;
+	m_index_organId = obj.organId;
+	
 	var url = "";
 	if(m_index_organTye==0||m_index_organTye=="0"){
 		url = "data/policeofficeMenu.json";
@@ -35,11 +38,17 @@ function onTreeMenuDblClick(row) {
 		src = "view/policeoffice/casedistributeList.jsp?caseType=0";//除去"未分配"的所有案件
 		break;
 	case "案件接收":
-		src = "view/policestation/casereceiveList.jsp?caseType=2&organId="+m_index_organTye;//未接收
+		src = "view/policestation/casereceiveList.jsp?caseType=2&organId="+m_index_organId;//未接收
 		break; 
 	case "案件反馈":
-		src = "view/policestation/casereceiveList.jsp?caseType=4&organId="+m_index_organTye;//已接收
-		break; 
+		src = "view/policestation/casereceiveList.jsp?caseType=4&organId="+m_index_organId;//已接收
+		break;
+	case "案件统计":
+		src = "view/policestation/caseTJ.jsp?organType="+m_index_organTye+"&organId="+m_index_organId;//派出所
+		break;
+	case "案件统计详情":
+		src = "view/policeoffice/caseTJ.jsp?organType="+m_index_organTye+"&organId="+m_index_organId;//分局
+		break;
 	}
 	$("#ifrContent").attr("src", src); 
 }

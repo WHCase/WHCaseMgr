@@ -30,7 +30,7 @@
     <div style="display:none">
     	<div id="div_backInfo" style="width:520px;height:420px">
     		<p id="tb_operation" style="padding:2px;border-bottom:1px solid black;width:99%;">
-		 		<a id="btnSaveBackInfo" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-save" plain="true">保存</a> 
+		 		<a id="btnSaveBackInfo" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-save" plain="true">反馈</a> 
 				<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-close" plain="true">关闭</a> 
 		 	</p>
     		 <p>

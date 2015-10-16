@@ -2,6 +2,7 @@ package com.tianyi.whcase.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,8 +31,10 @@ import com.tianyi.whcase.core.Result;
 import com.tianyi.whcase.model.Case;
 import com.tianyi.whcase.model.CaseCategory;
 import com.tianyi.whcase.model.CaseUnit;
+import com.tianyi.whcase.service.CaseOrganService;
 import com.tianyi.whcase.service.CaseService;
 import com.tianyi.whcase.service.JieShangService;
+import com.tianyi.whcase.viewmodel.CaseTJVM;
 import com.tianyi.whcase.viewmodel.CaseVM;
 import com.tianyi.whcase.viewmodel.DistributeCase;
 
@@ -46,6 +49,8 @@ public class CaseController {
 	
 	@Autowired CaseService caseService;
 	@Autowired JieShangService jieShangService;
+	@Autowired CaseOrganService caseOrganService;
+	
 	/**
 	 * 
 	 * @param caseInfo
@@ -64,8 +69,12 @@ public class CaseController {
 		Case caseinfo = (Case) JSONObject.toBean(jObj,Case.class);
 		
 		Integer receiveStatus = caseinfo.getReceiveStatus();
-		ListResult<CaseVM> caseList =caseService.getCasePushListByReceiveStatus(receiveStatus); 
-
+		ListResult<CaseVM> caseList;
+		if(receiveStatus>0){
+		  caseList =caseService.getCasePushListByReceiveStatus(receiveStatus); 
+		}else{
+			 caseList =caseService.getCaseFeedBackListByReceiveStatus(); 
+		}
 		return caseList.toJson();
 	}
 	@RequestMapping(value = "getDistributeCaseList.do", produces = "application/json;charset=UTF-8")
@@ -175,6 +184,17 @@ public class CaseController {
 			return result.toJson();
 		}
 	}
+	@RequestMapping(value = "getCaseTJInfo.do",produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getCaseTJInfo(
+			HttpServletRequest request
+			)throws Exception{
+		CaseTJVM caseTJ = caseService.getCaseTJInfo();
+		List<CaseTJVM> list = new ArrayList<CaseTJVM>();
+		list.add(caseTJ);
+		ListResult<CaseTJVM> caseTJResult = new ListResult<CaseTJVM>(list);
+		return caseTJResult.toJson();
+	}
+	
 	/**
 	 * 
 	 * @param caseId
@@ -185,9 +205,10 @@ public class CaseController {
 	@RequestMapping(value = "changeCaseReceiveStatusAndLevel.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String changeCaseReceiveStatusAndLevel(
 			@RequestParam(value="caseId",required = false) String caseId,
-			@RequestParam(value="caseLevel",required = false) String caseLevel,
+			@RequestParam(value="caseLevel",required = false) String caseLevel,			
 			HttpServletRequest request)throws Exception{
-		String temp = caseService.updateCaseReceiveStatus(Constants.RECEIVE_STATUS__DISTRIBUTED,caseLevel,caseId);
+		String temp = caseService.updateCaseReceiveStatusAndLevel(Constants.RECEIVE_STATUS__DISTRIBUTED,caseLevel,caseId);
+		
 		Result<Case> result = new Result<Case>(null,true,false,false,temp);
 		return result.toJson();
 	}
@@ -203,10 +224,12 @@ public class CaseController {
 	public @ResponseBody String acceptPushCase(
 			@RequestParam(value="caseId",required= false) String caseId,
 			@RequestParam(value="caseLevel", required = false) String caseLevel,
+			@RequestParam(value="organId",required = false) int organId,
 			HttpServletRequest request)throws Exception{
 			
-		String temp = caseService.updateCaseReceiveStatus(Constants.RECEIVE_STATUS__ACCEPTED,caseLevel,caseId);
-		Result<Case> result = new Result<Case>(null,true,false,false,temp);
+		String temp = caseService.updateCaseReceiveStatusAndLevel(Constants.RECEIVE_STATUS__ACCEPTED,caseLevel,caseId);
+		temp = caseOrganService.updateReiceive(caseId,organId);
+		Result<Case> result = new Result<Case>(null,true,temp);
 		return result.toJson();
 	}
 	/**

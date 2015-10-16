@@ -6,6 +6,7 @@ public class CaseVM extends Case {
 	private String categoryName;
 	private String detectedunitNname;
 	private String organizationame;
+	private int distributeStatus;
 	
 	public String getCategoryName() {
 		return categoryName;
@@ -24,6 +25,13 @@ public class CaseVM extends Case {
 	}
 	public void setOrganizationame(String organizationame) {
 		this.organizationame = organizationame;
+	}
+	
+	public int getDistributeStatus() {
+		return distributeStatus;
+	}
+	public void setDistributeStatus(int distributeStatus) {
+		this.distributeStatus = distributeStatus;
 	}
 	public Case getCase(){
 		Case c = new Case();

@@ -9,6 +9,7 @@ import com.tianyi.whcase.core.ListResult;
 import com.tianyi.whcase.model.Case;
 import com.tianyi.whcase.model.CaseCategory;
 import com.tianyi.whcase.model.CaseUnit;
+import com.tianyi.whcase.viewmodel.CaseTJVM;
 import com.tianyi.whcase.viewmodel.CaseVM;
 
 @Service
@@ -37,8 +38,13 @@ public interface CaseService {
 
 	int updateCase(Case c);
 
-	String updateCaseReceiveStatus(int receiveStatus,String level, String caseId);
+	String updateCaseReceiveStatusAndLevel(int receiveStatus,String level, String caseId);
+	String updateCaseReceiveStatus(int receiveStatus, String caseId);
 
 	List<CaseVM> getDistributeCase(int receiveStatus, List<String> caseIdList);
+
+	ListResult<CaseVM> getCaseFeedBackListByReceiveStatus();
+
+	CaseTJVM getCaseTJInfo();
 
 }

@@ -33,7 +33,9 @@ public class JieShangService {
 	 */
 	public String updateCCase(CaseVM caseInfo){		
 		try {
-			String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
+			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
+			String urlStr = "http://192.168.0.201:40000/center/UpdateCCase";
+			
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true); 
@@ -125,7 +127,8 @@ public class JieShangService {
 	public MediaSvrStatus getAllMsSvrStatus(){
 		MediaSvrStatus s = new MediaSvrStatus(); 
 		try {
-			String urlStr = "http://223.223.183.242:40000/center/GetAllMsSvrStatus";
+//			String urlStr = "http://223.223.183.242:40000/center/GetAllMsSvrStatus";
+			String urlStr = "http://192.168.0.201:40000/center/GetAllMsSvrStatus";
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true); 
@@ -177,7 +180,9 @@ public class JieShangService {
 	public WorkspaceInfo getWorkspaceInfo(){
 		WorkspaceInfo wsInfo = new WorkspaceInfo();
 		try {
-			String urlStr = "http://223.223.183.242:40000/center/GetWorkspacesInfoList";
+			//String urlStr = "http://223.223.183.242:40000/center/GetWorkspacesInfoList";
+			String urlStr = "http://192.168.0.201:40000/center/GetWorkspacesInfoList";
+			
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true); 
@@ -285,7 +290,9 @@ public class JieShangService {
 	public String addCCaseMessage(String caseId,CaseAttachVM attach){
 		
 		try {
-			String urlStr = "http://223.223.183.242:40000/center/AddCCaseMessage?caseId="+caseId;
+			//String urlStr = "http://223.223.183.242:40000/center/AddCCaseMessage?caseId="+caseId;
+			String urlStr = "http://192.168.0.201:40000/center/AddCCaseMessage?caseId="+caseId;
+			
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true); 
@@ -314,7 +321,9 @@ public class JieShangService {
 	/*删除附件*/
 	public int deleteCaseAttach(String caseId,String attachItemId){
 		try {
-			String urlStr = "http://223.223.183.242:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
+			//String urlStr = "http://223.223.183.242:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
+			String urlStr = "http://192.168.0.201:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
+			
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true); 

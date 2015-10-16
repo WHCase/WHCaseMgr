@@ -110,7 +110,7 @@ var CaseDetailsManage = {
 			if(caseInfo==undefined){
 				return;
 			}
-			$('#txtCaseNo').val(caseInfo.id);
+			$('#txtCaseNo').val(caseInfo.code);
 			$('#txtCaseName').val(caseInfo.name);
 			$('#txtCaseType').val(caseInfo.categoryName);
 			$('#txtCaseTime').val(caseInfo.startTime);
@@ -125,7 +125,7 @@ var CaseDetailsManage = {
 			if(caseFeedInfo==null){
 				return;
 			}
-			$('#txtCaseBackNo').val(caseFeedInfo.id);
+			$('#txtCaseBackNo').val(caseFeedInfo.code);
 			$('#txtCaseBackName').val(caseFeedInfo.caseName);
 			$('#txtBackWords').val(caseFeedInfo.content);
 			$('#txtCaseBackResult').val(caseFeedInfo.caseResult);

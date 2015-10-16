@@ -9,35 +9,32 @@ import org.springframework.stereotype.Service;
 
 import com.tianyi.whcase.core.ListResult;
 import com.tianyi.whcase.dao.CaseMapper;
+import com.tianyi.whcase.dao.CaseOrganMapper;
 import com.tianyi.whcase.model.Case;
 import com.tianyi.whcase.model.CaseCategory;
 import com.tianyi.whcase.model.CaseUnit;
 import com.tianyi.whcase.service.CaseService;
+import com.tianyi.whcase.viewmodel.CaseTJVM;
 import com.tianyi.whcase.viewmodel.CaseVM;
- 
+
 @Service
 public class CaseServiceImpl implements CaseService {
-	
-	@Autowired CaseMapper caseMapper;
 
+	@Autowired
+	CaseMapper caseMapper;
+	@Autowired
+	CaseOrganMapper caseOrganMapper;
 	/**
 	 * 获取案件列表
-	 * @return 
+	 * 
+	 * @return
 	 */
-	public ListResult<CaseVM> getCasePushListByReceiveStatus(Integer receiveStatus) {
-		if(receiveStatus ==0){
-			int count = caseMapper.selectCountDistributedCase(1);
-			List<CaseVM> caseList =caseMapper.selectDistributedCase(1);
-			ListResult<CaseVM> list = new ListResult<CaseVM>(count,caseList);
-			return list;
-		}else{
-			int count = caseMapper.selectVMCountByReceiveStatus(receiveStatus);
-			List<CaseVM> caseList =caseMapper.selectByReceiveStatus(receiveStatus); 
-			ListResult<CaseVM> list = new ListResult<CaseVM>(count,caseList);
-			return list;
-		}
-		
-		
+	public ListResult<CaseVM> getCasePushListByReceiveStatus(
+			Integer receiveStatus) {
+		int count = caseMapper.selectUnFeedBackVMCount();
+		List<CaseVM> caseList = caseMapper.selectUnFeedBackDistributedCase();
+		ListResult<CaseVM> list = new ListResult<CaseVM>(count, caseList);
+		return list;
 	}
 
 	public CaseVM getCaseMainInfo(String caseId) {
@@ -46,8 +43,8 @@ public class CaseServiceImpl implements CaseService {
 
 	public String saveCaseInfo(CaseVM caseInfo) {
 		Case c = caseInfo.getCase();
-		int temp =caseMapper.updateByPrimaryKey(c);
-		if(temp==0){
+		int temp = caseMapper.updateByPrimaryKey(c);
+		if (temp == 0) {
 			return "未进行修改";
 		}
 		return "";
@@ -63,24 +60,23 @@ public class CaseServiceImpl implements CaseService {
 
 	public String insert(Case c) {
 		Case tempC = caseMapper.selectByPrimaryKey(c.getId());
-		if(tempC!=null){
+		if (tempC != null) {
 			return "获取的案件已经存在";
 		}
-		int temp = caseMapper.insert(c); 
-		if(temp>0){
+		int temp = caseMapper.insert(c);
+		if (temp > 0) {
 			return "";
-		}else{
+		} else {
 			return "案件插入失败";
 		}
-		
-		
+
 	}
 
 	public ListResult<CaseVM> getCasePushListByPageAndRow(
 			Map<String, Object> map) {
-		int count=caseMapper.countByMap(map);
-		List<CaseVM> ls=caseMapper.loaCaselistWithPage(map);
-		ListResult<CaseVM> result=new ListResult<CaseVM>(count,ls);
+		int count = caseMapper.countByMap(map);
+		List<CaseVM> ls = caseMapper.loaCaselistWithPage(map);
+		ListResult<CaseVM> result = new ListResult<CaseVM>(count, ls);
 		return result;
 	}
 
@@ -92,25 +88,74 @@ public class CaseServiceImpl implements CaseService {
 		return caseMapper.updateByPrimaryKey(c);
 	}
 
-	public String updateCaseReceiveStatus(int receiveStatus,String level,  String caseId) {
-		int temp = caseMapper.updateCaseReceiveStatus(receiveStatus,level,caseId);
-		if(temp>0){
+	public String updateCaseReceiveStatusAndLevel(int receiveStatus, String level,
+			String caseId) {
+		int temp = caseMapper.updateCaseReceiveStatusAndLevel(receiveStatus, level,
+				caseId);
+		if (temp > 0) {
 			return "修改状态成功";
-		}else{
+		} else {
 			return "修改失败";
 		}
 	}
 
+	public String updateCaseReceiveStatus(int receiveStatus, String caseId) {
+		int temp = caseMapper.updateCaseReceiveStatus(receiveStatus,caseId);
+		if (temp > 0) {
+			return "修改状态成功";
+		} else {
+			return "修改失败";
+		}
+	}
 	public List<CaseVM> getDistributeCase(int receiveStatus,
 			List<String> caseIdList) {
 		List<CaseVM> caseVMList = new ArrayList<CaseVM>();
-		for(int i = 0;i<caseIdList.size();i++){
-			CaseVM temp = caseMapper.selectByCaseIdAndReceiveStatus(receiveStatus,caseIdList.get(i));
-			if(temp !=null){
+		for (int i = 0; i < caseIdList.size(); i++) {
+			CaseVM temp = caseMapper.selectByCaseIdAndReceiveStatus(
+					receiveStatus, caseIdList.get(i));
+			if (temp != null) {
 				caseVMList.add(temp);
 			}
 		}
 		return caseVMList;
 	}
+
+	public ListResult<CaseVM> getCaseFeedBackListByReceiveStatus() {
+		// TODO Auto-generated method stub
+		int count = caseMapper.selectVMCountByReceiveStatus(6);
+		List<CaseVM> caseList = caseMapper.selectByReceiveStatus(6);
+		ListResult<CaseVM> list = new ListResult<CaseVM>(count, caseList);
+		return list;
+
+	}
+
+	public CaseTJVM getCaseTJInfo() {
+		// TODO Auto-generated method stub
+		CaseTJVM caseTJ = new CaseTJVM();
+		
+		caseTJ.setCaseTotalCount(caseMapper.selectCountCase());
+		
+		int distribute = caseMapper.selectCountCaseByReceiveStatus(2);
+		
+		int notReceive = caseMapper.selectCountCaseByReceiveStatus(3);
+		int receive = caseMapper.selectCountCaseByReceiveStatus(4);
+		int notFeedBack = caseMapper.selectCountCaseByReceiveStatus(5);
+		int feedBack = caseMapper.selectCountCaseByReceiveStatus(6);
+		
+		caseTJ.setDistributedCaseCount(distribute+receive+notReceive+feedBack+notFeedBack);
+		caseTJ.setNotDistributeCaseCount(caseMapper.selectCountCaseByReceiveStatus(1));
+		
+		caseTJ.setReceivedCaseCount(receive+feedBack+notFeedBack);
+		caseTJ.setNotReceivedCaseCount(notReceive);
+		
+		caseTJ.setFeedBackCaseCount(feedBack);
+		caseTJ.setNotFeedBackCaseCount(notFeedBack);
+		
+		
+				
+		return caseTJ;
+	}
+
+
 
 }
