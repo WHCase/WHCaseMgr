@@ -42,6 +42,13 @@
        	 </p>
        </div> 
        <div title="案件反馈信息" style="padding:10px">
+       
+ 	 <div>
+ 	 	<p style="padding:2px;border-bottom:1px solid black;width:99%;"> 
+ 	 		<label style="font-size:12px">反馈单位：</label>
+			<input id="feedbackOrgan" class="easyui-combobox" data-options="editable:false" />
+		</p>
+	</div>
        	  <p>
        		<label style="font-size:12px">案件编号：</label><input id="txtCaseBackNo" class="easyui-validatebox" readonly="readonly" />
        		<label style="font-size:12px">案件名称：</label><input id="txtCaseBackName" class="easyui-validatebox" readonly="readonly" />

@@ -27,7 +27,9 @@
   <select id="selectRecordLiseByCaseId" resultType="com.tianyi.whcase.viewmodel.caseOrganVM" parameterType="java.lang.String"  >
     select 
      c.id as id,
-     o.name as organName
+     o.name as organName,
+     c.sender_time as senderTime,
+     c.receive_time as receiveTime
     from t_case_organ c 
     left join t_organ o on c.organization_id = o.id
     where case_id = #{0} 

@@ -1,5 +1,7 @@
 package com.tianyi.whcase.viewmodel;
 
+import java.util.Date;
+
 import com.tianyi.whcase.model.Case;
 
 public class CaseVM extends Case {
@@ -7,7 +9,21 @@ public class CaseVM extends Case {
 	private String detectedunitNname;
 	private String organizationame;
 	private int distributeStatus;
+	private Date receiveTime;
+	private Date feedTime;
 	
+	public Date getFeedTime() {
+		return feedTime;
+	}
+	public void setFeedTime(Date feedTime) {
+		this.feedTime = feedTime;
+	}
+	public Date getReceiveTime() {
+		return receiveTime;
+	}
+	public void setReceiveTime(Date receiveTime) {
+		this.receiveTime = receiveTime;
+	}
 	public String getCategoryName() {
 		return categoryName;
 	}

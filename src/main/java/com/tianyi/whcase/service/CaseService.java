@@ -49,4 +49,8 @@ public interface CaseService {
 
 	CaseTJVM getCaseTJInfo(Map<String, Object> map);
 
+	List<CaseVM> getDistributeCaseByOrganId(Map<String, Object> map);
+
+	List<CaseVM> getFeedCaseByOrganId(Map<String, Object> map);
+
 }

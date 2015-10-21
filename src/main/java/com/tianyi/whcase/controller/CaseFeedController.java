@@ -1,10 +1,13 @@
 package com.tianyi.whcase.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,7 @@ import com.tianyi.whcase.core.ListResult;
 import com.tianyi.whcase.core.Result;
 import com.tianyi.whcase.model.CaseAttachItem;
 import com.tianyi.whcase.model.CaseFeed;
+import com.tianyi.whcase.model.Organ;
 import com.tianyi.whcase.service.CaseFeedService;
 import com.tianyi.whcase.service.CaseService;
 import com.tianyi.whcase.viewmodel.CaseFeedVM;
@@ -52,11 +56,14 @@ public class CaseFeedController {
 	@RequestMapping(value = "getCaseBackMainInfo.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String getCaseBackMainInfo(
 		@RequestParam(value="caseId",required = false) String id,
+		@RequestParam(value="organId",required = false) Integer organId,
 		HttpServletRequest request)throws Exception{
 		
 		try {
-			CaseFeedVM caseFeedAttachItemList = caseFeedService.getCaseBackMainInfo(id);
-			
+			Map<String, Object> map = new HashMap<String, Object>();   
+			map.put("caseId", id); 
+			map.put("organId", organId);
+			CaseFeedVM caseFeedAttachItemList = caseFeedService.getCaseBackMainInfo(map);
 			Result<CaseFeedVM> result = new Result<CaseFeedVM>(caseFeedAttachItemList, true, false,
 					false, "查询数据成功");
 			return result.toJson();
@@ -91,6 +98,19 @@ public class CaseFeedController {
 			Result<CaseFeed> result = new Result<CaseFeed>(null, false, false, false,
 					"案件反馈信息编辑失败");
 			return result.toJson();
+		}
+	}
+	@RequestMapping(value = "getFeedBackOrganById.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getFeedBackOrganById(
+		@RequestParam(value="caseId",required = false) String id,
+		HttpServletRequest request)throws Exception{
+		
+		try {
+			List<Organ> list = caseFeedService.getFeedBackOrganById(id);
+			JSONArray result = JSONArray.fromObject(list);
+			return result.toString();
+		} catch (Exception ex) {
+			return "";
 		}
 	}
 	

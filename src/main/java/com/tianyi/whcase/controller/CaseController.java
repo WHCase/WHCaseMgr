@@ -84,10 +84,19 @@ public class CaseController {
 
 		JSONObject jObj = JSONObject.fromObject(caseInfo);
 		DistributeCase distributeCase = (DistributeCase)JSONObject.toBean(jObj,DistributeCase.class);
-		if(distributeCase.getCaseIdList() ==null){
-			return new ListResult<CaseVM>(null).toJson();
+		//if(distributeCase.getCaseIdList() ==null||distributeCase.getCaseIdList().size()==0){
+		//	return new ListResult<CaseVM>(null).toJson();
+		//}
+		Map<String, Object> map = new HashMap<String, Object>();   
+		List<CaseVM> caseList = new ArrayList<CaseVM>();
+		if(distributeCase.getCaseType()==2){
+			map.put("organId", distributeCase.getOrganId());
+			//map.put("organId", distributeCase.getOrganId());
+			caseList = caseService.getDistributeCaseByOrganId(map); 
+		}else{
+			map.put("organId", distributeCase.getOrganId());
+			caseList = caseService.getFeedCaseByOrganId(map);
 		}
-		List<CaseVM> caseList =caseService.getDistributeCase(distributeCase.getReceiveStatus(),distributeCase.getCaseIdList()); 
 		ListResult<CaseVM> result = new ListResult<CaseVM>(caseList);
 
 		return result.toJson();

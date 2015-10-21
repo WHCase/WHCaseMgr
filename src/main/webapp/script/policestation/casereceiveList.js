@@ -7,6 +7,7 @@ var m_caseBack_dlg;
 var m_caseNo;
 var m_caseId;
 var isShow = false;
+var isFeed = false;
 
 /**
  * 列表中选中的行号和行数据
@@ -18,15 +19,19 @@ $(function() {
 	var obj = getUrlArgs();
 	m_caseType = obj.caseType; 
 	m_organ_id = obj.organId;
-	
+
+	m_caseInfo_Object.organId = m_organ_id;
+	m_caseInfo_Object.caseType = m_caseType;
 	if(m_caseType==2||m_caseType == "2"){
+		isFeed = true;
 		$("#caseBackTb a[doc='caseReBack']").attr("style","display:none");
 		$("#caseBackTb a[doc='caseReceive']").attr("style","display:none");
 	}else{
 		isShow = true;
 		$("#caseBackTb a[doc='caseReceive']").attr("style","display:none");
 	}
-	CaseManage.packageObject();
+	//CaseManage.packageObject();
+	CaseManage.loadCaseList();
 	
 	$("#receiveCase").bind("click", CaseManage.receiveCase);
 	$("#rebackCase").bind("click", CaseManage.rebackCase);
@@ -116,18 +121,29 @@ var CaseManage = {
 				idField : 'id',
 				onClickRow:CaseManage.setRowInfoBySelect,
 				onDblClickRow : CaseManage.showCaseInfo,
-				//toolbar : "#caseBackTb",
+				toolbar : "#caseBackTb",
 				columns : [ [ 
 				              { title : 'id', field : 'id', hidden : true },
 				              { title : '操作', field : 'operation', align : 'center', width : 150,formatter:function(value,rowData,index){
+				            	 //if(rowData.receiveTime==undefined||rowData.receiveTime==""||rowData.receiveTime==null){
 				            	  var html = '<a id="'+rowData.id+'" name="receiveCase"'
 				            		  		+'href="javascript:void(0);" onclick="CaseManage.receiveCase('+index+')" class="easyui-linkbutton"'
 				            		  		+'>接收</a>';
 				            	  return html;
+				            	  /* }else{*/
+				            	  //return "已接收";
+				              //}
 				              },hidden:isShow},
+				              { title : '反馈状态', field : 'feedSttus', align : 'center', width : 150,formatter:function(value,rowData,index){
+				            	  if(rowData.feedTime==undefined||rowData.feedTime==""||rowData.feedTime==null){
+				            	  return "<span style='color:red'>未反馈</span>"
+				            	   }else{
+				            	  return "已反馈";
+				              }
+				              },hidden:isFeed },
 				              { title : '案件等级', field : 'level', align : 'center', width : 150 },
 				              { title : '案件状态', field : 'status', align : 'center', width : 150 },
-				              { title : '案件编号', field : 'caseNo', align : 'center', width : 150 },
+				              { title : '案件编号', field : 'code', align : 'center', width : 150 },
 				              { title : '案件名称', field : 'name', align : 'center', width : 150 },
 				              { title : '案件类型', field : 'categoryName', align : 'center', width : 150 },
 				              { title : '案件时间', field : 'startTime', align : 'center', width : 150 },

@@ -3,9 +3,17 @@ var m_caseInfo_no;
 $(function() { 
 	var obj = getUrlArgs(); 
 	m_caseInfo_no = obj.caseNo;  
-	m_caseInfo_id = obj.caseId;  
+	m_caseInfo_id = obj.caseId;   
 	CaseDetailsManage.loadCaseInfo();
 	$("#btnCancelSave").bind("click", CaseDetailsManage.cancelSave);
+	$("#feedbackOrgan").combobox({
+		url:'caseFeed/getFeedBackOrganById.do?caseId='+m_caseInfo_id,  
+	    valueField:'id',  
+	    textField:'name',
+	    onSelect:function(record){
+	    	CaseDetailsManage.loadCaseBackMainInfo(record.id);
+	    }
+	});
 });
 
 var CaseDetailsManage = {  
@@ -34,7 +42,7 @@ var CaseDetailsManage = {
 			
 		},
 		loadCaseBackInfo:function(){
-			CaseDetailsManage.loadCaseBackMainInfo();
+			CaseDetailsManage.loadCaseBackMainInfo(0);
 			CaseDetailsManage.loadCaseBackAttchMents();
 		},
 		loadCaseRelative:function(){
@@ -71,13 +79,17 @@ var CaseDetailsManage = {
 				          ] ]
 			});
 		},
-		loadCaseBackMainInfo:function(){
+		loadCaseBackMainInfo:function(orgId){
 			$.ajax('caseFeed/getCaseBackMainInfo.do',{
 				type:'POST',
-				data:{caseId:m_caseInfo_id},
+				data:{caseId:m_caseInfo_id,organId:orgId},
 				success:function(responce){
 					if(responce.isSuccess){
-						CaseDetailsManage.mainCaseBackInfoBind(responce.data);
+						if(responce.data){
+							CaseDetailsManage.mainCaseBackInfoBind(responce.data);
+						}else{
+							$.messager.alert('查询数据', "没有相关反馈信息", "warning");
+						}
 					}else{
 						$.messager.alert('查询数据', responce.msg, "warning");
 					}
@@ -130,7 +142,7 @@ var CaseDetailsManage = {
 			$('#txtBackWords').val(caseFeedInfo.content);
 			$('#txtCaseBackResult').val(caseFeedInfo.caseResult);
 			$('#txtCaseBackTime').val(caseFeedInfo.createTime);
-			$('#txtCaseBackOrgan').val(caseFeedInfo.organizationId);
+			$('#txtCaseBackOrgan').val(caseFeedInfo.organName);
 			$('#txtCaseBackCreator').val(caseFeedInfo.creator);
 		}
 };

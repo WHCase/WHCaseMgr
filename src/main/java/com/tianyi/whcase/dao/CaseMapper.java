@@ -52,4 +52,8 @@ public interface CaseMapper {
 	int selectCountCaseByCondition(Map<String, Object> map);
 
 	int selectTotalCountByCondition(Map<String, Object> map);
+
+	List<CaseVM> selectByorganId(Map<String, Object> map);
+
+	List<CaseVM> selectFeedCaseByorganId(Map<String, Object> map);
 }

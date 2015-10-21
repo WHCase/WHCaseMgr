@@ -43,7 +43,8 @@ var CasePushManage = {
 			 */
 			var doc = CasePushManage.createXML();
 			var xmlHttp = CasePushManage.createXMLHttpRequest();
-			xmlHttp.open("post",'http://223.223.183.242:40000/center/UpdateCCase',true);
+			//xmlHttp.open("post",'http://223.223.183.242:40000/center/UpdateCCase',true);
+			xmlHttp.open("post",'http://192.168.0.201:40000/center/UpdateCCase',true);
 			xmlHttp.onreadystatechange = CasePushManage.handleStateChange;
 			xmlHttp.setRequestHeader("Content-Type","application/xml;charset=utf-8");
 			xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
@@ -177,7 +178,12 @@ var CasePushManage = {
 				              { title : '分配状态', field : 'status', align : 'center', width : 150,formatter:function(value,rowData,index){
 				            	  return "已分配";
 				              }},
-				              { title : '分配时间', field : 'disTime', align : 'center', width : 150,hidden:true }
+				              { title : '分配时间', field : 'senderTime', align : 'center', width : 250 },
+				              { title : '接收状态', field : 'receiveTime', align : 'center', width : 150,formatter:function(value,rowData,index){
+				            	  if(rowData.receiveTime==undefined||rowData.receiveTime==""||rowData.receiveTime==null){
+				            		  return "<span style='color:red'>未接收</span>";
+				            	  }else{return "<span>已接收</span>";}
+				              } }
 				          ] ]
 			});
 			var s = art

@@ -25,6 +25,36 @@
     from t_case_feed
     where case_id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectByCondition" resultMap="BaseResultMap"   parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_case_feed
+    where case_id = #{caseId,jdbcType=VARCHAR} and organization_id = #{organId,jdbcType=INTEGER}
+  </select>
+  <select id="getFeedBackOrganById" resultType="com.tianyi.whcase.model.Organ"   parameterType="java.lang.String" >
+   SELECT o.id,o.name FROM t_case_feed cf
+	left join t_organ o on cf.organization_id = o.id
+    where cf.case_id = #{id,jdbcType=VARCHAR} 
+  </select>
+  <select id="getCaseBackMainInfo"  resultType="com.tianyi.whcase.viewmodel.CaseFeedVM"    parameterType="java.util.Map">
+    select 
+    cf.id				as id, 
+    cf.case_id			as caseId,
+     cf.content			as content, 
+    cf.case_result		as caseResult, 
+    cf.create_time		as createTime, 
+    cf.organization_id	as organizationId, 
+    cf.creator			as creator,
+    c.name 				as caseName,
+    o.name 				as organName
+    from t_case_feed cf
+    left join t_case c on c.id = cf.case_id
+    left join t_organ o on cf.organization_id = o.id
+    where cf.case_id = #{caseId,jdbcType=VARCHAR}
+    <if test="organId >0">
+    	and cf.organization_id =  #{organId,jdbcType=INTEGER}
+    </if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_case_feed
     where id = #{id,jdbcType=VARCHAR}

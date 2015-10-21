@@ -50,6 +50,8 @@
     <result column="detectedunit_name" property="detectedunitNname" jdbcType="VARCHAR" />
     <result column="organization_name" property="organizationame" jdbcType="VARCHAR" />
     <result column="distribute_status" property="distributeStatus" jdbcType="INTEGER" />
+    <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" />
+    <result column="feed_time" property="feedTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, creator, create_time, code, categories_id, start_time, summary, status, 
@@ -153,7 +155,7 @@
    detectedunit_id,detectedunit_name
    from t_case_detectedunit_type
   </select>
-  <select id="selectByCaseIdAndReceiveStatus" resultMap="BaseVMResultMap">
+  <select id="selectByCaseIdAndReceiveStatuss" resultMap="BaseVMResultMap">
   	select
   	<include refid="BaseVM_Column_List" />
     from t_case a 
@@ -162,7 +164,64 @@
     left join t_case_organ_type d on a.organization_id = d.organization_id
     where a.id = #{1} and a.receive_status =#{0}
   </select>
-    <select id="selectDistributedCase" resultMap="BaseVMResultMap">
+  
+  <select id="selectByorganId" resultMap="BaseVMResultMap"   parameterType="java.util.Map">
+  	select
+  	a.id, 
+  	a.name, 
+  	a.creator, 
+  	a.create_time, 
+  	a.code, 
+  	a.categories_id, 
+  	a.start_time, 
+  	a.summary, 
+  	a.status, 
+    a.case_group_id, 
+    a.isregister, 
+    a.level, 
+    a.longitude, 
+    a.latitude, 
+    a.organization_id, 
+    a.detectedunit_id,
+    a.receive_status,
+    b.category_name,
+    c.detectedunit_name,
+    d.organization_name,
+    co.receive_time
+    from t_case_organ co
+    left join t_case a on co.case_id = a.id
+    left join t_case_category_type b on a.categories_id = b.category_id
+    left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id
+    left join t_case_organ_type d on a.organization_id = d.organization_id
+    where 1=1 and co.receive_time is null
+    <if test="organId != null">
+    	and   co.organization_id = #{organId,jdbcType=INTEGER}
+    </if>
+    order by co.receive_time asc
+  </select>
+  
+  <select id="selectFeedCaseByorganId" resultMap="BaseVMResultMap"   parameterType="java.util.Map">
+  	
+  select    a.id,     a.name,     a.creator,     a.create_time,   
+  a.code,    
+ a.categories_id,     a.start_time,     a.summary,     a.status,     
+ a.case_group_id,      a.isregister,      a.level,      a.longitude,   
+   a.latitude,      a.organization_id,      a.detectedunit_id, 
+    a.receive_status,     b.category_name,     c.detectedunit_name,  
+   d.organization_name,     co.receive_time ,cf.create_time  as feed_time
+ from t_case_organ co    
+ left join t_case a on co.case_id = a.id     
+left join t_case_category_type b on a.categories_id = b.category_id    
+ left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id     
+left join t_case_organ_type d on a.organization_id = d.organization_id 
+left join t_case_feed cf on co.case_id = cf.case_id  and co.organization_id = cf.organization_id  
+where 1=1 and co.receive_time is not null   
+<if test="organId != null">
+     and   co.organization_id =#{organId,jdbcType=INTEGER}
+</if>        order by co.receive_time asc
+  
+  </select>
+   <select id="selectDistributedCase" resultMap="BaseVMResultMap">
   	select
   	<include refid="BaseVM_Column_List" />
     from t_case a 
@@ -180,7 +239,7 @@
     left join t_case_category_type b on a.categories_id = b.category_id
     left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id
     left join t_case_organ_type d on a.organization_id = d.organization_id
-    where a.receive_status in (1,2,3,4,5)
+    where a.receive_status in (1,2,3,4,5,6)
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_case

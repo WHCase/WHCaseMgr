@@ -188,6 +188,18 @@ public class CaseServiceImpl implements CaseService {
 		return caseTJ;
 	}
 
+	public List<CaseVM> getDistributeCaseByOrganId(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		List<CaseVM> caseVMList = new ArrayList<CaseVM>();
+		caseVMList = caseMapper.selectByorganId(map);
+		return caseVMList;
+	}
 
+	public List<CaseVM> getFeedCaseByOrganId(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		List<CaseVM> caseVMList = new ArrayList<CaseVM>();
+		caseVMList = caseMapper.selectFeedCaseByorganId(map);
+		return caseVMList;
+	}
 
 }

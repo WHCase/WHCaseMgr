@@ -1,13 +1,28 @@
 package com.tianyi.whcase.viewmodel;
 
+import java.util.Date;
 import java.util.List;
 
 public class caseOrganVM {
 	private String caseId;
 	private List<Integer> organList;
 	private int organId;
+	private Date receiveTime;
+	private Date senderTime;
+	public Date getSenderTime() {
+		return senderTime;
+	}
+	public void setSenderTime(Date senderTime) {
+		this.senderTime = senderTime;
+	}
 	public int getOrganId() {
 		return organId;
+	}
+	public Date getReceiveTime() {
+		return receiveTime;
+	}
+	public void setReceiveTime(Date receiveTime) {
+		this.receiveTime = receiveTime;
 	}
 	public void setOrganId(int organId) {
 		this.organId = organId;
