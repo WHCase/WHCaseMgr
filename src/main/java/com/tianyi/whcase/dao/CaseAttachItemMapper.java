@@ -2,7 +2,6 @@ package com.tianyi.whcase.dao;
 
 import java.util.List;
 
-import com.tianyi.whcase.core.ListResult;
 import com.tianyi.whcase.core.MyBatisRepository;
 import com.tianyi.whcase.model.CaseAttachItem;
 @MyBatisRepository

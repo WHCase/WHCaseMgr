@@ -16,7 +16,7 @@
    
 <link href='<%=basePath%>css/easyui/icon.css'	media='all' rel='stylesheet' type='text/css' />
 <link href='<%=basePath%>css/jquery.loadmask.css'	media='all' rel='stylesheet' type='text/css' />
-<link href='<%=basePath%>css/easyui/metro/easyui.css'	media='all' rel='stylesheet' type='text/css' /> 
+<link href='<%=basePath%>css/easyui/default/easyui.css'	media='all' rel='stylesheet' type='text/css' /> 
 <link href='<%=basePath%>css/fontawesome/css/font-awesome.min.css'	media='all' rel='stylesheet' type='text/css' />  
 <link href='<%=basePath%>css/dialog.default.css'	media='all' rel='stylesheet' type='text/css' /> 
 

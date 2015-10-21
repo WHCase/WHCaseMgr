@@ -11,12 +11,13 @@ var caseTJManage = {
 		loadcaseTJInfo:function(){
 			$("#caseTJListGrid").datagrid({
 				url : 'case/getCaseTJInfo.do',
+				queryParams:{startTime:'',endTime:''},
 				rownumbers : true,
 				pagination : false, 
 				nowrap : false,
 				title:'分局案件统计汇总',
 				idField : 'id',  
-				toolbar : '#caseBackAttchMentsTb',  
+				toolbar : '#div_toolbar',  
 				columns : [ [ { title :'案件总量', field :'caseTotalCount', align :'center', width : 150},
 				              { title : '已分配', field :'distributedCaseCount', align :'center', width : 150},
 				              { title : '未分配', field :'notDistributeCaseCount', align :'center', width : 150},
@@ -26,5 +27,10 @@ var caseTJManage = {
 				              { title : '未反馈', field : 'notFeedBackCaseCount', align : 'center', width : 150}
 				          ] ]
 			});
+		},
+		doSearch:function(){
+			var startTime = $("#sch_startTime").datebox("getValue");
+			var endTime = $("#sch_endTime").datebox("getValue");
+			$("#caseTJListGrid").datagrid("reload",{"startTime":startTime,"endTime":endTime});
 		}
 };

@@ -3,6 +3,7 @@ package com.tianyi.whcase.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,23 @@ public class CaseOrganServiceImpl implements CaseOrganService {
 		}else{
 			return "更新失败";
 		}
+	}
+	public CaseTJVM getCaseTJInfo(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		CaseTJVM caseTJ = new CaseTJVM();
+		map.put("casestatus", 6);
+		int feedBack = caseOrganMapper.selectCaseCountByCondition(map);
+		map.put("casestatus", 5);
+		int notFeedBack = caseOrganMapper.selectCaseCountByCondition(map);
+		caseTJ.setFeedBackCaseCount(feedBack);
+		caseTJ.setNotFeedBackCaseCount(notFeedBack);
+
+		map.put("casestatus", 4);
+		caseTJ.setReceivedCaseCount(caseOrganMapper.selectCaseCountByCondition(map)+feedBack+notFeedBack);
+		map.put("casestatus", 3);
+		caseTJ.setNotReceivedCaseCount(caseOrganMapper.selectCaseCountByCondition(map));
+		
+		return caseTJ;
 	}
 
 }

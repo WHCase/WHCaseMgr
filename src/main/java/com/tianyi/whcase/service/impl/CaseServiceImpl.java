@@ -156,6 +156,38 @@ public class CaseServiceImpl implements CaseService {
 		return caseTJ;
 	}
 
+	public CaseTJVM getCaseTJInfo(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		CaseTJVM caseTJ = new CaseTJVM();
+		
+		caseTJ.setCaseTotalCount(caseMapper.selectTotalCountByCondition(map));
+		map.put("casestatus", 2);
+		int distribute = caseMapper.selectCountCaseByCondition(map);
+
+		map.put("casestatus", 3);
+		int notReceive = caseMapper.selectCountCaseByCondition(map);
+		map.put("casestatus", 4);
+		int receive = caseMapper.selectCountCaseByCondition(map);
+		map.put("casestatus", 5);
+		int notFeedBack = caseMapper.selectCountCaseByCondition(map);
+		map.put("casestatus", 6);
+		int feedBack = caseMapper.selectCountCaseByCondition(map);
+		
+		caseTJ.setDistributedCaseCount(distribute+receive+notReceive+feedBack+notFeedBack);
+		map.put("casestatus", 1);
+		caseTJ.setNotDistributeCaseCount(caseMapper.selectCountCaseByCondition(map));
+		
+		caseTJ.setReceivedCaseCount(receive+feedBack+notFeedBack);
+		caseTJ.setNotReceivedCaseCount(notReceive);
+		
+		caseTJ.setFeedBackCaseCount(feedBack);
+		caseTJ.setNotFeedBackCaseCount(notFeedBack);
+		
+		
+				
+		return caseTJ;
+	}
+
 
 
 }

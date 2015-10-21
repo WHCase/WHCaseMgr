@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tianyi.whcase.util.DbConfig;
+
 @Controller
 @RequestMapping("/JieShang")
 public class JieShangInterfaceController {
@@ -23,6 +25,7 @@ public class JieShangInterfaceController {
 		HttpServletRequest request)throws Exception{
 		
 		try {
+			//String s = DbConfig.getInstance().getIpUrl();
 			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
 			String urlStr = "http://192.168.0.201:40000/center/UpdateCCase";
 			URL url = new URL(urlStr);

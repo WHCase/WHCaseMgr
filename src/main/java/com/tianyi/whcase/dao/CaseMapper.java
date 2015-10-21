@@ -48,4 +48,8 @@ public interface CaseMapper {
 	int selectCountCaseByReceiveStatus(int i);
 
 	int selectCountCase();
+
+	int selectCountCaseByCondition(Map<String, Object> map);
+
+	int selectTotalCountByCondition(Map<String, Object> map);
 }

@@ -1,6 +1,7 @@
 package com.tianyi.whcase.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -19,5 +20,7 @@ public interface CaseOrganService {
 	CaseTJVM getCaseTJInfo(int organId);
 
 	String updateReiceive(String caseId, int organId);
+
+	CaseTJVM getCaseTJInfo(Map<String, Object> map);
 
 }

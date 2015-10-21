@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/view/lib.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -20,6 +20,13 @@
   </head>
   
   <body>
+	<div style="padding:5px" id="div_toolbar"> 
+		<label style="font-size:14px">起始时间:</label>
+		<input id="sch_startTime" class="easyui-datebox" />
+		<label style="font-size:14px">截止时间:</label>
+		<input id="sch_endTime" class="easyui-datebox"  />
+		<a id="btnSearch" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-search" plain="true" onclick="caseTJManage.doSearch();">查询</a>
+	</div>
     <div id="caseTJListGrid" style="margin:5px"></div>
   </body>
 </html>

@@ -13,7 +13,8 @@ $(function() {
 var caseTJManage = {
 		loadcaseTJInfo:function(){
 			$("#caseTJListGrid").datagrid({
-				url : 'CaseOrgan/getCaseTJInfo.do?organId='+m_organId,
+				url : 'CaseOrgan/getCaseTJInfo.do',
+				queryParams:{organId:m_organId,startTime:'',endTime:''},
 				rownumbers : true,
 				pagination : false, 
 				nowrap : false,
@@ -29,6 +30,11 @@ var caseTJManage = {
 		},
 		doSearch:function(){
 			var organId = $("#selectOrganTree").combotree("getValue");
-			$("#caseTJListGrid").datagrid("reload",{"organId":organId});
+			if(organId == undefined||organId == ""){
+				organId = m_organId;
+			}
+			var startTime = $("#sch_startTime").datebox("getValue");
+			var endTime = $("#sch_endTime").datebox("getValue");
+			$("#caseTJListGrid").datagrid("reload",{"organId":organId,"startTime":startTime,"endTime":endTime});
 		}
 };

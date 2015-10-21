@@ -47,4 +47,6 @@ public interface CaseService {
 
 	CaseTJVM getCaseTJInfo();
 
+	CaseTJVM getCaseTJInfo(Map<String, Object> map);
+
 }

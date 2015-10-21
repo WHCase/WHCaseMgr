@@ -186,9 +186,19 @@ public class CaseController {
 	}
 	@RequestMapping(value = "getCaseTJInfo.do",produces = "application/json;charset=UTF-8")
 	public @ResponseBody String getCaseTJInfo(
+			@RequestParam(value="startTime",required = false) String startTime,
+			@RequestParam(value="endTime",required = false) String endTime,
 			HttpServletRequest request
 			)throws Exception{
-		CaseTJVM caseTJ = caseService.getCaseTJInfo();
+		Map<String, Object> map = new HashMap<String, Object>();   
+		if (!"".equals(startTime)&&startTime!=null) {
+			map.put("startTime", startTime);
+		}
+		if (!"".equals(endTime)&&endTime!=null) {
+			endTime = endTime+" 23:59:59";
+			map.put("endTime", endTime);
+		}
+		CaseTJVM caseTJ = caseService.getCaseTJInfo(map);
 		List<CaseTJVM> list = new ArrayList<CaseTJVM>();
 		list.add(caseTJ);
 		ListResult<CaseTJVM> caseTJResult = new ListResult<CaseTJVM>(list);

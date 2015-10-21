@@ -47,6 +47,25 @@
   	left join t_case a on c.case_id = a.id
   	where c.organization_id = #{0} and a.receive_status= #{1}
   </select>
+  <select id="selectCaseCountByCondition" resultType="java.lang.Integer"  parameterType="java.util.Map"  >
+  	select
+  	count(*)
+  	from t_case_organ c 
+  	left join t_case a on c.case_id = a.id
+  	where 1=1 
+  	<if test="organId > 10">
+  		and  c.organization_id =  #{organId,jdbcType=INTEGER}
+  	</if>
+  	<if test="casestatus != null">
+  		and a.receive_status=  #{casestatus,jdbcType=INTEGER}
+  	</if> 
+  	<if test="startTime != null">
+  		and c.sender_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="endTime != null">
+  		and c.sender_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
+  	</if>
+  </select>
 
   <select id="selectByOrganId" resultMap="BaseResultMap" >
   	select

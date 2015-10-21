@@ -93,7 +93,7 @@ var CaseDetailsManage = {
 		},
 		packageObject : function(row) {
 			var caseInfo = {};
-			caseInfo.id = $('#txtCaseNo').val();
+			caseInfo.code = $('#txtCaseNo').val();
 			caseInfo.name = $('#txtCaseName').val();
 			caseInfo.categoriesId = $('#txtCaseType').combobox('getValue');
 			caseInfo.startTime = $('#txtCaseTime').datebox('getValue');

@@ -1,6 +1,7 @@
 package com.tianyi.whcase.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.tianyi.whcase.core.MyBatisRepository;
 import com.tianyi.whcase.model.CaseOrgan;
@@ -24,5 +25,9 @@ public interface CaseOrganMapper {
 	List<caseOrganVM> selectRecordLiseByorganId(int organId);
 
 	int selectCountCaseByReceiveStatusAndOrganId(int organId, int i);
+
+	int selectCountCaseByReceiveStatusAndOrganId(Map<String, Object> map);
+
+	int selectCaseCountByCondition(Map<String, Object> map);
 
 }

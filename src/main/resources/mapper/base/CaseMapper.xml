@@ -110,6 +110,33 @@
   	count(*)
   	from t_case a
   </select>
+  <select id="selectTotalCountByCondition" resultType="java.lang.Integer"   parameterType="java.util.Map" >
+  	select
+  	count(*)
+  	from t_case a
+  	where 1=1 
+  	<if test="startTime != null">
+  		and a.create_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="endTime != null">
+  		and a.create_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
+  	</if>
+  </select>
+  <select id="selectCountCaseByCondition" resultType="java.lang.Integer"   parameterType="java.util.Map" >
+  	select
+  	count(*)
+  	from t_case a
+  	where 1=1 
+  	<if test="casestatus != null">
+  		and  a.receive_status =#{casestatus,jdbcType=INTEGER}
+  	</if>
+  	<if test="startTime != null">
+  		and a.create_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="endTime != null">
+  		and a.create_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
+  	</if>
+  </select>
   <select id="selectCountCaseByReceiveStatus" resultType="java.lang.Integer" parameterType="java.lang.Integer">
   	select
   	count(*)

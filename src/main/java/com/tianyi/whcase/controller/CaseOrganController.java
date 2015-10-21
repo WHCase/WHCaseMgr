@@ -1,7 +1,11 @@
 package com.tianyi.whcase.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -82,8 +86,20 @@ public class CaseOrganController {
 	@RequestMapping(value = "getCaseTJInfo.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String getCaseDistributeRecordList(
 			@RequestParam(value="organId",required = false) int organId,
+			@RequestParam(value="startTime",required = false) String startTime,
+			@RequestParam(value="endTime",required = false) String endTime,
 			HttpServletRequest request)throws Exception{
-		CaseTJVM caseTJ = caseOrganService.getCaseTJInfo(organId);
+		
+		Map<String, Object> map = new HashMap<String, Object>();   
+		map.put("organId", organId);  
+		if (!"".equals(startTime)&&startTime!=null) {
+			map.put("startTime", startTime);
+		}
+		if (!"".equals(endTime)&&endTime!=null) {
+			endTime = endTime+" 23:59:59";
+			map.put("endTime", endTime);
+		}
+		CaseTJVM caseTJ = caseOrganService.getCaseTJInfo(map);
 		List<CaseTJVM> list = new ArrayList<CaseTJVM>();
 		list.add(caseTJ);
 		ListResult<CaseTJVM> caseTJResult = new ListResult<CaseTJVM>(list);
