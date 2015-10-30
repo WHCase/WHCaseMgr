@@ -80,6 +80,7 @@ public class CaseFeedController {
 		try {
 			JSONObject jObj = JSONObject.fromObject(feedBackInfo);
 			CaseFeed feedBack = (CaseFeed)JSONObject.toBean(jObj,CaseFeed.class);
+			
 			UUID uuid = UUID.randomUUID();
 			feedBack.setId(uuid.toString());
 			
@@ -113,5 +114,6 @@ public class CaseFeedController {
 			return "";
 		}
 	}
+
 	
 }

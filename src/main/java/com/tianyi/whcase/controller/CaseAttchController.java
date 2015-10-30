@@ -90,38 +90,33 @@ public class CaseAttchController {
 			HttpServletRequest request)throws Exception{
 		Document document = DocumentHelper.parseText(requestBody);
 		
-		List<CaseAttachVM> caseAttachVMList =getAttachVMByDocument(document,id);
+		CaseAttachVM caseAttachVM =getAttachVMByDocument(document,id);
 		int temp = 0;
-		for(int i = 0;i<caseAttachVMList.size();i++){
-			temp = caseAttchService.AddAttachVM(caseAttachVMList.get(i));
+		temp = caseAttchService.AddAttachVM(caseAttachVM);
 
-		}
 		return getReturnXml(temp);
 	}
-	private List<CaseAttachVM> getAttachVMByDocument(Document document,String id) {
-		List<CaseAttachVM> caseAttachVMList =new ArrayList<CaseAttachVM>();
+	private CaseAttachVM getAttachVMByDocument(Document document,String id) {
 		Element root =  document.getRootElement();
-		@SuppressWarnings("unchecked")
-		List<Element> messageItemList = root.elements();
 		
-		if(messageItemList==null||messageItemList.size()==0){
+		if(root==null){
 			return null;
 		}
-		for(int i = 0;i<messageItemList.size();i++){
 			CaseAttachVM caseAttachVM = new CaseAttachVM();
-			caseAttachVM.setId(messageItemList.get(i).attributeValue("ID"));
+			caseAttachVM.setId(root.attributeValue("ID"));
 			caseAttachVM.setCaseId(id);
-			caseAttachVM.setCreator(Integer.parseInt(messageItemList.get(i).attributeValue("Creator")));
-			caseAttachVM.setDescription(messageItemList.get(i).attributeValue("Description"));
-			caseAttachVM.setMessageType(messageItemList.get(i).attributeValue("MessageType"));
-			caseAttachVM.setName(messageItemList.get(i).attributeValue("Name"));
+			caseAttachVM.setCreator(Integer.parseInt(root.attributeValue("Creator")));
+			caseAttachVM.setDescription(root.attributeValue("Description"));
+			caseAttachVM.setMessageType(root.attributeValue("MessageType"));
+			caseAttachVM.setName(root.attributeValue("Name"));
 			/*'1'未自身附件，'2'为添加附件*/
 			caseAttachVM.setResourceType("1");
 			@SuppressWarnings("unchecked")
-			List<Element> itemList = messageItemList.get(i).element("Attachments").elements();
+			List<Element> itemList = root.element("Attachments").elements();
 			
 			if(itemList==null||itemList.size()==0){
-				return null;
+				caseAttachVM.setAttachItemList(null);
+				return caseAttachVM;
 			}
 			List<CaseAttachItem> caseItemList = new ArrayList<CaseAttachItem>();
 			for(int j = 0;j<itemList.size();j++){
@@ -130,13 +125,12 @@ public class CaseAttchController {
 				caseAttachItem.setItemType(itemList.get(j).attributeValue("Type"));
 				caseAttachItem.setName(itemList.get(j).attributeValue("Name"));
 				caseAttachItem.setUri(itemList.get(j).attributeValue("Uri"));
-				caseAttachItem.setCaseAttchId(messageItemList.get(i).attributeValue("ID"));
+				caseAttachItem.setCaseAttchId(root.attributeValue("ID"));
 				caseItemList.add(caseAttachItem);
 			}
 			caseAttachVM.setAttachItemList(caseItemList);
-			caseAttachVMList.add(caseAttachVM);
-		}
-		return caseAttachVMList;
+
+		return caseAttachVM;
 	}
 	private String getReturnXml(int returnNum){
 		StringBuilder sb = new StringBuilder();  

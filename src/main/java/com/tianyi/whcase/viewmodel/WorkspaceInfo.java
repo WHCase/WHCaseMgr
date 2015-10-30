@@ -6,9 +6,10 @@ public class WorkspaceInfo {
 	/*工作目录的NO*/
 	private String no;
 	/*可用空间*/
-	private Integer value;
+	private Double value;
 	/*总容量空间*/
-	private Integer total;
+	private Double total;
+	
 	public String getName() {
 		return name;
 	}
@@ -21,17 +22,18 @@ public class WorkspaceInfo {
 	public void setNo(String no) {
 		this.no = no;
 	}
-	public Integer getValue() {
+	public Double getValue() {
 		return value;
 	}
-	public void setValue(Integer value) {
+	public void setValue(Double value) {
 		this.value = value;
 	}
-	public Integer getTotal() {
+	public Double getTotal() {
 		return total;
 	}
-	public void setTotal(Integer total) {
+	public void setTotal(Double total) {
 		this.total = total;
 	}
+
 	
 }

@@ -33,8 +33,8 @@ public class JieShangService {
 	 */
 	public String updateCCase(CaseVM caseInfo){		
 		try {
-			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
-			String urlStr = "http://192.168.0.201:40000/center/UpdateCCase";
+			String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
+			//String urlStr = "http://192.168.0.201:40000/center/UpdateCCase";
 			
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -127,8 +127,8 @@ public class JieShangService {
 	public MediaSvrStatus getAllMsSvrStatus(){
 		MediaSvrStatus s = new MediaSvrStatus(); 
 		try {
-//			String urlStr = "http://223.223.183.242:40000/center/GetAllMsSvrStatus";
-			String urlStr = "http://192.168.0.201:40000/center/GetAllMsSvrStatus";
+			String urlStr = "http://223.223.183.242:40000/center/GetAllMsSvrStatus";
+			//String urlStr = "http://192.168.0.201:40000/center/GetAllMsSvrStatus";
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true); 
@@ -180,8 +180,8 @@ public class JieShangService {
 	public WorkspaceInfo getWorkspaceInfo(){
 		WorkspaceInfo wsInfo = new WorkspaceInfo();
 		try {
-			//String urlStr = "http://223.223.183.242:40000/center/GetWorkspacesInfoList";
-			String urlStr = "http://192.168.0.201:40000/center/GetWorkspacesInfoList";
+			String urlStr = "http://223.223.183.242:40000/center/GetWorkspacesInfoList";
+			//String urlStr = "http://192.168.0.201:40000/center/GetWorkspacesInfoList";
 			
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -208,11 +208,13 @@ public class JieShangService {
 			WorkspaceInfo ws = new WorkspaceInfo();
 			Document document = DocumentHelper.parseText(xml);
 			Element root =  document.getRootElement();
-			Element performanceElement = root.element("PerformanceItem ");
+			Element performanceElement = root.element("PerformanceItem");
 			ws.setName(performanceElement.attributeValue("Name"));
 			ws.setNo(performanceElement.attributeValue("No"));
-			ws.setValue(Integer.parseInt(performanceElement.attributeValue("Value")));
-			ws.setTotal(Integer.parseInt(performanceElement.attributeValue("Total")));
+			
+			ws.setValue(Double.parseDouble(performanceElement.attributeValue("Total")));
+			ws.setTotal(Double.parseDouble(performanceElement.attributeValue("Total")));
+			
 			return ws;
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
@@ -290,8 +292,8 @@ public class JieShangService {
 	public String addCCaseMessage(String caseId,CaseAttachVM attach){
 		
 		try {
-			//String urlStr = "http://223.223.183.242:40000/center/AddCCaseMessage?caseId="+caseId;
-			String urlStr = "http://192.168.0.201:40000/center/AddCCaseMessage?caseId="+caseId;
+			String urlStr = "http://223.223.183.242:40000/center/AddCCaseMessage?caseId="+caseId;
+			//String urlStr = "http://192.168.0.201:40000/center/AddCCaseMessage?caseId="+caseId;
 			
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -321,8 +323,8 @@ public class JieShangService {
 	/*删除附件*/
 	public int deleteCaseAttach(String caseId,String attachItemId){
 		try {
-			//String urlStr = "http://223.223.183.242:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
-			String urlStr = "http://192.168.0.201:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
+			String urlStr = "http://223.223.183.242:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
+			//String urlStr = "http://192.168.0.201:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
 			
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();

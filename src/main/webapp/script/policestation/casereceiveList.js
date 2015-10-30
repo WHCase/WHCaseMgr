@@ -316,6 +316,7 @@ var CaseManage = {
 				success:function(responce){
 					if(responce.isSuccess){
 						$.messager.alert("提示","案件修改成功","normal");
+						CaseManage.loadCaseList();
 					}else{
 						$.messager.alert("提示",responce.msg,"normal");
 					}
@@ -333,6 +334,7 @@ var CaseManage = {
 			feedBack.createTime = $('#txtCaseTime').datebox('getValue');
 			feedBack.organizationId = $('#txtCaseOrgan').val();
 			feedBack.creator = $('#txtCaseCreator').val();
+			feedBack.organizationId = m_organ_id;
 			return feedBack;
 		},
 		cancelSave:function(){
