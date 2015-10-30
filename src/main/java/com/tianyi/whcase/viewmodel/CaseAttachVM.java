@@ -27,4 +27,13 @@ public class CaseAttachVM extends CaseAttach{
 		
 		return caseAttach;
 	}
+	public void SetCaseAttach(CaseAttach c){
+		this.setCaseId(c.getCaseId());
+		this.setCreator(c.getCreator());
+		this.setDescription(c.getDescription());
+		this.setId(c.getId());
+		this.setMessageType(c.getMessageType());
+		this.setName(c.getName());
+		this.setResourceType(c.getResourceType());
+	}
 }

@@ -13,13 +13,13 @@ import org.junit.Test;
 public class XmlTest {
 	@Test
 	public void main() {
-		//xmlCfg();
-		try {
+		xmlCfg();
+		/*try {
 			createFile();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	private void createFile() throws IOException{
 		File f = new File("/data/tempFile/download/imag/1.txt");
