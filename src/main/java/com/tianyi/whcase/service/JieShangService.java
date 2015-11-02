@@ -4,14 +4,20 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.imageio.ImageIO;
@@ -242,39 +248,66 @@ public class JieShangService {
 					.toString();
 			serverPath = serverPath.substring(0, (serverPath.length() - 16));
 			
-			File file = new File(serverPath+"tempFile/download/"+uri);
-//			File file = new File("E:/data/tempFile/download/"+uri);
+			File file = new File(serverPath+"/"+uri);
 			if(!file.getParentFile().exists()){
 				file.getParentFile().mkdirs();
 			}
 			file.createNewFile();
 
-			FileWriter fw = new FileWriter(file.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
+//			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+//			BufferedWriter bw = new BufferedWriter(fw);
 			
 			String urlStr = "http://"+ip+":"+port+"/"+uri;
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true); 
 			con.setRequestProperty("Content-Type", "application/octet-stream");
- 
-            BufferedReader br = new BufferedReader(new InputStreamReader(con  
-                    .getInputStream()));  
-
-            //BufferedImage bi = ImageIO.read(new File(urlStr));
-            String line = "";  
-            for (line = br.readLine(); line != null; line = br.readLine()) {
-                bw.write(line);
-            }
-            bw.flush();
-            bw.close();
-            fw.close();
+			
+//			BufferedReader br = new BufferedReader(new InputStreamReader(con  
+//                    .getInputStream()));
+			InputStream br = con.getInputStream();
+			
+			FileOutputStream out = new FileOutputStream(file,true);
+			int len = 0;
+			byte[] buf = new byte[1024];
+			while((len = br.read(buf))!=-1){
+				out.write(buf,0,len);
+			}
+			out.close();
+			
+// 
+//            
+//            
+//            String line = "";  
+//            for (line = br.readLine(); line != null; line = br.readLine()) {
+//                bw.write(line);
+//            }
+//            bw.flush();
+//            bw.close();
+//            fw.close();
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 			return ex.getMessage();
 		}
 		return"";
 	}
+	@Test
+	public void test() throws Exception{
+		File sf = new File("F:/gongsi/problems/grid.jpg");
+		File df = new File("F:/gongsi/problems/copy.jpg");
+		if(!df.getParentFile().exists()){
+			df.getParentFile().mkdirs();
+		}
+		df.createNewFile();
+		FileInputStream in = new FileInputStream(sf);
+		FileOutputStream out = new FileOutputStream(df,true);
+		int len = 0;
+		byte[] buf = new byte[1024];
+		while((len = in.read(buf))!=-1){
+			out.write(buf,0,len);
+		}
+		out.close();
+	} 
 	/*上传文件*/
 	public String uploadFile(CommonsMultipartFile file,String relativePath){
 //		MediaSvrStatus mss = getAllMsSvrStatus();
@@ -289,9 +322,8 @@ public class JieShangService {
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true); 
 			con.setRequestProperty("Content-Type", "application/octet-stream");
-			OutputStreamWriter out = new OutputStreamWriter(con  
-                    .getOutputStream());      
-			out.write(new String(file.getBytes()));
+			OutputStream out = con.getOutputStream();      
+			out.write(file.getBytes());
             
             out.flush();  
             out.close();  
@@ -321,15 +353,13 @@ public class JieShangService {
 			
 			con.setRequestProperty("Content-Type", "application/xml");	
 			OutputStreamWriter out = new OutputStreamWriter(con  
-                    .getOutputStream());      
-			String xmlInfo = "<CCaseMessageAdd CasdID=\"04525329-8c4d-44d2-bd6a-d2123471be0c\"><MessageItem ID=\"6e04bcd4-4726-4dad-aefa-909aa5c3e087\"" +
-					" Creator=\"0\" CreateTime=\"0001-01-01T00:00:00\" MessageType=\"0\" IsTopMost=\"false\"><Attachments><Item ID=\"656031a2-1b28-4902-80ae-6a098c851a1b\" " +
-					" Name=\"a\" Creator=\"0\" CreateTime=\"0001-01-01T00:00:00\" Type=\"Unknown\" /></Attachments></MessageItem></CCaseMessageAdd>;";
+                    .getOutputStream());
 
-            //String xmlInfo = getXmlInfoForAttach(caseId,attach);
+            String xmlInfo = getXmlInfoForAttach(caseId,attach);
             System.out.println("urlStr=" + urlStr);  
             System.out.println("xmlInfo=" + xmlInfo);  
             //out.write(xmlInfo); 
+            
             out.write(xmlInfo); 
             out.flush();  
             out.close();  
@@ -393,44 +423,18 @@ public class JieShangService {
 		//return 0;
 	}
 	private String getXmlInfoForAttach(String caseId,CaseAttachVM attach) throws ParseException {
-		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");  
-		//Date datetime = sdf.parse((new Date()).toString());
-		StringBuilder sb = new StringBuilder();
-		 
-		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-		sb.append("<CcaseMessageAdd CasdID=\""+caseId+"\">");
-		sb.append("<MessageItem ");
-		if(attach.getId()!=null){
-			sb.append(" ID=\""+attach.getId()+"\" ");
-		}
-		if(attach.getName()!=null){
-			sb.append(" Name=\""+attach.getName()+"\" ");
-		}
-		//if(attach.getDescription()!=null){
-			sb.append(" Description=\"\" ");
-		//}
-		//if(attach.getMessageType()!=null){
-			sb.append(" MessageType=\"4\" ");//+attach.getMessageType()+"\" ");
-			sb.append(" Creator=\"0\" CreateTime=\"2015-10-10 00:00:00\" IsTopMost=\"false\" ");
-		//}
-		sb.append("><Attachments><Item ");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		java.util.Date date = new java.util.Date();
+		String time = sdf.format(date);
+		
 		CaseAttachItem item = attach.getAttachItemList().get(0);
-		if(item.getId()!=null){
-			sb.append(" ID=\""+item.getId()+"\" ");
-		}
-		if(item.getName()!=null){
-			sb.append(" Name=\""+item.getName()+"\" ");
-			sb.append(" Creator=\"0\" CreateTime=\"2015-10-10 00:00:00\" ");
-		}
-		if(item.getItemType()!=null){
-			sb.append(" Type=\"Image\" ");
-			//sb.append(" Type=\""+item.getItemType()+"\" ");
-		}
-		if(item.getUri()!=null){
-			sb.append(" Uri=\""+item.getUri()+"\" ");
-		}
-		sb.append(" /></Attachments></MessageItem></CcaseMessageAdd>");    
-		return sb.toString();  
+ 
+		String temp = "<?xml version=\"1.0\" encoding=\"utf-8\"?><CCaseMessageAdd CasdID=\""+caseId+"\">"+
+		"<MessageItem ID=\""+attach.getId()+"\" MessageType=\""+(attach.getMessageType()==null?"4":attach.getMessageType())+"\" IsTopMost=\"false\">"+
+				"<Attachments><Item ID=\""+item.getId()+"\" Name=\""+item.getName()+"\" Creator=\"0\" CreateTime=\""+time+"\" Type=\"Unknown\" />" +
+				"</Attachments></MessageItem></CCaseMessageAdd>";
+		//return sb.toString();
+		return temp;
 	}
 	/*
 	 * 获取案件类型

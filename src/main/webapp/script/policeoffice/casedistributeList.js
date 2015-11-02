@@ -410,11 +410,12 @@ var CasePushManage = {
 				type:'POST',
 				data:{caseId:m_rowData.id},
 				success:function(responce){
-					if(responce.isSuccess){
-						$.messager.confirm("提示","案件推送成功。");
+					var obj = JSON.parse(responce);
+					if(obj.isSuccess==true){
+						$.messager.alert("提示","案件推送成功。");
 						CasePushManage.loadCaseList();
 					}else{
-						$.messager.alert("提示",responce["msg"],"warning");
+						$.messager.alert("提示",obj["msg"],"warning");
 					}
 				}
 			});

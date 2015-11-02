@@ -1,5 +1,6 @@
 package com.tianyi.whcase.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +33,17 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 		
 	}
 	public ListResult<CaseAttachItem> getCaseRelativeByCaseId(String id,String resourceType ) {
-		CaseAttach attach = caseAttachMapper.selectByCaseId(id,resourceType);
-		if(attach==null){
+		List<CaseAttach> attachList = caseAttachMapper.selectByCaseId(id,resourceType);
+		if(attachList==null||attachList.size()==0){
 			return null;
 		}
-		String caseAttachId = attach.getId();
-		List<CaseAttachItem> attachItemList = caseAttachItemMapper.selectByCaseAttachId(caseAttachId);
+		List<CaseAttachItem> attachItemList = new ArrayList<CaseAttachItem>();
+		for(int i = 0;i<attachList.size();i++){
+			CaseAttach attach = attachList.get(i);
+			String caseAttachId = attach.getId();
+			attachItemList.addAll(caseAttachItemMapper.selectByCaseAttachId(caseAttachId));
+		}
+		
 		return new ListResult<CaseAttachItem>(attachItemList);
 		
 	}

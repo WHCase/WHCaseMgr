@@ -66,8 +66,8 @@ public class FileUpLoadController {
 				String attchType = "";
 				String[] types = name.split("\\.");
 				
-				String filePath = "tempFile/upload/"+id+"/"+name;
-				
+				SimpleDateFormat f = new SimpleDateFormat("yyyyMMdd");
+				String filePath = "resource://Files/"+f.format(new Date())+"/"+Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+"/"+name;
 				if(types[1].equals("png")||types[1].equals("jpg")||types[1].equals("jpeg")||types[1].equals("gif")||types[1].equals("ico")||types[1].equals("bmp")){
 					attchType = "图片文件"; 
 				}else if(types[1].equals("doc")||types[1].equals("docx")){
@@ -89,12 +89,12 @@ public class FileUpLoadController {
 				//设置附件相关信息
 				attach.setName("派出所上传附件");
 				String caseAttachId = "";
-				CaseAttach c = caseAttachMapper.selectByCaseId(id, "2");
+				List<CaseAttach> c = caseAttachMapper.selectByCaseId(id, "2");
 				if( c==null){
 					caseAttachMapper.insert(attach);
 					caseAttachId = u.toString();
 				}else{
-					caseAttachId =c.getId(); 
+					caseAttachId =c.get(0).getId(); 
 				}
 				
 				CaseAttachItem attch = new CaseAttachItem();
@@ -107,7 +107,6 @@ public class FileUpLoadController {
 				
 				caseAttachItempper.insert(attch);
 				/*调用捷尚接口，上传附件*/
-				SimpleDateFormat f = new SimpleDateFormat("yyyyMMdd");
 				jieShangService.uploadFile(cmFile, "File\\"+f.format(new Date())+"\\"+Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+"\\"+id+"\\"+name);
 				CaseAttachVM temp = new CaseAttachVM();
 				temp.SetCaseAttach(attach);

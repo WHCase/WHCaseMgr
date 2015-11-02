@@ -17,9 +17,9 @@
                 <a id="openPushCaseDlg" name="openPushCaseDlg" doc="casePushAction"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-add"
                     plain="true">案件分配</a>
-                <a id="editCase" name="editCase" doc="casePushAction"
+               <!--  <a id="editCase" name="editCase" doc="casePushAction"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-edit"
-                    plain="true">编辑</a>
+                    plain="true">编辑</a> -->
                 <a id="showCaseInfo" name="showCaseInfo"  doc="casePushAction"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-show"
                     plain="true">查看详情</a> 

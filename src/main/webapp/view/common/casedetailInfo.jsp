@@ -41,9 +41,9 @@
        		<label style="font-size:12px">录入人员：</label><input id="txtCaseCreator" class="easyui-validatebox"  readonly="readonly"/>
        	 </p>
        </div> 
-       <div title="案件串并案件" style="padding:10px">
+       <!-- <div title="案件串并案件" style="padding:10px" id="caseRelativeModule">
        		<div id="caseRelative"></div>
-       </div>
+       </div> -->
        <div title="案件附件信息" style="padding:10px">
        		<div id="caseAttchMents"></div>
        </div>

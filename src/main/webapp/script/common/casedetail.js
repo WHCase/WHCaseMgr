@@ -6,13 +6,14 @@ $(function() {
 	/*案件编号*/
 	m_caseInfo_id = obj.caseId;  
 	CaseDetailsManage.loadCaseInfo();
+	$("#caseRelativeModule").attr("style","display:none");
 	$("#btnCancelSave").bind("click", CaseDetailsManage.cancelSave);
 });
 
 var CaseDetailsManage = {  
 		loadCaseInfo:function(){
 			CaseDetailsManage.loadCaseMainInfo();
-			CaseDetailsManage.loadCaseRelative();
+			//CaseDetailsManage.loadCaseRelative();
 			CaseDetailsManage.loadCaseAttchMents();
 		},
 		/**

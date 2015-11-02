@@ -6,6 +6,17 @@ $(function() {
 	m_index_organTye = obj.organType;
 	m_index_organId = obj.organId;
 	
+	$.ajax('Organ/getOrganNameById.do',{
+		type:'POST',
+		data:{'organId':m_index_organId},
+		success:function(responce){
+			if(responce.isSuccess==true){
+				$("#labOrgName").text(responce.data.name);
+			}else{
+				$("#labOrgName").text(responce.msg);
+			}
+		}
+	});
 	var url = "";
 	if(m_index_organTye==0||m_index_organTye=="0"){
 		url = "data/policeofficeMenu.json";

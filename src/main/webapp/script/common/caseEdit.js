@@ -7,12 +7,13 @@ $(function() {
 	CaseDetailsManage.loadCaseInfo();
 	$("#btnCancelSave").bind("click", CaseDetailsManage.cancelSave);
 	$("#btnSaveCaseInfo").bind("click", CaseDetailsManage.SaveCaseInfo);
+	$("#caseRelativeModule").attr("style","display:none");
 });
 
 var CaseDetailsManage = {  
 		loadCaseInfo:function(){
 			CaseDetailsManage.loadCaseMainInfo();
-			CaseDetailsManage.loadCaseRelative();
+			//CaseDetailsManage.loadCaseRelative();
 			CaseDetailsManage.loadCaseAttchMents();
 		},
 		/**
