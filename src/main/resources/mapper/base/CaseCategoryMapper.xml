@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianyi.whcase.dao.CaseCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.tianyi.whcase.model.CaseCategory" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="category_id" property="name" jdbcType="VARCHAR" />
+    <result column="category_name" property="parentId" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id,name,parent_id
+    from t_organ
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.tianyi.whcase.model.Organ">
+  	insert into t_organ(id,name,parent_id)
+  	values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{parentId,jdbcType=INTEGER})
+  </insert>
+</mapper>
