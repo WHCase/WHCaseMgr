@@ -45,8 +45,8 @@
        		<label style="font-size:12px">反馈时间：</label><input id="txtCaseTime" class="easyui-datebox"  />
        	 </p>  
        	 <p>
-       		<label style="font-size:12px">录入单位：</label><input id="txtCaseOrgan" class="easyui-validatebox"  />
-       		<label style="font-size:12px">录入人员：</label><input id="txtCaseCreator" class="easyui-validatebox"  />
+       		<!-- <label style="font-size:12px">录入单位：</label><input id="txtCaseOrgan" class="easyui-validatebox"  /> -->
+       		<!-- <label style="font-size:12px">录入人员：</label><input id="txtCaseCreator" class="easyui-validatebox"  />-->
        	 </p> 
        	 <div>
        	 	<div id="caseBackAttchs"></div>

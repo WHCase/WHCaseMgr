@@ -1,305 +1,426 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tianyi.whcase.dao.CaseMapper" >
-  <resultMap id="BaseResultMap" type="com.tianyi.whcase.model.Case" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="creator" property="creator" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="categories_id" property="categoriesId" jdbcType="VARCHAR" />
-    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
-    <result column="summary" property="summary" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="case_group_id" property="caseGroupId" jdbcType="VARCHAR" />
-    <result column="isregister" property="isregister" jdbcType="BIT" />
-    <result column="level" property="level" jdbcType="VARCHAR" />
-    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
-    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
-    <result column="organization_id" property="organizationId" jdbcType="INTEGER" />
-    <result column="detectedunit_id" property="detectedunitId" jdbcType="INTEGER" />
-    <result column="receive_status" property="receiveStatus" jdbcType="INTEGER" />
-  </resultMap>
-  <resultMap id="BaseCUResultMap" type="com.tianyi.whcase.model.CaseUnit" >
-    <result column="detectedunit_name" property="text" jdbcType="VARCHAR" />
-    <result column="detectedunit_id" property="id" jdbcType="VARCHAR" />
-  </resultMap>
-  <resultMap id="BaseCCResultMap" type="com.tianyi.whcase.model.CaseCategory" >
-    <result column="category_name" property="text" jdbcType="VARCHAR" />
-    <result column="category_id" property="id" jdbcType="INTEGER" />
-  </resultMap>
-  <resultMap type="com.tianyi.whcase.viewmodel.CaseVM" id="BaseVMResultMap">
-  	<id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="creator" property="creator" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="categories_id" property="categoriesId" jdbcType="VARCHAR" />
-    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
-    <result column="summary" property="summary" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
-    <result column="case_group_id" property="caseGroupId" jdbcType="VARCHAR" />
-    <result column="isregister" property="isregister" jdbcType="BIT" />
-    <result column="level" property="level" jdbcType="VARCHAR" />
-    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
-    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
-    <result column="organization_id" property="organizationId" jdbcType="INTEGER" />
-    <result column="detectedunit_id" property="detectedunitId" jdbcType="INTEGER" />
-    <result column="receive_status" property="receiveStatus" jdbcType="INTEGER" />
-    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
-    <result column="detectedunit_name" property="detectedunitNname" jdbcType="VARCHAR" />
-    <result column="organization_name" property="organizationame" jdbcType="VARCHAR" />
-    <result column="distribute_status" property="distributeStatus" jdbcType="INTEGER" />
-    <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" />
-    <result column="feed_time" property="feedTime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, name, creator, create_time, code, categories_id, start_time, summary, status, 
-    case_group_id, isregister, level, longitude, latitude, organization_id, detectedunit_id,receive_status
-  </sql>
-  <sql id="BaseVM_Column_List" >
-    a.id, a.name, a.creator, a.create_time, a.code, a.categories_id, a.start_time, a.summary, a.status, 
-    a.case_group_id, a.isregister, a.level, a.longitude, a.latitude, a.organization_id, a.detectedunit_id,a.receive_status,
-    b.category_name,c.detectedunit_name,d.organization_name
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_case
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  
-  <select id="selectVMByPrimaryKey" resultMap="BaseVMResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="BaseVM_Column_List" />
-    from t_case a 
-    left join t_case_category_type b on a.categories_id = b.category_id
-    left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id
-    left join t_case_organ_type d on a.organization_id = d.organization_id
-    where a.id = #{id,jdbcType=VARCHAR}
-  </select>
-  
-  <select id="selectByReceiveStatus" resultMap="BaseVMResultMap" parameterType="java.lang.Integer" >
-  	select 
-    <include refid="BaseVM_Column_List" />,
-    (select count(*) from t_case_organ co where co.case_id = a.id) as distribute_status
-    from t_case a
-    left join t_case_category_type b on a.categories_id = b.category_id
-    left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id
-    left join t_case_organ_type d on a.organization_id = d.organization_id
-    where a.receive_status = #{receiveStatus,jdbcType=INTEGER}
-  </select>
-  <select id="selectVMCountByReceiveStatus" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
-  	select 
-    count(*)
-    from t_case a 
-    where a.receive_status = #{receiveStatus,jdbcType=INTEGER}
-  </select>
-  <select id="selectUnFeedBackVMCount" resultType="java.lang.Integer">
-  	select 
-    count(*)
-    from t_case a 
-    where a.receive_status in (1,2,3,4,5)
-  </select>
-  <select id="selectCountDistributedCase" resultType="java.lang.Integer" parameterType="java.lang.Integer">
-  	select 
-    count(*)
-    from t_case a 
-    where a.receive_status != #{receiveStatus,jdbcType=INTEGER}
-  </select>
-  <select id="selectCountCase" resultType="java.lang.Integer" parameterType="java.lang.Integer">
-  	select
-  	count(*)
-  	from t_case a
-  </select>
-  <select id="selectTotalCountByCondition" resultType="java.lang.Integer"   parameterType="java.util.Map" >
-  	select
-  	count(*)
-  	from t_case a
-  	where 1=1 
-  	<if test="startTime != null">
-  		and a.create_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
-  	</if>
-  	<if test="endTime != null">
-  		and a.create_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
-  	</if>
-  </select>
-  <select id="selectCountCaseByCondition" resultType="java.lang.Integer"   parameterType="java.util.Map" >
-  	select
-  	count(*)
-  	from t_case a
-  	where 1=1 
-  	<if test="casestatus != null">
-  		and  a.receive_status =#{casestatus,jdbcType=INTEGER}
-  	</if>
-  	<if test="startTime != null">
-  		and a.create_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
-  	</if>
-  	<if test="endTime != null">
-  		and a.create_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
-  	</if>
-  </select>
-  <select id="selectCountCaseByReceiveStatus" resultType="java.lang.Integer" parameterType="java.lang.Integer">
-  	select
-  	count(*)
-  	from t_case a
-  	where a.receive_status =#{0}
-  </select>
-  <select id="selectCaseCategory" resultMap="BaseCCResultMap">
-  select 
-  	category_id,category_name
-  from t_case_category_type
-  </select>
-  <select id="selectCaseUnit" resultMap="BaseCUResultMap">
-  select
-   detectedunit_id,detectedunit_name
-   from t_case_detectedunit_type
-  </select>
-  <select id="selectByCaseIdAndReceiveStatuss" resultMap="BaseVMResultMap">
-  	select
-  	<include refid="BaseVM_Column_List" />
-    from t_case a 
-    left join t_case_category_type b on a.categories_id = b.category_id
-    left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id
-    left join t_case_organ_type d on a.organization_id = d.organization_id
-    where a.id = #{1} and a.receive_status =#{0}
-  </select>
-  
-  <select id="selectByorganId" resultMap="BaseVMResultMap"   parameterType="java.util.Map">
-  	select
-  	a.id, 
-  	a.name, 
-  	a.creator, 
-  	a.create_time, 
-  	a.code, 
-  	a.categories_id, 
-  	a.start_time, 
-  	a.summary, 
-  	a.status, 
-    a.case_group_id, 
-    a.isregister, 
-    a.level, 
-    a.longitude, 
-    a.latitude, 
-    a.organization_id, 
-    a.detectedunit_id,
-    a.receive_status,
-    b.category_name,
-    c.detectedunit_name,
-    d.organization_name,
-    co.receive_time
-    from t_case_organ co
-    left join t_case a on co.case_id = a.id
-    left join t_case_category_type b on a.categories_id = b.category_id
-    left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id
-    left join t_case_organ_type d on a.organization_id = d.organization_id
-    where 1=1 and co.receive_time is null
-    <if test="organId != null">
-    	and   co.organization_id = #{organId,jdbcType=INTEGER}
-    </if>
-    order by co.receive_time asc
-  </select>
-  
-  <select id="selectFeedCaseByorganId" resultMap="BaseVMResultMap"   parameterType="java.util.Map">
-  	
-  select    a.id,     a.name,     a.creator,     a.create_time,   
-  a.code,    
- a.categories_id,     a.start_time,     a.summary,     a.status,     
- a.case_group_id,      a.isregister,      a.level,      a.longitude,   
-   a.latitude,      a.organization_id,      a.detectedunit_id, 
-    a.receive_status,     b.category_name,     c.detectedunit_name,  
-   d.organization_name,     co.receive_time ,cf.create_time  as feed_time
- from t_case_organ co    
- left join t_case a on co.case_id = a.id     
-left join t_case_category_type b on a.categories_id = b.category_id    
- left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id     
-left join t_case_organ_type d on a.organization_id = d.organization_id 
-left join t_case_feed cf on co.case_id = cf.case_id  and co.organization_id = cf.organization_id  
-where 1=1 and co.receive_time is not null   
-<if test="organId != null">
-     and   co.organization_id =#{organId,jdbcType=INTEGER}
-</if>        order by co.receive_time asc
-  
-  </select>
-   <select id="selectDistributedCase" resultMap="BaseVMResultMap">
-  	select
-  	<include refid="BaseVM_Column_List" />
-    from t_case a 
-    left join t_case_category_type b on a.categories_id = b.category_id
-    left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id
-    left join t_case_organ_type d on a.organization_id = d.organization_id
-    where a.receive_status = 6
-  </select>
-  
-  <select id="selectUnFeedBackDistributedCase" resultMap="BaseVMResultMap">
-  	select
-  	<include refid="BaseVM_Column_List" />,
-  	(select count(*) from t_case_organ co where co.case_id = a.id) as distribute_status
-    from t_case a 
-    left join t_case_category_type b on a.categories_id = b.category_id
-    left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id
-    left join t_case_organ_type d on a.organization_id = d.organization_id
-    where a.receive_status in (1,2,3,4,5,6)
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from t_case
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.tianyi.whcase.model.Case" >
-    insert into t_case (id, name, creator, 
-      create_time, code, categories_id, 
-      start_time, summary, status, 
-      case_group_id, isregister, level, 
-      longitude, latitude, organization_id, 
-      detectedunit_id,receive_status)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{creator,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}, #{categoriesId,jdbcType=VARCHAR}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{summary,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{caseGroupId,jdbcType=VARCHAR}, #{isregister,jdbcType=BIT}, #{level,jdbcType=VARCHAR}, 
-      #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, #{organizationId,jdbcType=INTEGER}, 
-      #{detectedunitId,jdbcType=INTEGER},#{receiveStatus,jdbcType=INTEGER})
-  </insert> 
-  <update id="updateByPrimaryKey" parameterType="com.tianyi.whcase.model.Case" >
-    update t_case
-    set name = #{name,jdbcType=VARCHAR},
-      creator = #{creator,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      categories_id = #{categoriesId,jdbcType=VARCHAR},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      summary = #{summary,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR},
-      level = #{level,jdbcType=VARCHAR},
-      organization_id = #{organizationId,jdbcType=INTEGER},
-      detectedunit_id = #{detectedunitId,jdbcType=INTEGER}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateCaseReceiveStatusAndLevel">
-  	update t_case
-  	set receive_status = #{0},
-  		level = #{1}
-  	where id = #{2}
-  </update>
-  <update id="updateCaseReceiveStatus">
-  	update t_case
-  	set receive_status = #{0}
-  	where id = #{1}
-  </update>
-  <select id="loaCaselistWithPage" parameterType="java.util.Map"  resultMap="BaseVMResultMap">
-  		select <include refid="BaseVM_Column_List" /> 
-  		from t_case a 
-  		left join t_case_category_type b on a.categories_id = b.category_id
-    	left join t_case_detectedunit_type c on a.detectedunit_id = c.detectedunit_id
-    	left join t_case_organ_type d on a.organization_id = d.organization_id
-  		where a.receive_status = #{receiveStatus,jdbcType=INTEGER}
-  		<if test="pageStart !=null">
-  		limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
-  		</if>
-  </select>
-  <select id="countByMap" resultType="java.lang.Integer"   parameterType="java.util.Map" >
-  		select count(*) from t_case 
-  		where 1=1 
-  		<if test="userId!=null">
-  			and receive_status = #{receiveStatus,jdbcType=INTEGER}
-  		</if>
-  </select>
+<mapper namespace="com.tianyi.whcase.dao.CaseMapper">
+	<resultMap id="BaseResultMap" type="com.tianyi.whcase.model.Case">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="creator" property="creator" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="categories_id" property="categoriesId"
+			jdbcType="VARCHAR" />
+		<result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="case_group_id" property="caseGroupId" jdbcType="VARCHAR" />
+		<result column="isregister" property="isregister" jdbcType="BIT" />
+		<result column="level" property="level" jdbcType="VARCHAR" />
+		<result column="longitude" property="longitude" jdbcType="VARCHAR" />
+		<result column="latitude" property="latitude" jdbcType="VARCHAR" />
+		<result column="organization_id" property="organizationId"
+			jdbcType="INTEGER" />
+		<result column="detectedunit_id" property="detectedunitId"
+			jdbcType="INTEGER" />
+		<result column="receive_status" property="receiveStatus"
+			jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="BaseCUResultMap" type="com.tianyi.whcase.model.CaseUnit">
+		<result column="detectedunit_name" property="text" jdbcType="VARCHAR" />
+		<result column="detectedunit_id" property="id" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="BaseCCResultMap" type="com.tianyi.whcase.model.CaseCategory">
+		<result column="category_name" property="text" jdbcType="VARCHAR" />
+		<result column="category_id" property="id" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap type="com.tianyi.whcase.viewmodel.CaseVM" id="BaseVMResultMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="creator" property="creator" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="categories_id" property="categoriesId"
+			jdbcType="VARCHAR" />
+		<result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="case_group_id" property="caseGroupId" jdbcType="VARCHAR" />
+		<result column="isregister" property="isregister" jdbcType="BIT" />
+		<result column="level" property="level" jdbcType="VARCHAR" />
+		<result column="longitude" property="longitude" jdbcType="VARCHAR" />
+		<result column="latitude" property="latitude" jdbcType="VARCHAR" />
+		<result column="organization_id" property="organizationId"
+			jdbcType="INTEGER" />
+		<result column="detectedunit_id" property="detectedunitId"
+			jdbcType="INTEGER" />
+		<result column="receive_status" property="receiveStatus"
+			jdbcType="INTEGER" />
+		<result column="category_name" property="categoryName"
+			jdbcType="VARCHAR" />
+		<result column="detectedunit_name" property="detectedunitNname"
+			jdbcType="VARCHAR" />
+		<result column="organization_name" property="organizationame"
+			jdbcType="VARCHAR" />
+		<result column="distribute_status" property="distributeStatus"
+			jdbcType="INTEGER" />
+		<result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" />
+		<result column="feed_time" property="feedTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name, creator, create_time, code, categories_id,
+		start_time, summary,
+		status,
+		case_group_id, isregister, level,
+		longitude, latitude, organization_id,
+		detectedunit_id,receive_status
+	</sql>
+	<sql id="BaseVM_Column_List">
+		a.id, a.name, a.creator, a.create_time, a.code,
+		a.categories_id,
+		a.start_time, a.summary, a.status,
+		a.case_group_id,
+		a.isregister, a.level, a.longitude, a.latitude, a.organization_id,
+		a.detectedunit_id,a.receive_status,
+		b.category_name,c.name as
+		detectedunit_name,d.name as organization_name
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_case
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectVMByPrimaryKey" resultMap="BaseVMResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="BaseVM_Column_List" />
+		from t_case a
+		left join t_case_category_type b on a.categories_id =
+		b.category_id
+		left join t_organ c on a.detectedunit_id = c.id
+		left join
+		t_organ d on a.organization_id = d.id
+		where a.id =
+		#{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByReceiveStatus" resultMap="BaseVMResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="BaseVM_Column_List" />
+		,
+		(select count(*) from t_case_organ co where co.case_id = a.id) as
+		distribute_status
+		from t_case a
+		left join t_case_category_type b on
+		a.categories_id = b.category_id
+		left join t_organ c on
+		a.detectedunit_id = c.id
+		left join t_organ d on a.organization_id =
+		d.id
+		where a.receive_status = 6
+		order by a.start_time DESC
+		<if test="pageStart !=null">
+			limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+		</if>
+		
+	</select>
+	<select id="selectVMCountByReceiveStatus" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select
+		count(*)
+		from t_case a
+		where a.receive_status =
+		#{receiveStatus,jdbcType=INTEGER}
+	</select>
+	<select id="selectUnFeedBackVMCount" resultType="java.lang.Integer">
+		select
+		count(*)
+		from t_case a
+		where a.receive_status in (1,2,3,4,5)
+	</select>
+	<select id="selectCountDistributedCase" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select
+		count(*)
+		from t_case a
+		where a.receive_status !=
+		#{receiveStatus,jdbcType=INTEGER}
+	</select>
+	<select id="selectCountCase" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select
+		count(*)
+		from t_case a
+	</select>
+	<select id="selectTotalCountByCondition" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		select
+		count(*)
+		from t_case a
+		where 1=1
+		<if test="startTime != null">
+			and a.create_time &gt;=#{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and a.create_time &lt;=#{endTime,jdbcType=TIMESTAMP}
+		</if>
+	</select>
+	<select id="selectCountCaseByCondition" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		select
+		count(*)
+		from t_case a
+		where 1=1
+		<if test="casestatus != null">
+			and a.receive_status =#{casestatus,jdbcType=INTEGER}
+		</if>
+		<if test="startTime != null">
+			and a.create_time &gt;=#{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTime != null">
+			and a.create_time &lt;=#{endTime,jdbcType=TIMESTAMP}
+		</if>
+	</select>
+	<select id="selectCountCaseByReceiveStatus" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select
+		count(*)
+		from t_case a
+		where a.receive_status =#{0}
+	</select>
+	<select id="selectCaseCategory" resultMap="BaseCCResultMap">
+		select
+		category_id,category_name
+		from t_case_category_type
+	</select>
+	<select id="selectCaseUnit" resultMap="BaseCUResultMap">
+		select
+		detectedunit_id,detectedunit_name
+		from t_case_detectedunit_type
+	</select>
+	<select id="selectByCaseIdAndReceiveStatuss" resultMap="BaseVMResultMap">
+		select
+		<include refid="BaseVM_Column_List" />
+		from t_case a
+		left join t_case_category_type b on a.categories_id =
+		b.category_id
+		left join t_organ c on a.detectedunit_id = c.id
+		left join
+		t_organ d on a.organization_id = d.id
+		where a.id = #{1} and
+		a.receive_status =#{0}
+	</select>
+	<select id="selectCountByorganId" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		select count(*) from t_case_organ co
+		where 1=1 and co.receive_time is
+		null
+		<if test="organId != null">
+			and co.organization_id = #{organId,jdbcType=INTEGER}
+		</if>
+	</select>
+	<select id="selectByorganId" resultMap="BaseVMResultMap"
+		parameterType="java.util.Map">
+		select
+		a.id,
+		a.name,
+		a.creator,
+		a.create_time,
+		a.code,
+		a.categories_id,
+		a.start_time,
+		a.summary,
+		a.status,
+		a.case_group_id,
+		a.isregister,
+		a.level,
+		a.longitude,
+		a.latitude,
+		a.organization_id,
+		a.detectedunit_id,
+		a.receive_status,
+		b.category_name,
+		c.name as detectedunit_name,
+		d.name as
+		organization_name,
+		co.receive_time
+		from t_case_organ co
+		left join t_case
+		a on co.case_id = a.id
+		left join t_case_category_type b on
+		a.categories_id = b.category_id
+		left join t_organ c on
+		a.detectedunit_id = c.id
+		left join t_organ d on a.organization_id =
+		d.id
+		where 1=1 and co.receive_time is null
+		<if test="organId != null">
+			and co.organization_id = #{organId,jdbcType=INTEGER}
+		</if>
+		order by co.receive_time DESC
+	</select>
+	<select id="selectCountFeedCaseByorganId" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		select count(*) from t_case_organ co
+		where 1=1 and co.receive_time is
+		not null
+		<if test="organId != null">
+			and co.organization_id = #{organId,jdbcType=INTEGER}
+		</if>
+	</select>
+	<select id="selectFeedCaseByorganId" resultMap="BaseVMResultMap"
+		parameterType="java.util.Map">
+
+		SELECT  f.id, f.name, f.creator, f.create_time,
+		f.code,
+		f.categories_id,
+		f.start_time, f.summary, f.status,
+		f.case_group_id, f.isregister,
+		f.level, f.longitude,
+		f.latitude, f.organization_id, f.detectedunit_id,
+		f.receive_status, f.receive_time, b.category_name, c.name as detectedunit_name,
+		d.name
+		as organization_name,cf.create_time as feed_time
+FROM(select a.id, a.name, a.creator, a.create_time,
+		a.code,
+		a.categories_id,
+		a.start_time, a.summary, a.status,
+		a.case_group_id, a.isregister,
+		a.level, a.longitude,
+		a.latitude, a.organization_id, a.detectedunit_id,
+		a.receive_status, co.receive_time
+		from t_case_organ co
+		left join t_case a on co.case_id = a.id and co.receive_time is not null
+WHERE
+		<if test="organId != null">
+			co.organization_id =#{organId,jdbcType=INTEGER}
+		</if>
+		order by co.receive_time DESC) as f
+		left join
+		t_case_category_type b on f.categories_id = b.category_id
+		left join
+		t_organ c on f.detectedunit_id = c.id
+		left join t_organ d on
+		f.organization_id = d.id
+		left join t_case_feed cf on f.id =
+		cf.case_id
+
+	</select>
+	<select id="selectDistributedCase" resultMap="BaseVMResultMap">
+		select
+		<include refid="BaseVM_Column_List" />
+		from t_case a
+		left join t_case_category_type b on a.categories_id =
+		b.category_id
+		left join t_organ c on a.detectedunit_id = c.id
+		left join
+		t_organ d on a.organization_id = d.id
+		where a.receive_status = 6
+	</select>
+
+	<select id="selectUnFeedBackDistributedCase" parameterType="java.util.Map"
+		resultMap="BaseVMResultMap">
+		select
+		<include refid="BaseVM_Column_List" />
+		,
+		(select count(*) from t_case_organ co where co.case_id = a.id) as
+		distribute_status
+		from t_case a
+		left join t_case_category_type b on
+		a.categories_id = b.category_id
+		left join t_organ c on
+		a.detectedunit_id = c.id
+		left join t_organ d on a.organization_id =
+		d.id
+		where a.receive_status in (1,2,3,4,5)
+		order by a.start_time DESC
+		<if test="pageStart !=null">
+			limit #{pageStart,jdbcType=INTEGER},
+			#{pageSize,jdbcType=INTEGER}
+		</if>
+		
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from t_case
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.tianyi.whcase.model.Case">
+		insert into t_case (id, name,
+		creator,
+		create_time, code, categories_id,
+		start_time, summary, status,
+		case_group_id, isregister, level,
+		longitude, latitude, organization_id,
+		detectedunit_id,receive_status)
+		values (#{id,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{creator,jdbcType=INTEGER},
+		#{createTime,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR},
+		#{categoriesId,jdbcType=VARCHAR},
+		#{startTime,jdbcType=TIMESTAMP},
+		#{summary,jdbcType=VARCHAR},
+		#{status,jdbcType=VARCHAR},
+		#{caseGroupId,jdbcType=VARCHAR}, #{isregister,jdbcType=BIT},
+		#{level,jdbcType=VARCHAR},
+		#{longitude,jdbcType=VARCHAR},
+		#{latitude,jdbcType=VARCHAR},
+		#{organizationId,jdbcType=INTEGER},
+		#{detectedunitId,jdbcType=INTEGER},#{receiveStatus,jdbcType=INTEGER})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.tianyi.whcase.model.Case">
+		update t_case
+		set
+		name = #{name,jdbcType=VARCHAR},
+		creator = #{creator,jdbcType=INTEGER},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		categories_id =
+		#{categoriesId,jdbcType=VARCHAR},
+		start_time =
+		#{startTime,jdbcType=TIMESTAMP},
+		summary = #{summary,jdbcType=VARCHAR},
+		status = #{status,jdbcType=VARCHAR},
+		level = #{level,jdbcType=VARCHAR},
+		organization_id = #{organizationId,jdbcType=INTEGER},
+		detectedunit_id =
+		#{detectedunitId,jdbcType=INTEGER}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateCaseReceiveStatusAndLevel">
+		update t_case
+		set receive_status = #{0},
+		level = #{1}
+		where id = #{2}
+	</update>
+	<update id="updateCaseReceiveStatus">
+		update t_case
+		set receive_status = #{0}
+		where id = #{1}
+	</update>
+	<select id="loaCaselistWithPage" parameterType="java.util.Map"
+		resultMap="BaseVMResultMap">
+		select
+		<include refid="BaseVM_Column_List" />
+		from t_case a
+		left join t_case_category_type b on a.categories_id =
+		b.category_id
+		left join t_organ c on a.detectedunit_id = c.id
+		left join
+		t_organ d on a.organization_id = d.id
+		where a.receive_status =
+		#{receiveStatus,jdbcType=INTEGER}
+		<if test="pageStart !=null">
+			limit #{pageStart,jdbcType=INTEGER},
+			#{pageSize,jdbcType=INTEGER}
+		</if>
+	</select>
+	<select id="countByMap" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		select count(*) from t_case
+		where 1=1
+		<if test="userId!=null">
+			and receive_status = #{receiveStatus,jdbcType=INTEGER}
+		</if>
+	</select>
 </mapper>

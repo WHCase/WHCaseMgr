@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.tianyi.whcase.core.ListResult;
 import com.tianyi.whcase.core.Result;
 import com.tianyi.whcase.model.CaseAttachItem;
-import com.tianyi.whcase.model.CaseGroup;
 import com.tianyi.whcase.service.CaseAttchService;
 import com.tianyi.whcase.service.CaseGroupService;
 import com.tianyi.whcase.service.CaseService;
@@ -50,12 +49,6 @@ public class ExportController {
 			if(caseAttachList !=null){
 				attachList = caseAttachList.getRows();
 			}
-			
-//			ListResult<CaseGroup> caseGroupList= caseGroupService.getCaseRelativeByCaseId(caseId);
-//			List<CaseGroup> groupList = null;
-//			if(caseGroupList !=null){
-//				groupList = caseGroupList.getRows();
-//			}
 			
 			String temp = createCaseExcel(caseInfo,attachList);
 			if(temp.equals("1")||temp.equals("2")){
@@ -189,54 +182,6 @@ public class ExportController {
 				Cell cell_row6_4 = row6.createCell(3, Cell.CELL_TYPE_STRING);
 				cell_row6_4.setCellValue(caseInfo.getCreator());
 				sheet.autoSizeColumn(1);
-//				/**
-//				 * sheetG串并案
-//				 */
-//				Sheet sheetG = workbook.createSheet("案件串并案件");
-//				
-//				String titleG = "案件串并案件";
-//				Row rowG0 = sheetG.createRow(0);
-//				sheetG.addMergedRegion(new CellRangeAddress(0, 0, 0, 4));
-//				Cell G_cell_0 = rowG0.createCell(0, Cell.CELL_TYPE_STRING);
-//				G_cell_0.setCellValue(titleG);
-//				
-//				Row G_row_1 = sheetG.createRow(1);
-//				Cell G_cell_10 = G_row_1.createCell(0,Cell.CELL_TYPE_STRING);
-//				G_cell_10.setCellValue("串案编号");
-//				
-//				Cell G_cell_11 = G_row_1.createCell(1,Cell.CELL_TYPE_STRING);
-//				G_cell_11.setCellValue("串案名称");
-//				
-//				Cell G_cell_12 = G_row_1.createCell(2,Cell.CELL_TYPE_STRING);
-//				G_cell_12.setCellValue("创建时间");
-//				
-//				Cell G_cell_13 = G_row_1.createCell(3,Cell.CELL_TYPE_STRING);
-//				G_cell_13.setCellValue("负责人");
-//				
-//				Cell G_cell_14 = G_row_1.createCell(4,Cell.CELL_TYPE_STRING);
-//				G_cell_14.setCellValue("审核状态");
-//			
-//				if(groupList!=null){
-//					for(int i = 0;i<groupList.size();i++){
-//						
-//						Row G_row_new = sheetG.createRow(i+2);
-//						Cell G_cell_N0 = G_row_new.createCell(0,Cell.CELL_TYPE_STRING);
-//						G_cell_N0.setCellValue(groupList.get(i).getCode());
-//						
-//						Cell G_cell_N1 = G_row_new.createCell(1,Cell.CELL_TYPE_STRING);
-//						G_cell_N1.setCellValue(groupList.get(i).getName());
-//						
-//						Cell G_cell_N2 = G_row_new.createCell(2,Cell.CELL_TYPE_STRING);
-//						G_cell_N2.setCellValue(groupList.get(i).getCreateTime().toString());
-//						
-//						Cell G_cell_N3 = G_row_new.createCell(3,Cell.CELL_TYPE_STRING);
-//						G_cell_N3.setCellValue(groupList.get(i).getContactPerson());
-//						
-//						Cell G_cell_N4 = G_row_new.createCell(4,Cell.CELL_TYPE_STRING);
-//						G_cell_N4.setCellValue(groupList.get(i).getAuditstate());
-//						
-//					}
-//				}
 				/**
 				 * sheetA附件
 				 */
@@ -285,8 +230,8 @@ public class ExportController {
 					.toString();
 			serverPath = serverPath.substring(0, (serverPath.length() - 16));
 			
-			//String realPath = serverPath + filePath;
-			String realPath ="E:/data/tempFile/" + str + "_caseData.xls"; 
+			String realPath = serverPath + filePath;
+			//String realPath ="E:/data/tempFile/" + str + "_caseData.xls"; 
 			try {
 				FileOutputStream outputStream = new FileOutputStream(
 						realPath);

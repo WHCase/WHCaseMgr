@@ -38,8 +38,8 @@
        		<label style="font-size:12px">破案单位：</label><input id="txtCaseUnit" class="easyui-combobox" data-options="valueField:'id',textField:'text',url:'case/getCaseUnit.do'" />
        	 </p>
        	 <p style="padding:5px">
-       		<label style="font-size:12px">录入单位：</label><input id="txtCaseOrgan" class="easyui-validatebox"  />
-       		<label style="font-size:12px">录入人员：</label><input id="txtCaseCreator" class="easyui-validatebox"  />
+       		<!-- <label style="font-size:12px">录入单位：</label><input id="txtCaseOrgan" class="easyui-validatebox"  />-->
+       		<label style="font-size:12px">录入人员：</label><input id="txtCaseCreator" class="easyui-validatebox"  /> 
        	 </p>
        </div> 
        <!-- <div title="案件串并案件" style="padding:10px" id="caseRelativeModule">

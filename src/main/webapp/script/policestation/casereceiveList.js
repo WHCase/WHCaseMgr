@@ -30,6 +30,15 @@ $(function() {
 		isShow = true;
 		$("#caseBackTb a[doc='caseReceive']").attr("style","display:none");
 	}
+	var curr_time = new Date();
+	   var strDate = curr_time.getFullYear()+"-";
+	   strDate += curr_time.getMonth()+1+"-";
+	   strDate += curr_time.getDate()+"-";
+	   strDate += curr_time.getHours()+":";
+	   strDate += curr_time.getMinutes()+":";
+	   strDate += curr_time.getSeconds();
+	   $("#txtCaseTime").datebox("setValue", strDate); 
+	   
 	//CaseManage.packageObject();
 	CaseManage.loadCaseList();
 	
@@ -47,7 +56,7 @@ $(function() {
 		onSubmit:function(file,ext){
 			var data = {};
 			data.id = m_rowData.id;
-			//data.creator = m_rowData.creator;
+			//data.organizationId = 12;
 			this.setData(data);
 			var text = "文件上传中";
 			interval = window.setInterval(function() {
@@ -67,7 +76,8 @@ $(function() {
 				pagination : false, 
 				nowrap : false,
 				idField : 'id',  
-				toolbar : '#caseBackAttchMentsTb',  
+				toolbar : '#caseBackAttchMentsTb', 
+				singleSelect: true,
 				columns : [ [ 
 				              { title : 'id', field : 'id', hidden : true },
 				              { title : '附件名称', field : 'name', align : 'center', width : 150 },
@@ -119,6 +129,7 @@ var CaseManage = {
 				pageSize : 20,
 				nowrap : false,
 				idField : 'id',
+				singleSelect:true,
 				onClickRow:CaseManage.setRowInfoBySelect,
 				onDblClickRow : CaseManage.showCaseInfo,
 				toolbar : "#caseBackTb",
@@ -142,14 +153,13 @@ var CaseManage = {
 				              }
 				              },hidden:isFeed },
 				              { title : '案件等级', field : 'level', align : 'center', width : 150 },
-				              { title : '案件状态', field : 'status', align : 'center', width : 150 },
+				              { title : '案件状态', field : 'caseStatus', align : 'center', width : 150 },
 				              { title : '案件编号', field : 'code', align : 'center', width : 150 },
 				              { title : '案件名称', field : 'name', align : 'center', width : 150 },
 				              { title : '案件类型', field : 'categoryName', align : 'center', width : 150 },
 				              { title : '案件时间', field : 'startTime', align : 'center', width : 150 },
-				              { title : '案件所属区域', field : 'organizationame', align : 'center', width : 150 },
-				              { title : '简要案情', field : 'summary', align : 'center', width : 150 },
-				              { title : '案件编号', field : 'code', align : 'center', width : 150 }
+				              { title : '案件所属区域', field : 'detectedunitNname', align : 'center', width : 150 },
+				              { title : '简要案情', field : 'summary', align : 'center', width : 150 }
 				          ] ]
 			});
 		},
@@ -204,7 +214,8 @@ var CaseManage = {
 										pagination : false, 
 										nowrap : false,
 										idField : 'id',  
-										toolbar : '#caseBackAttchMentsTb',  
+										toolbar : '#caseBackAttchMentsTb',
+										singleSelect: true,
 										columns : [ [ 
 										              { title : 'id', field : 'id', hidden : true },
 										              { title : '附件名称', field : 'name', align : 'center', width : 150 },
@@ -236,7 +247,8 @@ var CaseManage = {
 							rownumbers : true,
 							pagination : false, 
 							nowrap : false,
-							idField : 'id',  
+							idField : 'id',
+							singleSelect: true,
 							toolbar : '#caseBackAttchMentsTb',  
 							columns : [ [ 
 							              { title : 'id', field : 'id', hidden : true },
@@ -271,7 +283,7 @@ var CaseManage = {
 			});
 		},
 		mainCaseInfoBind:function(caseInfo){
-			$('#txtCaseNo').val(caseInfo.id);
+			$('#txtCaseNo').val(caseInfo.code);
 			$('#txtCaseName').val(caseInfo.name);
 		},
 		/**
@@ -316,7 +328,7 @@ var CaseManage = {
 				success:function(responce){
 					if(responce.isSuccess){
 						$.messager.alert("提示","案件反馈成功","normal");
-						CaseManage.loadCaseList();
+						
 					}else{
 						$.messager.alert("提示",responce.msg,"normal");
 					}
@@ -328,17 +340,18 @@ var CaseManage = {
 			 * 获取用户输入的反馈信息和上传的文件
 			 */
 			var feedBack = {};
-			feedBack.caseId = $('#txtCaseNo').val();
+			feedBack.caseId = m_rowData.id;
 			feedBack.content = $('#txtBackWords').val();
 			feedBack.caseResult = $('#txtCaseResult').val();;
 			feedBack.createTime = $('#txtCaseTime').datebox('getValue');
-			feedBack.organizationId = $('#txtCaseOrgan').val();
-			feedBack.creator = $('#txtCaseCreator').val();
+//			feedBack.organizationId = $('#txtCaseOrgan').val();
+			feedBack.creator = 0;
 			feedBack.organizationId = m_organ_id;
 			return feedBack;
 		},
 		cancelSave:function(){
 			m_caseBack_dlg.close();
+			CaseManage.loadCaseList();
 		},
 		uploadFile:function(){
 			/**

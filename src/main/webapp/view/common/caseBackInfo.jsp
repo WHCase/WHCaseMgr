@@ -12,11 +12,11 @@
   
   <body>
  	 <div>
- 	 	<p style="padding:2px;border-bottom:1px solid black;width:99%;"> 
+ 	 	<p style="padding:2px;border-bottom:1px solid black;width:99%;overflow:auto;"> 
 			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-close" plain="true">关闭</a> 
 		</p>
 	</div>
-     <div id="caseDeatilsInfo"  class="easyui-tabs" style="width:680px;height:380px" >
+     <div id="caseDeatilsInfo"  class="easyui-tabs" style="width:680px;height:380px;overflow:auto;" >
        <div title="案件主体信息" style="padding:10px">
        	  <p style="padding:5px">
        		<label style="font-size:12px">案件编号：</label><input id="txtCaseNo" class="easyui-validatebox" readonly="readonly" />
@@ -37,7 +37,7 @@
        		<label style="font-size:12px">破案单位：</label><input id="txtCaseUnit" class="easyui-validatebox"  readonly="readonly"/>
        	 </p>
        	 <p style="padding:5px">
-       		<label style="font-size:12px">录入单位：</label><input id="txtCaseOrgan" class="easyui-validatebox" readonly="readonly" />
+       		<!-- <label style="font-size:12px">录入单位：</label><input id="txtCaseOrgan" class="easyui-validatebox" readonly="readonly" /> -->
        		<label style="font-size:12px">录入人员：</label><input id="txtCaseCreator" class="easyui-validatebox" readonly="readonly" />
        	 </p>
        </div> 
@@ -68,10 +68,10 @@
        	 	<div id="caseBackAttchMents"></div>
        	 </div>
        </div>
-       <div title="案件串并案件" style="padding:10px">
+      <!--  <div title="案件串并案件" style="padding:10px">
        		<div id="caseRelative"></div>
-       </div>
-       <div title="案件附件信息" style="padding:10px">
+       </div> -->
+       <div title="案件附件信息" style="padding:10px;overflow:auto;">
        		<div id="caseAttchMents"></div>
        </div>
     </div>

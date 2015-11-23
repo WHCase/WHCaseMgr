@@ -30,9 +30,21 @@ public class CaseServiceImpl implements CaseService {
 	 * @return
 	 */
 	public ListResult<CaseVM> getCasePushListByReceiveStatus(
-			Integer receiveStatus) {
+			Map<String, Object> map) {
 		int count = caseMapper.selectUnFeedBackVMCount();
-		List<CaseVM> caseList = caseMapper.selectUnFeedBackDistributedCase();
+		List<CaseVM> caseList = caseMapper.selectUnFeedBackDistributedCase(map);
+		for(int i = 0;i<caseList.size();i++){
+			/*案件状态、Handling - 受理，
+			 Detected - 已破
+			 CloseCase - 销案*/
+			if(caseList.get(i).getStatus().equals("Handling")){
+				caseList.get(i).setCaseStatus("受理");
+			}else if(caseList.get(i).getStatus().equals("Detected")){
+				caseList.get(i).setCaseStatus("已破");
+			}else if(caseList.get(i).getStatus().equals("CloseCase")){
+				caseList.get(i).setCaseStatus("销案");
+			}
+		}
 		ListResult<CaseVM> list = new ListResult<CaseVM>(count, caseList);
 		return list;
 	}
@@ -76,6 +88,18 @@ public class CaseServiceImpl implements CaseService {
 			Map<String, Object> map) {
 		int count = caseMapper.countByMap(map);
 		List<CaseVM> ls = caseMapper.loaCaselistWithPage(map);
+		for(int i = 0;i<ls.size();i++){
+			/*案件状态、Handling - 受理，
+			 Detected - 已破
+			 CloseCase - 销案*/
+			if(ls.get(i).getStatus().equals("Handling")){
+				ls.get(i).setCaseStatus("受理");
+			}else if(ls.get(i).getStatus().equals("Detected")){
+				ls.get(i).setCaseStatus("已破");
+			}else if(ls.get(i).getStatus().equals("CloseCase")){
+				ls.get(i).setCaseStatus("销案");
+			}
+		}
 		ListResult<CaseVM> result = new ListResult<CaseVM>(count, ls);
 		return result;
 	}
@@ -102,7 +126,7 @@ public class CaseServiceImpl implements CaseService {
 	public String updateCaseReceiveStatus(int receiveStatus, String caseId) {
 		int temp = caseMapper.updateCaseReceiveStatus(receiveStatus,caseId);
 		if (temp > 0) {
-			return "修改状态成功";
+			return "";
 		} else {
 			return "修改失败";
 		}
@@ -120,10 +144,10 @@ public class CaseServiceImpl implements CaseService {
 		return caseVMList;
 	}
 
-	public ListResult<CaseVM> getCaseFeedBackListByReceiveStatus() {
+	public ListResult<CaseVM> getCaseFeedBackListByReceiveStatus(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		int count = caseMapper.selectVMCountByReceiveStatus(6);
-		List<CaseVM> caseList = caseMapper.selectByReceiveStatus(6);
+		List<CaseVM> caseList = caseMapper.selectByReceiveStatus(map);
 		ListResult<CaseVM> list = new ListResult<CaseVM>(count, caseList);
 		return list;
 
@@ -188,18 +212,22 @@ public class CaseServiceImpl implements CaseService {
 		return caseTJ;
 	}
 
-	public List<CaseVM> getDistributeCaseByOrganId(Map<String, Object> map) {
+	public ListResult<CaseVM> getDistributeCaseByOrganId(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		List<CaseVM> caseVMList = new ArrayList<CaseVM>();
+		int count =caseMapper.selectCountByorganId(map);
 		caseVMList = caseMapper.selectByorganId(map);
-		return caseVMList;
+		ListResult<CaseVM> l = new ListResult<CaseVM>(count, caseVMList);
+		return l;
 	}
 
-	public List<CaseVM> getFeedCaseByOrganId(Map<String, Object> map) {
+	public ListResult<CaseVM> getFeedCaseByOrganId(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		List<CaseVM> caseVMList = new ArrayList<CaseVM>();
+		int count =caseMapper.selectCountFeedCaseByorganId(map);
 		caseVMList = caseMapper.selectFeedCaseByorganId(map);
-		return caseVMList;
+		ListResult<CaseVM> l = new ListResult<CaseVM>(count, caseVMList);
+		return l;
 	}
 
 }

@@ -3,6 +3,9 @@ package com.tianyi.whcase.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,14 +44,17 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 		for(int i = 0;i<attachList.size();i++){
 			CaseAttach attach = attachList.get(i);
 			String caseAttachId = attach.getId();
-			attachItemList.addAll(caseAttachItemMapper.selectByCaseAttachId(caseAttachId));
+			List<CaseAttachItem> list =caseAttachItemMapper.selectByCaseAttachId(caseAttachId);
+			for(int j=0;j<list.size();j++){
+				attachItemList.add(list.get(j));
+			}
 		}
 		
 		return new ListResult<CaseAttachItem>(attachItemList);
 		
 	}
 
-	public int AddAttachVM(CaseAttachVM caseAttachVM) {
+	public int AddAttachVM(CaseAttachVM caseAttachVM,HttpServletRequest request,HttpServletResponse response) {
 		int temp =0;
 		CaseAttach caseAttach = caseAttachVM.getCaseAttach();
 		caseAttach.setResourceType("1");
@@ -71,16 +77,26 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 			}
 			temp = caseAttachItemMapper.insert(attachItemList.get(i));
 			/*调用捷尚接口下载相应的附件*/
-			jieShangService.downloadAttachFiles(attachItemList.get(i).getUri());
+			try {
+				jieShangService.downloadAttachFiles(attachItemList.get(i).getUri(),request,response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return temp;
 	}
 	public String deleteCaseAttach(String caseId,String caseattachId) {
+		CaseAttachItem cAttachItem = caseAttachItemMapper.selectByPrimaryKey(caseattachId);
+		if(cAttachItem==null){
+			return "查询附件文件对应的附件信息不存在";
+		}
 		/*本地数据库删除，调用捷尚接口删除远程文件*/
 		if(caseAttachItemMapper.deleteByPrimaryKey(caseattachId)<0){
 			return "删除失败";
 		}
-		if(jieShangService.deleteCaseAttach(caseId,caseattachId)<0){
+
+		if(jieShangService.deleteCaseAttach(caseId,cAttachItem.getCaseAttchId())<0){
 			return "调用捷尚删除接口删除失败";
 		}
 		return "";

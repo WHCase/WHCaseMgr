@@ -8,16 +8,20 @@ import java.net.URLConnection;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tianyi.whcase.core.Result;
+import com.tianyi.whcase.service.JieShangService;
 import com.tianyi.whcase.util.DbConfig;
 
 @Controller
 @RequestMapping("/JieShang")
 public class JieShangInterfaceController {
+	@Autowired JieShangService jieShangService;
 	
 	@RequestMapping(value = "updateCCase.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String updateCCase(
@@ -92,5 +96,27 @@ public class JieShangInterfaceController {
 	public @ResponseBody String DownloadAttachFiles(
 		HttpServletRequest request)throws Exception{
 		return"";
+	}
+	@RequestMapping(value = "getGetDictionary.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getGetDictionary(
+		HttpServletRequest request)throws Exception{
+		String temp = jieShangService.GetDictionary();
+		if(temp.equals("")){
+			return new Result<String>(null,true,"获取案件类型成功").toJson();
+		}else{
+			return new Result<String>(null,false,temp).toJson();
+		}
+		
+	}
+	@RequestMapping(value = "GetAllOrganizations.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String GetAllOrganizations(
+		HttpServletRequest request)throws Exception{
+		String temp = jieShangService.GetAllOrganizations();
+		if(temp.equals("")){
+			return new Result<String>(null,true,"获取案件类型成功").toJson();
+		}else{
+			return new Result<String>(null,false,temp).toJson();
+		}
+		
 	}
 }

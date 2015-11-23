@@ -14,6 +14,7 @@ $(function() {
 	    	CaseDetailsManage.loadCaseBackMainInfo(record.id);
 	    }
 	});
+	$("#caseRelativeModule").attr("style","display:none");
 });
 
 var CaseDetailsManage = {  
@@ -99,7 +100,7 @@ var CaseDetailsManage = {
 		},
 		loadCaseBackAttchMents:function(){
 			$('#caseBackAttchMents').datagrid({
-				url : 'caseFeed/getCaseBackAttchMents.do?caseId='+m_caseInfo_id, 
+				url : 'caseAttch/getUpCaseAttchMents.do?caseId='+m_caseInfo_id, 
 				rownumbers : true,
 				pagination : false, 
 				nowrap : false,
@@ -127,8 +128,9 @@ var CaseDetailsManage = {
 			$('#txtCaseName').val(caseInfo.name);
 			$('#txtCaseType').val(caseInfo.categoryName);
 			$('#txtCaseTime').val(caseInfo.startTime);
-			$('#txtCaseArea').val("经度："+caseInfo.latitude+",纬度："+caseInfo.longitude);
+			$('#txtCaseArea').val(caseInfo.detectedunitNname);
 			$('#txtCaseDesc').val(caseInfo.summary);
+
 			$('#txtCaseStatus').val(caseInfo.status);
 			$('#txtCaseUnit').val(caseInfo.detectedunitNname);
 			$('#txtCaseOrgan').val(caseInfo.organizationame);

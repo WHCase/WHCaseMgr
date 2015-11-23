@@ -29,6 +29,7 @@ $(function() {
 	$("#btnCancelSave").bind("click", CasePushManage.cancelSave);
 	
 	$("#exportCaseInfo").bind("click",CasePushManage.exportCaseInfo);
+	
 	/**
 	 * for test
 	 */
@@ -142,6 +143,7 @@ var CasePushManage = {
 				pageSize : 20,
 				nowrap : false,
 				idField : 'id', 
+				singleSelect:true,
 				onClickRow:CasePushManage.setRowInfoBySelect,
 				onDblClickRow : CasePushManage.showCaseInfo,
 				toolbar : "#casePushTb",
@@ -158,9 +160,8 @@ var CasePushManage = {
 				              { title : '案件名称', field : 'name', align : 'center', width : 150 },
 				              { title : '案件类型', field : 'categoryName', align : 'center', width : 150 },
 				              { title : '案件时间', field : 'startTime', align : 'center', width : 150 },
-				              { title : '案件所属区域', field : 'organizationame', align : 'center', width : 150 },
-				              { title : '简要案情', field : 'summary', align : 'center', width : 150 },
-				              { title : '案件编号', field : 'code', align : 'center', width : 150 }
+				              { title : '案件所属区域', field : 'detectedunitNname', align : 'center', width : 150 },
+				              { title : '简要案情', field : 'summary', align : 'center', width : 150 }
 				          ] ]
 			});
 		},
@@ -411,11 +412,17 @@ var CasePushManage = {
 				data:{caseId:m_rowData.id},
 				success:function(responce){
 					var obj = JSON.parse(responce);
+					
+					var fileURL=window.open ("\\"+"case/"+obj.data,"_blank","height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");
+			        document.document.execCommand("SaveAs",'false',"\\"+"case/"+obj.data);
+			        fileURL.window.close();
+			        fileURL.close();
+			        
 					if(obj.isSuccess==true){
-						$.messager.alert("提示","案件推送成功。");
+						$.messager.alert("提示","保存成功");
 						CasePushManage.loadCaseList();
 					}else{
-						$.messager.alert("提示",obj["msg"],"warning");
+						$.messager.alert("提示","导出失败","warning");
 					}
 				}
 			});

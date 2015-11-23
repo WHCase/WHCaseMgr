@@ -11,4 +11,26 @@
     from t_organ
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id ="selectCaseCategoryByCategoryId" parameterType="java.lang.String" resultType="java.lang.Integer">
+  select count(*)
+  from t_case_category_type a
+  where a.category_id = #{0}
+  </select>
+  <select id ="selectUnitByUnitId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  select count(*)
+  from t_case_detectedunit_type a
+  where a.detectedunit_id = #{0}
+  </select>
+  <insert id="insert" parameterType="com.tianyi.whcase.model.Organ">
+  	insert into t_organ(id,name,parent_id)
+  	values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{parentId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertCaseCategory" parameterType="com.tianyi.whcase.model.CaseCategory">
+  	insert into t_case_category_type(category_id,category_name)
+  	values (#{id,jdbcType=VARCHAR},#{text,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertUnit" parameterType="com.tianyi.whcase.model.detectUnit">
+  	insert into t_case_detectedunit_type(detectedunit_id,detectedunit_name)
+  	values (#{detectedunitId,jdbcType=INTEGER},#{detectedunitName,jdbcType=VARCHAR})
+  </insert>
 </mapper>

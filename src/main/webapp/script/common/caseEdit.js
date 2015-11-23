@@ -121,7 +121,7 @@ var CaseDetailsManage = {
 				value:caseInfo.categoryName
 			});
 			$('#txtCaseTime').datebox('setValue',caseInfo.startTime);
-			$('#txtCaseArea').val("经度："+caseInfo.latitude+",纬度："+caseInfo.longitude);
+			$('#txtCaseArea').val(caseInfo.organizationame);
 			$('#txtCaseDesc').val(caseInfo.summary);
 			$('#txtCaseStatus').combobox({
 				value:caseInfo.status

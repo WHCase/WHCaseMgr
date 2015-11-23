@@ -2,32 +2,60 @@ var m_index_organTye;
 var m_index_organId;
 
 $(function() {
-	var obj = getUrlArgs();
-	m_index_organTye = obj.organType;
-	m_index_organId = obj.organId;
-	
-	$.ajax('Organ/getOrganNameById.do',{
+	//获取案件类型
+	$.ajax('JieShang/getGetDictionary.do',{
 		type:'POST',
-		data:{'organId':m_index_organId},
 		success:function(responce){
-			if(responce.isSuccess==true){
-				$("#labOrgName").text(responce.data.name);
+			//var res = JSON.parse(responce);
+			if(responce.isSuccess ==true){
+				
 			}else{
-				$("#labOrgName").text(responce.msg);
+				$.messager.alert('获取数据', responce.msg, "warning");
 			}
 		}
 	});
+	//获取机构
+	$.ajax('JieShang/GetAllOrganizations.do',{
+		type:'GET',
+		success:function(responce){
+			//var res = JSON.parse(responce);
+			if(responce.isSuccess ==true){
+				
+			}else{
+				$.messager.alert('获取数据', responce.msg, "warning");
+			}
+		}
+	});
+	var obj = getUrlArgs();
+	m_index_organTye = obj.organType;
+	m_index_organId = obj.organId;
+	if(m_index_organTye ==0){
+		$("#labOrgName").text("市局");
+	}else{
+		$.ajax('Organ/getOrganNameById.do',{
+			type:'POST',
+			data:{'organId':m_index_organId},
+			success:function(responce){
+				if(responce.isSuccess==true){
+					$("#labOrgName").text(responce.data.name);
+				}else{
+					$("#labOrgName").text(responce.msg);
+				}
+			}
+		});
+	}
+	
 	var url = "";
 	if(m_index_organTye==0||m_index_organTye=="0"){
 		url = "data/policeofficeMenu.json";
-		var obj = {};
-		obj.text = "案件分配";
-		onTreeMenuDblClick(obj);
+		var f = {};
+		f.text = "案件分配";
+		onTreeMenuDblClick(f);
 	}else{
 		url = "data/policestationMenu.json";
-		var obj = {};
-		obj.text = "案件接收";
-		onTreeMenuDblClick(obj);
+		var f = {};
+		f.text = "案件接收";
+		onTreeMenuDblClick(f);
 	}
 	$('#treeMenu').tree({
 		checkbox : false, 

@@ -20,7 +20,7 @@ public interface CaseService {
 	 * @param paramValue 参数值
 	 * @param paramName 参数字段名
 	 */
-	ListResult<CaseVM> getCasePushListByReceiveStatus(Integer receiveStatus);
+	ListResult<CaseVM> getCasePushListByReceiveStatus(Map<String, Object> map);
 
 	CaseVM getCaseMainInfo(String caseId);
 
@@ -43,14 +43,14 @@ public interface CaseService {
 
 	List<CaseVM> getDistributeCase(int receiveStatus, List<String> caseIdList);
 
-	ListResult<CaseVM> getCaseFeedBackListByReceiveStatus();
+	ListResult<CaseVM> getCaseFeedBackListByReceiveStatus(Map<String, Object> map);
 
 	CaseTJVM getCaseTJInfo();
 
 	CaseTJVM getCaseTJInfo(Map<String, Object> map);
 
-	List<CaseVM> getDistributeCaseByOrganId(Map<String, Object> map);
+	ListResult<CaseVM> getDistributeCaseByOrganId(Map<String, Object> map);
 
-	List<CaseVM> getFeedCaseByOrganId(Map<String, Object> map);
+	ListResult<CaseVM> getFeedCaseByOrganId(Map<String, Object> map);
 
 }

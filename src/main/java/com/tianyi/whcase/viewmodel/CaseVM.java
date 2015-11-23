@@ -11,7 +11,14 @@ public class CaseVM extends Case {
 	private int distributeStatus;
 	private Date receiveTime;
 	private Date feedTime;
+	private String caseStatus;
 	
+	public String getCaseStatus() {
+		return caseStatus;
+	}
+	public void setCaseStatus(String caseStatus) {
+		this.caseStatus = caseStatus;
+	}
 	public Date getFeedTime() {
 		return feedTime;
 	}

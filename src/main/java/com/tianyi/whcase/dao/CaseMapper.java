@@ -18,7 +18,7 @@ public interface CaseMapper {
     
     CaseVM selectVMByPrimaryKey(String id);
     
-    List<CaseVM> selectByReceiveStatus(Integer receiveStatus);
+    List<CaseVM> selectByReceiveStatus(Map<String, Object> map);
 
     int updateByPrimaryKey(Case record);
 
@@ -41,7 +41,7 @@ public interface CaseMapper {
 
 	int selectCountDistributedCase(int i);
 
-	List<CaseVM> selectUnFeedBackDistributedCase();
+	List<CaseVM> selectUnFeedBackDistributedCase(Map<String, Object> map);
 
 	int selectUnFeedBackVMCount();
 
@@ -56,4 +56,8 @@ public interface CaseMapper {
 	List<CaseVM> selectByorganId(Map<String, Object> map);
 
 	List<CaseVM> selectFeedCaseByorganId(Map<String, Object> map);
+
+	int selectCountByorganId(Map<String, Object> map);
+
+	int selectCountFeedCaseByorganId(Map<String, Object> map);
 }

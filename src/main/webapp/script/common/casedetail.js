@@ -59,14 +59,36 @@ var CaseDetailsManage = {
 				rownumbers : true,
 				pagination : false, 
 				nowrap : false,
+				singleSelect: true,
 				idField : 'id',  
 				columns : [ [ 
 				              { title : 'id', field : 'id', hidden : true },
 				              { title : '附件名称', field : 'name', align : 'center', width : 150 },
 				              { title : '附件类型', field : 'itemType', align : 'center', width : 150 },
-				              { title : '链接', field : 'uri', align : 'center', width : 150 }
+				              { title : '查看', field : 'uri', align : 'center', width : 150,formatter:function(value,rowData,index){
+				            	  var html = '<a id="deleteA" href="javascript:void(0);" onclick="CaseDetailsManage.showTheAttachItem('+index+')">下载</a>';
+				            	  return html;
+				              }}
 				          ] ]
 			});
+		},
+		showTheAttachItem:function(index){
+			var dataRows = $('#caseAttchMents').datagrid('getRows');
+			if (dataRows.length == 0) {
+				$.messager.alert('操作提示', "没有可操作数据", "warning");
+				return;
+			}
+			var target = dataRows[index];
+			if (!target || target.length == 0) {
+				$.messager.alert('操作提示', "请选择操作项!", "warning");
+				return;
+			}
+			var url = target.uri;
+			url = url.replace('resource://','');
+			 var fileURL=window.open ("\\"+"case/"+url,"_blank","height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");
+		        fileURL.document.execCommand("SaveAs");
+		        fileURL.window.close();
+		        fileURL.close();
 		},
 		cancelSave:function(){
 			parent.m_caseInfo_dlg.close();
@@ -82,8 +104,9 @@ var CaseDetailsManage = {
 			$('#txtCaseName').val(caseInfo.name);
 			$('#txtCaseType').val(caseInfo.categoryName);
 			$('#txtCaseTime').val(caseInfo.startTime);
-			$('#txtCaseArea').val("经度："+caseInfo.latitude+",纬度："+caseInfo.longitude);
+			$('#txtCaseArea').val(caseInfo.detectedunitNname);
 			$('#txtCaseDesc').val(caseInfo.summary);
+
 			$('#txtCaseStatus').val(caseInfo.status);
 			$('#txtCaseUnit').val(caseInfo.detectedunitNname);
 			$('#txtCaseOrgan').val(caseInfo.organizationame);

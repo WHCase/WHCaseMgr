@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 import org.dom4j.Document;
@@ -87,12 +88,14 @@ public class CaseAttchController {
 	public @ResponseBody String AddCaseAttach(
 			@RequestParam(value="caseId",required = false) String id,
 			@RequestBody String requestBody,			
-			HttpServletRequest request)throws Exception{
+			HttpServletRequest request,
+			HttpServletResponse response
+			)throws Exception{
 		Document document = DocumentHelper.parseText(requestBody);
 		
 		CaseAttachVM caseAttachVM =getAttachVMByDocument(document,id);
 		int temp = 0;
-		temp = caseAttchService.AddAttachVM(caseAttachVM);
+		temp = caseAttchService.AddAttachVM(caseAttachVM,request,response);
 
 		return getReturnXml(temp);
 	}

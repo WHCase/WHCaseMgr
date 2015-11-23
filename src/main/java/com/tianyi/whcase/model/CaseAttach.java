@@ -39,8 +39,7 @@ public class CaseAttach {
     private String messageType;
     
     private String resourceType;
-
-    public String getResourceType() {
+	public String getResourceType() {
 		return resourceType;
 	}
 
