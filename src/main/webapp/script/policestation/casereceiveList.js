@@ -48,6 +48,8 @@ $(function() {
 	$("#btnSaveBackInfo").bind("click", CaseManage.saveBackInfo);
 	$("#btnCancelSave").bind("click", CaseManage.cancelSave);
 	
+	$("#exportCaseInfo").bind("click",CaseManage.exportCaseInfo);
+	
 	var button = $('#btnUploadFile'),interval;
 	
 	new AjaxUpload(button,{
@@ -358,5 +360,33 @@ var CaseManage = {
 			 * 打开一个文件选择框
 			 */
 			$.messager.alert("操作提示", "上传文件", "error");
+		},
+		exportCaseInfo:function(){
+			if(m_rowIndex ==-1){
+				$.messager.alert('操作提示', "请先选择案件", "warning");
+				return;
+			}
+		/**
+		 * 
+		 */	
+			$.ajax('Export/CaseInfoExportInExcel.do',{
+				type:'POST',
+				data:{caseId:m_rowData.id},
+				success:function(responce){
+					var obj = JSON.parse(responce);
+					
+					var fileURL=window.open ("\\"+"case/"+obj.data,"_blank","height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");
+			        document.document.execCommand("SaveAs",'false',"\\"+"case/"+obj.data);
+			        fileURL.window.close();
+			        fileURL.close();
+			        
+					if(obj.isSuccess==true){
+						$.messager.alert("提示","保存成功");
+						CasePushManage.loadCaseList();
+					}else{
+						$.messager.alert("提示","导出失败","warning");
+					}
+				}
+			});
 		}
 };
