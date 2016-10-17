@@ -8,7 +8,7 @@
 
 <title>用户列表</title>
 <script src='<%=basePath%>script/policestation/casereceiveList.js'
-	type='text/javascript'></script>
+	type='text/javascript'></script>	
 </head>
 
 <body>

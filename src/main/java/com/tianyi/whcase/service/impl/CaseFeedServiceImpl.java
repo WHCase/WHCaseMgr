@@ -50,14 +50,17 @@ public class CaseFeedServiceImpl implements CaseFeedService {
 		 
 		return null;
 	}
-
+    
+	// 插入反馈的数据
 	public String insertCaseFeed(CaseFeed feedBack) {
 		Map<String, Object> map = new HashMap<String, Object>();   
 		map.put("caseId", feedBack.getCaseId());
 		map.put("organId", feedBack.getOrganizationId());
 		CaseFeed fb = caseFeedMapper.selectByCondition(map);
 		if (fb != null) {
-			caseFeedMapper.updateByPrimaryKey(feedBack);
+			fb.setContent(feedBack.getContent());
+			fb.setCaseResult(feedBack.getCaseResult());
+			caseFeedMapper.updateByPrimaryKey(fb);
 		} else {
 			caseFeedMapper.insert(feedBack);
 		}

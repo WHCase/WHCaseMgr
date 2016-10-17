@@ -73,6 +73,7 @@ public class CaseFeedController {
 			return result.toJson();
 		}
 	}
+	// 反馈信息保存和更新
 	@RequestMapping(value = "saveFeedBacInfo.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String saveFeedBacInfo(
 		@RequestParam(value="feedBackInfo",required = false) String feedBackInfo,

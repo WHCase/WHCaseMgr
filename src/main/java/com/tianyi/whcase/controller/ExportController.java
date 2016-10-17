@@ -1,5 +1,6 @@
 package com.tianyi.whcase.controller;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -161,7 +162,13 @@ public class ExportController {
 				sheet.autoSizeColumn(1);
 	
 				Cell cell_row5_4 = row5.createCell(3, Cell.CELL_TYPE_STRING);
-				cell_row5_4.setCellValue(caseInfo.getDetectedunitNname());
+				// 字段为空的判断   修改人：xie
+				if(caseInfo.getDetectedunitNname() == null){
+					cell_row5_4.setCellValue("");
+				}else{
+					cell_row5_4.setCellValue(caseInfo.getDetectedunitNname());
+				}
+				
 				sheet.autoSizeColumn(1);
 				/**
 				 * row6
@@ -233,6 +240,7 @@ public class ExportController {
 			String realPath = serverPath + filePath;
 			//String realPath ="E:/data/tempFile/" + str + "_caseData.xls"; 
 			try {
+				
 				FileOutputStream outputStream = new FileOutputStream(
 						realPath);
 				workbook.write(outputStream);

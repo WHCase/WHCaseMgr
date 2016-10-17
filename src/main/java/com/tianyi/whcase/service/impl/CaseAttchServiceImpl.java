@@ -38,6 +38,7 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 	public ListResult<CaseAttachItem> getCaseRelativeByCaseId(String id,String resourceType ) {
 		List<CaseAttach> attachList = caseAttachMapper.selectByCaseId(id,resourceType);
 		if(attachList==null||attachList.size()==0){
+			// 应该要提示一个信息，不应该为空
 			return null;
 		}
 		List<CaseAttachItem> attachItemList = new ArrayList<CaseAttachItem>();
