@@ -27,6 +27,8 @@ public interface CaseMapper {
 	List<CaseUnit> selectCaseUnit();
 
 	int selectVMCountByReceiveStatus(Integer receiveStatus);
+	
+	int selectVMCountByReceiveStatus1(Map<String, Object> map);
 
 	int countByMap(Map<String, Object> map);
 

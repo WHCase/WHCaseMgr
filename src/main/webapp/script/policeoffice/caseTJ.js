@@ -31,6 +31,7 @@ var caseTJManage = {
 		doSearch:function(){
 			var startTime = $("#sch_startTime").datebox("getValue");
 			var endTime = $("#sch_endTime").datebox("getValue");
+			//alert(startTime+endTime);
 			$("#caseTJListGrid").datagrid("reload",{"startTime":startTime,"endTime":endTime});
 		}
 };

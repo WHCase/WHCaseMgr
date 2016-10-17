@@ -232,12 +232,29 @@ public class ExportController {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 			java.util.Date date = new java.util.Date();
 			String str = sdf.format(date);
-			filePath = "data/tempFile/" + str + "_caseData.xls";
+			
 			String serverPath = getClass().getResource("/").getFile()
 					.toString();
 			serverPath = serverPath.substring(0, (serverPath.length() - 16));
-			
+			 serverPath += "data";
+			File file = new File(serverPath);
+			if(!file.exists() && !file.isDirectory()){
+				file.mkdirs();
+			}
+			serverPath += "/tempFile";
+			file = new File(serverPath);
+			if(!file.exists() && !file.isDirectory()){
+				file.mkdirs();
+			}
+			filePath = "/" + str + "_caseData.xls";
 			String realPath = serverPath + filePath;
+//			
+//			filePath = "data/tempFile/" + str + "_caseData.xls";
+//			String serverPath = getClass().getResource("/").getFile()
+//					.toString();
+//			serverPath = serverPath.substring(0, (serverPath.length() - 16));
+//			
+//			String realPath = serverPath + filePath;
 			//String realPath ="E:/data/tempFile/" + str + "_caseData.xls"; 
 			try {
 				
