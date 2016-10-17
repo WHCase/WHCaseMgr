@@ -120,6 +120,9 @@
 		left join t_organ d on a.organization_id =
 		d.id
 		where a.receive_status = 6
+		<if test="startTime != null and endTime != null">
+		and a.start_time between #{startTime} and #{endTime}
+		</if>
 		order by a.start_time DESC
 		<if test="pageStart !=null">
 			limit #{pageStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
@@ -133,6 +136,16 @@
 		from t_case a
 		where a.receive_status =
 		#{receiveStatus,jdbcType=INTEGER}
+	</select>
+	<select id="selectVMCountByReceiveStatus1" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		select
+		count(*)
+		from t_case a
+		where a.receive_status = 6		
+		<if test="startTime != null and endTime != null">
+		and a.start_time between #{startTime} and #{endTime}
+		</if>
 	</select>
 	<select id="selectUnFeedBackVMCount" resultType="java.lang.Integer">
 		select
@@ -335,6 +348,9 @@ WHERE
 		left join t_organ d on a.organization_id =
 		d.id
 		where a.receive_status in (1,2,3,4,5)
+		<if test="startTime != null and endTime != null">
+		and a.start_time between #{startTime} and #{endTime}
+		</if>
 		order by a.start_time DESC
 		<if test="pageStart !=null">
 			limit #{pageStart,jdbcType=INTEGER},

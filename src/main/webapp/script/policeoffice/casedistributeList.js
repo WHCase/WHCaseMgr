@@ -4,6 +4,8 @@ var m_caseInfo_dlg;
 var m_casePush_dlg;
 var m_caseNo;
 var m_caseId;
+var startTimes;
+var endTimes;
 /**
  * 列表中选中的行号和行数据
  */
@@ -36,6 +38,20 @@ $(function() {
 	$("#sendCaseByXMl").bind("click", CasePushManage.sendXML);	
 
 });
+
+//function getDateModel(date){
+//	var year = date.getFullYear();
+//	var month = date.getMonth()+1;
+//	if(month <10){
+//		month = "0"+month;
+//	}
+//	var day = date.getDate();
+//	if(day <10){
+//		day = "0"+day;
+//	}
+//	var dates = year+"-"+month+"-"+day;
+//	return dates;
+//}
 
 var CasePushManage = { 
 		sendXML:function(){
@@ -131,10 +147,15 @@ var CasePushManage = {
 		 */
 		loadCaseList:function(){
 			CasePushManage.packageObject();
+		    startTimes = $("#sch_startTime").datebox("getValue"); 
+		   endTimes = $("#sch_endTime").datebox("getValue"); 
+			//alert(startTime+endTime);
 			$('#casePushListGrid').datagrid({
 				url : 'case/getCaseList.do',
 				queryParams : {
-					'caseInfo' : JSON.stringify(m_caseInfo_Object)
+					'case_Query' : JSON.stringify(m_caseInfo_Object),
+					'startTime':startTimes,
+					'endTime':endTimes
 				},
 				fitColumns : true,
 				rownumbers : true,
@@ -391,9 +412,16 @@ var CasePushManage = {
 		cancelSave:function(){
 			m_casePush_dlg.close();
 		},
-		doSearch:function(){
+		doSearch:function(){			
+			startTimes = $("#sch_startTime").datebox("getValue");
+			endTimes = $("#sch_endTime").datebox("getValue");
 			CasePushManage.packageObject();
-			$('#casePushListGrid').datagrid("reload",{'case_Query' : JSON.stringify(m_caseInfo_Object)});
+			//alert(startTime+endTime);
+			$('#casePushListGrid').datagrid("reload",{
+				case_Query: JSON.stringify(m_caseInfo_Object),
+				startTime:startTimes,
+				endTime:endTimes});
+			
 		},
 		doClean:function(){
 			$("#sch_startTime").datebox("setValue","");

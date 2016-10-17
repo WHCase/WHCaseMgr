@@ -60,17 +60,23 @@ public class CaseController {
 	String getCasePushList(
 			@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
-			@RequestParam(value = "caseInfo", required = false) String caseInfo,
+			@RequestParam(value = "case_Query", required = false) String caseInfo,
+			@RequestParam(value = "startTime", required = false) String startTime,
+			@RequestParam(value = "endTime", required = false) String endTime,
 			HttpServletRequest request) throws Exception {
-
 		JSONObject jObj = JSONObject.fromObject(caseInfo);
 		Case caseinfo = (Case) JSONObject.toBean(jObj, Case.class);
-
+        if("".equals(startTime) || "".equals(endTime)){
+        	startTime = null;
+        	endTime = null;
+        }
 		Map<String, Object> map = new HashMap<String, Object>();
 		page = page == 0 ? 1 : page;
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);
 		map.put("receiveStatus", caseinfo.getReceiveStatus());
+		map.put("startTime",startTime);
+		map.put("endTime",endTime);
 		ListResult<CaseVM> caseList;
 		if (caseinfo.getReceiveStatus() > 0) {
 			caseList = caseService.getCasePushListByReceiveStatus(map);

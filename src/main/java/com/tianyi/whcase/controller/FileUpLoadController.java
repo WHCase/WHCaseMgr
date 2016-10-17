@@ -204,7 +204,7 @@ public class FileUpLoadController {
 	public void test(){
 //		System.out.println(Calendar.getInstance().get(Calendar.MINUTE));
 //		System.out.println(Calendar.getInstance().get(Calendar.MINUTE)+""+Calendar.getInstance().get(Calendar.SECOND));
-		System.out.println(this.getFileType("192.168.1.78.jsp"));
 		
+		System.out.println(this.getFileType("192.168.0.105.xlsx"));
 	}
 }

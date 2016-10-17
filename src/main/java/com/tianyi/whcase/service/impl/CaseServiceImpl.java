@@ -146,7 +146,8 @@ public class CaseServiceImpl implements CaseService {
 
 	public ListResult<CaseVM> getCaseFeedBackListByReceiveStatus(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		int count = caseMapper.selectVMCountByReceiveStatus(6);
+		
+		int count = caseMapper.selectVMCountByReceiveStatus1(map);
 		List<CaseVM> caseList = caseMapper.selectByReceiveStatus(map);
 		ListResult<CaseVM> list = new ListResult<CaseVM>(count, caseList);
 		return list;
