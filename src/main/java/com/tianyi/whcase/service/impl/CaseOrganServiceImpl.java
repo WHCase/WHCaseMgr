@@ -83,17 +83,22 @@ public class CaseOrganServiceImpl implements CaseOrganService {
 	public CaseTJVM getCaseTJInfo(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		CaseTJVM caseTJ = new CaseTJVM();
-		map.put("casestatus", 6);
-		int feedBack = caseOrganMapper.selectCaseCountByCondition(map);
+		
+		map.put("casestatus", 2);
+		int distributed = caseOrganMapper.selectCaseCountByCondition(map);
+		map.put("casestatus", 3);
+		int notReceveive = caseOrganMapper.selectCaseCountByCondition(map);
+		map.put("casestatus", 4);
+		int receveive = caseOrganMapper.selectCaseCountByCondition(map);
 		map.put("casestatus", 5);
 		int notFeedBack = caseOrganMapper.selectCaseCountByCondition(map);
+		map.put("casestatus", 6);
+		int feedBack = caseOrganMapper.selectCaseCountByCondition(map);
+		
+		caseTJ.setNotReceivedCaseCount(distributed);		
+		caseTJ.setReceivedCaseCount(receveive+feedBack);
+		caseTJ.setNotFeedBackCaseCount(receveive);
 		caseTJ.setFeedBackCaseCount(feedBack);
-		caseTJ.setNotFeedBackCaseCount(notFeedBack);
-
-		map.put("casestatus", 4);
-		caseTJ.setReceivedCaseCount(caseOrganMapper.selectCaseCountByCondition(map)+feedBack+notFeedBack);
-		map.put("casestatus", 3);
-		caseTJ.setNotReceivedCaseCount(caseOrganMapper.selectCaseCountByCondition(map));
 		
 		return caseTJ;
 	}

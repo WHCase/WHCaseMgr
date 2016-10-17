@@ -203,10 +203,10 @@ public class CaseServiceImpl implements CaseService {
 		caseTJ.setNotDistributeCaseCount(caseMapper.selectCountCaseByCondition(map));
 		
 		caseTJ.setReceivedCaseCount(receive+feedBack+notFeedBack);
-		caseTJ.setNotReceivedCaseCount(notReceive);
+		caseTJ.setNotReceivedCaseCount(notReceive+distribute);
 		
 		caseTJ.setFeedBackCaseCount(feedBack);
-		caseTJ.setNotFeedBackCaseCount(notFeedBack);
+		caseTJ.setNotFeedBackCaseCount(notFeedBack+receive);
 		
 		
 				
