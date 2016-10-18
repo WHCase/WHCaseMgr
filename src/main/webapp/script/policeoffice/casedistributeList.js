@@ -258,7 +258,7 @@ var CasePushManage = {
 						.dialog({
 							id : 'dlgpushCase',
 							title : '案件分配',
-							height: 380,
+							height: 580,
 							width: 290,
 							content : document.getElementById("div_orgtree"),
 							lock : true,

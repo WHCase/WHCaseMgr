@@ -115,13 +115,13 @@ public class FileUpLoadController {
 				
 				caseAttachItempper.insert(attch);
 				/*调用捷尚接口，上传附件*/
-				/*jieShangService.uploadFile(cmFile, relativePath+"/"+uriName);
+				jieShangService.uploadFile(cmFile, relativePath+"/"+uriName);
 				CaseAttachVM temp = new CaseAttachVM();
 				temp.SetCaseAttach(attach);
 				List<CaseAttachItem> li = new ArrayList<CaseAttachItem>();
 				li.add(attch);
 				temp.setAttachItemList(li);
-				jieShangService.addCCaseMessage(id, temp);*/
+				jieShangService.addCCaseMessage(id, temp);
 			}
 			return result;
 		} catch (Exception ex) {
