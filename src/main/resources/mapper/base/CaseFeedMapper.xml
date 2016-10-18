@@ -150,4 +150,20 @@
       creator = #{creator,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="selectCaseCountByCondition6" resultType="java.lang.Integer"  parameterType="java.util.Map"  >
+  	select
+  	count(*)
+  	from t_case_feed cf
+  	where 1=1
+  	<if test="organId > 10">
+  		and  cf.organization_id =  #{organId,jdbcType=INTEGER}
+  	</if> 
+  		<if test="startTime != null">
+  		and cf.create_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="endTime != null">
+  		and cf.create_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
+  	</if>
+  </select>
 </mapper>

@@ -28,4 +28,6 @@ public interface CaseFeedMapper {
 	List<Organ> getFeedBackOrganById(String id);
 
 	List<CaseFeedVM> getCaseBackMainInfo(Map<String, Object> map);
+	
+	int selectCaseCountByCondition6(Map<String, Object> map);
 }
