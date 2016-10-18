@@ -1,6 +1,7 @@
 package com.tianyi.whcase.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tianyi.whcase.core.ListResult;
+import com.tianyi.whcase.dao.CaseFeedMapper;
 import com.tianyi.whcase.dao.CaseMapper;
 import com.tianyi.whcase.dao.CaseOrganMapper;
 import com.tianyi.whcase.model.Case;
 import com.tianyi.whcase.model.CaseCategory;
+import com.tianyi.whcase.model.CaseFeed;
 import com.tianyi.whcase.model.CaseUnit;
 import com.tianyi.whcase.service.CaseService;
 import com.tianyi.whcase.viewmodel.CaseTJVM;
@@ -24,6 +27,8 @@ public class CaseServiceImpl implements CaseService {
 	CaseMapper caseMapper;
 	@Autowired
 	CaseOrganMapper caseOrganMapper;
+	@Autowired
+	CaseFeedMapper caseFeedMapper;
 	/**
 	 * 获取案件列表
 	 * 
@@ -225,14 +230,30 @@ public class CaseServiceImpl implements CaseService {
 	public ListResult<CaseVM> getFeedCaseByOrganId(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		List<CaseVM> caseVMList = new ArrayList<CaseVM>();
+		List<CaseVM> list = new ArrayList<CaseVM>();
 		int count =caseMapper.selectCountFeedCaseByorganId(map);
 		caseVMList = caseMapper.selectFeedCaseByorganId(map);
-		for(CaseVM cf:caseVMList){
-			if("".equals(cf.getReceiveTime())){
-				caseVMList.remove(cf);
+		Integer organId = (Integer)map.get("organId");
+		CaseVM p1 = new CaseVM();
+		for(CaseVM p:caseVMList){
+
+			if(!"".equals(p.getReceiveTime()) && p.getReceiveTime() != null){				
+				Map<String, Object> map1 = new HashMap<String, Object>();
+				map1.put("caseId", p.getCase().getId());
+				map1.put("organId",organId);
+				CaseFeed cf = caseFeedMapper.selectByCondition(map1);
+				if(cf != null){
+					p.setFeedTime(cf.getCreateTime());
+				}else{
+					p.setFeedTime(null);
+				}
 			}
+			if(!p.getId().equals(p1.getId()) || !p.getSummary().equals(p1.getSummary())){
+				list.add(p);
+			}
+			p1 = p;
 		}
-		ListResult<CaseVM> l = new ListResult<CaseVM>(count, caseVMList);
+		ListResult<CaseVM> l = new ListResult<CaseVM>(count, list);
 		return l;
 	}
 

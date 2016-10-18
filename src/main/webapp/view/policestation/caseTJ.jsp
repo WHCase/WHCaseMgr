@@ -23,7 +23,7 @@
   <body>
 	<div style="padding:5px" id="selectOrgan">
 		<label style="font-size:14px">选择派出所:</label>
-		<input id="selectOrganTree" class="easyui-combotree" data-options="url:'data/tree_organ.json',method:'get'" />
+		<input id="selectOrganTree" class="easyui-combotree" style="width:160px" data-options="url:'data/tree_organ.json',method:'get'" />
 		
 		<label style="font-size:14px">起始时间:</label>
 		<input id="sch_startTime" class="easyui-datebox" />
