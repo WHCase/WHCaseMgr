@@ -40,7 +40,7 @@
     </div>
     <div id="casePushListGrid"  style="margin:5px" ></div>
     <div style="display:none">
-    	<div id="div_orgtree" style="width:100%">
+    	<div id="div_orgtree" style="width:290px;height:360px;overflow:auto">
     		<p id="tb_operation" style="padding:2px;border-bottom:1px solid black;width:99%;">
 		 		<a id="btnPushCase" href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-save" plain="true">分配</a> 
 				<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-close" plain="true">关闭</a> 

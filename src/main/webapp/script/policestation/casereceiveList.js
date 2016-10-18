@@ -374,15 +374,17 @@ var CaseManage = {
 				data:{caseId:m_rowData.id},
 				success:function(responce){
 					var obj = JSON.parse(responce);
-					
+					console.log(obj);
 					var fileURL=window.open ("\\"+"case/"+obj.data,"_blank","height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");			      
 					document.execCommand("SaveAs","false","\\"+"case/"+obj.data);   // 导出文件后的提示信息  修改人：xie
 			        fileURL.window.close();
 			        fileURL.close();
 			        
 					if(obj.isSuccess==true){
+						alert(1);
+						CaseManage.loadCaseList();
 						$.messager.alert("提示","保存成功");
-						CaseManage.loadCaseList();   // 修改人：xie
+						   // 修改人：xie
 						//CasePushManage.loadCaseList();
 					}else{
 						$.messager.alert("提示","导出失败","warning");
