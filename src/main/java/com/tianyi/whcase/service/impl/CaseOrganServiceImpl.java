@@ -2,6 +2,7 @@ package com.tianyi.whcase.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -9,7 +10,9 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tianyi.whcase.dao.CaseFeedMapper;
 import com.tianyi.whcase.dao.CaseOrganMapper;
+import com.tianyi.whcase.model.CaseFeed;
 import com.tianyi.whcase.model.CaseOrgan;
 import com.tianyi.whcase.service.CaseOrganService;
 import com.tianyi.whcase.viewmodel.CaseTJVM;
@@ -18,6 +21,7 @@ import com.tianyi.whcase.viewmodel.caseOrganVM;
 @Service
 public class CaseOrganServiceImpl implements CaseOrganService {
 	@Autowired CaseOrganMapper caseOrganMapper;
+	@Autowired CaseFeedMapper caseFeedMapper;
 	public String insertCaseOrgan(String caseId, int indexOf) {
 		
 		List<CaseOrgan> tempList = caseOrganMapper.selectByCaseIdAndOrganId(caseId,indexOf);
@@ -51,6 +55,19 @@ public class CaseOrganServiceImpl implements CaseOrganService {
 	public List<caseOrganVM> selectRecordLiseByCaseId(String caseId) {
 		// TODO Auto-generated method stub 
 		List<caseOrganVM> list = caseOrganMapper.selectRecordLiseByCaseId(caseId); 
+		for(caseOrganVM p:list){			
+			if(!"".equals(p.getReceiveTime()) && p.getReceiveTime() != null && p.getReceiveStatus() > 4){				
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("caseId", caseId);
+				map.put("organId", p.getOrganId());
+				CaseFeed cf = caseFeedMapper.selectByCondition(map);
+				if(cf != null){
+					p.setIsBack(1);
+				}else{
+					p.setIsBack(2);
+				}
+			}
+		}
 		return list;
 	}
 	public CaseTJVM getCaseTJInfo(int organId) {
@@ -85,19 +102,19 @@ public class CaseOrganServiceImpl implements CaseOrganService {
 		CaseTJVM caseTJ = new CaseTJVM();
 		
 		map.put("casestatus", 2);
-		int distributed = caseOrganMapper.selectCaseCountByCondition(map);
-		map.put("casestatus", 3);
-		int notReceveive = caseOrganMapper.selectCaseCountByCondition(map);
+		int distributed = caseOrganMapper.selectCaseCountByCondition2(map);
+//		map.put("casestatus", 3);
+//		int notReceveive = caseOrganMapper.selectCaseCountByCondition(map);
 		map.put("casestatus", 4);
-		int receveive = caseOrganMapper.selectCaseCountByCondition(map);
-		map.put("casestatus", 5);
-		int notFeedBack = caseOrganMapper.selectCaseCountByCondition(map);
+		int receveive = caseOrganMapper.selectCaseCountByCondition4(map);
+//		map.put("casestatus", 5);
+//		int notFeedBack = caseOrganMapper.selectCaseCountByCondition(map);
 		map.put("casestatus", 6);
-		int feedBack = caseOrganMapper.selectCaseCountByCondition(map);
+		int feedBack = caseFeedMapper.selectCaseCountByCondition6(map);
 		
-		caseTJ.setNotReceivedCaseCount(distributed+notReceveive);		
-		caseTJ.setReceivedCaseCount(receveive+feedBack+notFeedBack);
-		caseTJ.setNotFeedBackCaseCount(receveive+notFeedBack);
+		caseTJ.setNotReceivedCaseCount(distributed-receveive);		
+		caseTJ.setReceivedCaseCount(receveive);
+		caseTJ.setNotFeedBackCaseCount(receveive-feedBack);
 		caseTJ.setFeedBackCaseCount(feedBack);
 		
 		return caseTJ;

@@ -29,5 +29,10 @@ public interface CaseOrganMapper {
 	int selectCountCaseByReceiveStatusAndOrganId(Map<String, Object> map);
 
 	int selectCaseCountByCondition(Map<String, Object> map);
+	
+	int selectCaseCountByCondition2(Map<String, Object> map);
+	
+	int selectCaseCountByCondition4(Map<String, Object> map);
+	
 
 }

@@ -277,8 +277,8 @@
 	<select id="selectCountFeedCaseByorganId" resultType="java.lang.Integer"
 		parameterType="java.util.Map">
 		select count(*) from t_case_organ co
-		where 1=1 and co.receive_time is
-		not null
+		where 1=1 and
+		 co.receive_time > '2000-01-01'
 		<if test="organId != null">
 			and co.organization_id = #{organId,jdbcType=INTEGER}
 		</if>
@@ -305,10 +305,10 @@ FROM(select a.id, a.name, a.creator, a.create_time,
 		a.latitude, a.organization_id, a.detectedunit_id,
 		a.receive_status, co.receive_time
 		from t_case_organ co
-		left join t_case a on co.case_id = a.id and co.receive_time is not null
-WHERE
+		left join t_case a on co.case_id = a.id 
+WHERE   1=1 and  co.receive_time > '2000-01-01'
 		<if test="organId != null">
-			co.organization_id =#{organId,jdbcType=INTEGER}
+			and co.organization_id =#{organId,jdbcType=INTEGER}
 		</if>
 		order by co.receive_time DESC) as f
 		left join

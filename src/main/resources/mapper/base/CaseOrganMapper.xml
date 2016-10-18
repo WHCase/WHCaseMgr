@@ -27,11 +27,14 @@
   <select id="selectRecordLiseByCaseId" resultType="com.tianyi.whcase.viewmodel.caseOrganVM" parameterType="java.lang.String"  >
     select 
      c.id as id,
+     c.organization_id as organId,
+     tc.receive_status as receiveStatus,
      o.name as organName,
      c.sender_time as senderTime,
      c.receive_time as receiveTime
     from t_case_organ c 
     left join t_organ o on c.organization_id = o.id
+    left join t_case tc on c.case_id = tc.id
     where case_id = #{0} 
   </select>
   <select id="selectRecordLiseByorganId" resultType="com.tianyi.whcase.viewmodel.caseOrganVM" parameterType="java.lang.String">
@@ -61,6 +64,41 @@
   	<if test="casestatus != null">
   		and a.receive_status=  #{casestatus,jdbcType=INTEGER}
   	</if> 
+  	<if test="startTime != null">
+  		and c.sender_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="endTime != null">
+  		and c.sender_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
+  	</if>
+  </select>
+  
+  <select id="selectCaseCountByCondition2" resultType="java.lang.Integer"  parameterType="java.util.Map"  >
+  	select
+  	count(*)
+  	from t_case_organ c 
+  	left join t_case a on c.case_id = a.id
+  	where 1=1 
+  	<if test="organId > 10">
+  		and  c.organization_id =  #{organId,jdbcType=INTEGER}
+  	</if>  	
+  	<if test="startTime != null">
+  		and c.sender_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="endTime != null">
+  		and c.sender_time  &lt;=#{endTime,jdbcType=TIMESTAMP}
+  	</if>
+  </select>
+  
+  <select id="selectCaseCountByCondition4" resultType="java.lang.Integer"  parameterType="java.util.Map"  >
+  	select
+  	count(*)
+  	from t_case_organ c 
+  	left join t_case a on c.case_id = a.id
+  	where 1=1 
+  	and c.receive_time > '2000-01-01'
+  	<if test="organId > 10">
+  		and  c.organization_id =  #{organId,jdbcType=INTEGER}
+  	</if>  	
   	<if test="startTime != null">
   		and c.sender_time  &gt;=#{startTime,jdbcType=TIMESTAMP}
   	</if>

@@ -227,6 +227,11 @@ public class CaseServiceImpl implements CaseService {
 		List<CaseVM> caseVMList = new ArrayList<CaseVM>();
 		int count =caseMapper.selectCountFeedCaseByorganId(map);
 		caseVMList = caseMapper.selectFeedCaseByorganId(map);
+		for(CaseVM cf:caseVMList){
+			if("".equals(cf.getReceiveTime())){
+				caseVMList.remove(cf);
+			}
+		}
 		ListResult<CaseVM> l = new ListResult<CaseVM>(count, caseVMList);
 		return l;
 	}

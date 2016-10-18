@@ -7,8 +7,12 @@ public class caseOrganVM {
 	private String caseId;
 	private List<Integer> organList;
 	private int organId;
+	private int receiveStatus;
 	private Date receiveTime;
 	private Date senderTime;
+	private int isBack;
+	private String organName;
+	private String disTime;
 	public Date getSenderTime() {
 		return senderTime;
 	}
@@ -27,8 +31,7 @@ public class caseOrganVM {
 	public void setOrganId(int organId) {
 		this.organId = organId;
 	}
-	private String organName;
-	private String disTime;
+	
 	public String getOrganName() {
 		return organName;
 	}
@@ -52,5 +55,17 @@ public class caseOrganVM {
 	}
 	public void setOrganList(List<Integer> organList) {
 		this.organList = organList;
+	}
+	public int getIsBack() {
+		return isBack;
+	}
+	public void setIsBack(int isBack) {
+		this.isBack = isBack;
+	}
+	public int getReceiveStatus() {
+		return receiveStatus;
+	}
+	public void setReceiveStatus(int receiveStatus) {
+		this.receiveStatus = receiveStatus;
 	}
 }

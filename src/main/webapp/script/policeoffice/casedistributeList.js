@@ -204,7 +204,13 @@ var CasePushManage = {
 				              { title : '接收状态', field : 'receiveTime', align : 'center', width : 150,formatter:function(value,rowData,index){
 				            	  if(rowData.receiveTime==undefined||rowData.receiveTime==""||rowData.receiveTime==null){
 				            		  return "<span style='color:red'>未接收</span>";
-				            	  }else{return "<span>已接收</span>";}
+				            	  }else if(rowData.isBack == 2){
+				            		  return "<span  style='color:red'>未反馈</span>";
+				            	  }else if(rowData.isBack == 1){
+				            		  return "<span>已反馈</span>";
+				            	  }else{
+				            		  return "<span>已接受</span>";
+				            	  }
 				              } }
 				          ] ]
 			});
