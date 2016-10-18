@@ -23,6 +23,10 @@
 			jdbcType="INTEGER" />
 		<result column="receive_status" property="receiveStatus"
 			jdbcType="INTEGER" />
+			
+		<result column="feedInfo" property="feedInfo" jdbcType="VARCHAR" />
+		<result column="feedResult" property="feedResult" jdbcType="VARCHAR" />
+			
 	</resultMap>
 	<resultMap id="BaseCUResultMap" type="com.tianyi.whcase.model.CaseUnit">
 		<result column="detectedunit_name" property="text" jdbcType="VARCHAR" />
@@ -64,14 +68,18 @@
 			jdbcType="INTEGER" />
 		<result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" />
 		<result column="feed_time" property="feedTime" jdbcType="TIMESTAMP" />
+		
+			
+		<result column="feedInfo" property="feedInfo" jdbcType="VARCHAR" />
+		<result column="feedResult" property="feedResult" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, name, creator, create_time, code, categories_id,
-		start_time, summary,
-		status,
-		case_group_id, isregister, level,
-		longitude, latitude, organization_id,
-		detectedunit_id,receive_status
+		c.id, c.name, c.creator, c.create_time, c.code, c.categories_id,
+		c.start_time, c.summary,
+		c.status,
+		c.case_group_id, c.isregister, c.level,
+		c.longitude, c.latitude, c.organization_id,
+		c.detectedunit_id,c.receive_status
 	</sql>
 	<sql id="BaseVM_Column_List">
 		a.id, a.name, a.creator, a.create_time, a.code,
@@ -87,15 +95,28 @@
 		parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />
-		from t_case
-		where id = #{id,jdbcType=VARCHAR}
+		from t_case c
+		where c.id = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByCaseId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />,
+		cf.content as feedInfo,
+		cf.case_result as feedResult
+		from t_case c
+		left join t_case_feed cf on c.id = cf.case_id
+		where c.id = #{id,jdbcType=VARCHAR}
 	</select>
 
 	<select id="selectVMByPrimaryKey" resultMap="BaseVMResultMap"
 		parameterType="java.lang.String">
 		select
-		<include refid="BaseVM_Column_List" />
+		<include refid="BaseVM_Column_List" />,
+		cf.content as feedInfo,
+		cf.case_result as feedResult
 		from t_case a
+		left join t_case_feed cf on a.id = cf.case_id
 		left join t_case_category_type b on a.categories_id =
 		b.category_id
 		left join t_organ c on a.detectedunit_id = c.id
@@ -439,4 +460,5 @@ WHERE   1=1 and  co.receive_time > '2000-01-01'
 			and receive_status = #{receiveStatus,jdbcType=INTEGER}
 		</if>
 	</select>
+	
 </mapper>

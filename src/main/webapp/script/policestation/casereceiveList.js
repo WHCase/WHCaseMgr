@@ -284,9 +284,11 @@ var CaseManage = {
 				}
 			});
 		},
-		mainCaseInfoBind:function(caseInfo){
-			$('#txtCaseNo').val(caseInfo.code);
-			$('#txtCaseName').val(caseInfo.name);
+		mainCaseInfoBind:function(data){
+			$('#txtCaseNo').val(data.code);
+			$('#txtCaseName').val(data.name);
+			$('#txtBackWords').val(data.feedInfo);
+			$('#txtCaseResult').val(data.feedResult); 
 		},
 		/**
 		 * 列表单击响应
@@ -374,18 +376,16 @@ var CaseManage = {
 				data:{caseId:m_rowData.id},
 				success:function(responce){
 					var obj = JSON.parse(responce);
-					console.log(obj);
-					var fileURL=window.open ("\\"+"case/"+obj.data,"_blank","height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");			      
+					/*var fileURL=window.open ("\\"+"case/"+obj.data,"_blank","height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");			      
 					document.execCommand("SaveAs","false","\\"+"case/"+obj.data);   // 导出文件后的提示信息  修改人：xie
 			        fileURL.window.close();
-			        fileURL.close();
+			        fileURL.close();*/
 			        
-					if(obj.isSuccess==true){
-						alert(1);
-						CaseManage.loadCaseList();
-						$.messager.alert("提示","保存成功");
-						   // 修改人：xie
-						//CasePushManage.loadCaseList();
+					if(obj.isSuccess==true){ 
+						window.location.href = "data/tempFile"+obj.data;
+						$.messager.alert("提示","导出成功");
+//						CaseManage.loadCaseList();  
+						
 					}else{
 						$.messager.alert("提示","导出失败","warning");
 					}

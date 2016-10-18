@@ -12,6 +12,20 @@ public class CaseVM extends Case {
 	private Date receiveTime;
 	private Date feedTime;
 	private String caseStatus;
+	private String feedInfo;
+	public String getFeedInfo() {
+		return feedInfo;
+	}
+	public void setFeedInfo(String feedInfo) {
+		this.feedInfo = feedInfo;
+	}
+	public String getFeedResult() {
+		return feedResult;
+	}
+	public void setFeedResult(String feedResult) {
+		this.feedResult = feedResult;
+	}
+	private String feedResult;
 	
 	public String getCaseStatus() {
 		return caseStatus;
