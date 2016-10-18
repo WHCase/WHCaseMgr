@@ -2,6 +2,7 @@ package com.tianyi.whcase.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.tianyi.whcase.dao.CaseFeedMapper;
 import com.tianyi.whcase.dao.CaseOrganMapper;
+import com.tianyi.whcase.model.CaseFeed;
 import com.tianyi.whcase.model.CaseOrgan;
 import com.tianyi.whcase.service.CaseOrganService;
 import com.tianyi.whcase.viewmodel.CaseTJVM;
@@ -53,6 +55,19 @@ public class CaseOrganServiceImpl implements CaseOrganService {
 	public List<caseOrganVM> selectRecordLiseByCaseId(String caseId) {
 		// TODO Auto-generated method stub 
 		List<caseOrganVM> list = caseOrganMapper.selectRecordLiseByCaseId(caseId); 
+		for(caseOrganVM p:list){			
+			if(!"".equals(p.getReceiveTime()) && p.getReceiveTime() != null && p.getReceiveStatus() > 4){				
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("caseId", caseId);
+				map.put("organId", p.getOrganId());
+				CaseFeed cf = caseFeedMapper.selectByCondition(map);
+				if(cf != null){
+					p.setIsBack(1);
+				}else{
+					p.setIsBack(2);
+				}
+			}
+		}
 		return list;
 	}
 	public CaseTJVM getCaseTJInfo(int organId) {
