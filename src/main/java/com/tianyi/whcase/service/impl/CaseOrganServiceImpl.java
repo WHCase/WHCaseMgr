@@ -95,9 +95,9 @@ public class CaseOrganServiceImpl implements CaseOrganService {
 		map.put("casestatus", 6);
 		int feedBack = caseOrganMapper.selectCaseCountByCondition(map);
 		
-		caseTJ.setNotReceivedCaseCount(distributed);		
-		caseTJ.setReceivedCaseCount(receveive+feedBack);
-		caseTJ.setNotFeedBackCaseCount(receveive);
+		caseTJ.setNotReceivedCaseCount(distributed+notReceveive);		
+		caseTJ.setReceivedCaseCount(receveive+feedBack+notFeedBack);
+		caseTJ.setNotFeedBackCaseCount(receveive+notFeedBack);
 		caseTJ.setFeedBackCaseCount(feedBack);
 		
 		return caseTJ;
