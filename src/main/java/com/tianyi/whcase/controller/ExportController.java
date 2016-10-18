@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.axis2.dataretrieval.Data;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -121,7 +122,10 @@ public class ExportController {
 				sheet.autoSizeColumn(1);
 	
 				Cell cell_row2_4 = row2.createCell(3, Cell.CELL_TYPE_STRING);
-				cell_row2_4.setCellValue(caseInfo.getStartTime().toString());
+				// 时间的处理 修改人：xie
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String startTime = sdf.format(caseInfo.getStartTime());
+				cell_row2_4.setCellValue(startTime);
 				sheet.autoSizeColumn(1);
 				/**
 				 * row3

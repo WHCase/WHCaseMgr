@@ -375,14 +375,15 @@ var CaseManage = {
 				success:function(responce){
 					var obj = JSON.parse(responce);
 					
-					var fileURL=window.open ("\\"+"case/"+obj.data,"_blank","height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");
-			        document.document.execCommand("SaveAs",'false',"\\"+"case/"+obj.data);
+					var fileURL=window.open ("\\"+"case/"+obj.data,"_blank","height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");			      
+					document.execCommand("SaveAs","false","\\"+"case/"+obj.data);   // 导出文件后的提示信息  修改人：xie
 			        fileURL.window.close();
 			        fileURL.close();
 			        
 					if(obj.isSuccess==true){
 						$.messager.alert("提示","保存成功");
-						CasePushManage.loadCaseList();
+						CaseManage.loadCaseList();   // 修改人：xie
+						//CasePushManage.loadCaseList();
 					}else{
 						$.messager.alert("提示","导出失败","warning");
 					}
