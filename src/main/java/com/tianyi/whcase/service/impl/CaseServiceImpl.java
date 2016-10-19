@@ -233,10 +233,10 @@ public class CaseServiceImpl implements CaseService {
 		List<CaseVM> list = new ArrayList<CaseVM>();
 		int count =caseMapper.selectCountFeedCaseByorganId(map);
 		caseVMList = caseMapper.selectFeedCaseByorganId(map);
-		Integer organId = (Integer)map.get("organId");
-		CaseVM p1 = new CaseVM();
-		for(CaseVM p:caseVMList){
-
+		list = dereplication(caseVMList);
+		Integer organId = (Integer)map.get("organId");		
+		for(CaseVM p:list){
+          
 			if(!"".equals(p.getReceiveTime()) && p.getReceiveTime() != null){				
 				Map<String, Object> map1 = new HashMap<String, Object>();
 				map1.put("caseId", p.getCase().getId());
@@ -247,14 +247,36 @@ public class CaseServiceImpl implements CaseService {
 				}else{
 					p.setFeedTime(null);
 				}
-			}
-			if(!p.getId().equals(p1.getId()) || !p.getSummary().equals(p1.getSummary())){
-				list.add(p);
-			}
-			p1 = p;
+			}	
 		}
 		ListResult<CaseVM> l = new ListResult<CaseVM>(count, list);
 		return l;
+	}
+	
+	/**
+	 * List<CaseVM>去重
+	 * @param list
+	 * @return
+	 */
+	private List<CaseVM> dereplication(List<CaseVM> list){
+		List<CaseVM> newlist = new ArrayList<CaseVM>();
+		if(list.size() == 0){
+			return list;
+		}else{
+			newlist.add(list.get(0));
+		}
+		for(CaseVM cv:list){
+			int count = 0;
+			for(CaseVM cv1:newlist){
+				if(cv.getId().equals(cv1.getId()) && cv.getSummary().equals(cv1.getSummary())){
+					count++;
+				}
+			}
+			if(count == 0){
+				newlist.add(cv);
+			}
+		}
+		return newlist;		
 	}
 
 }
