@@ -86,8 +86,10 @@ public class CaseFeedController {
 			feedBack.setId(uuid.toString());
 			
 			String temp = caseFeedService.insertCaseFeed(feedBack);
-			temp = caseService.updateCaseReceiveStatus(Constants.RECEIVE_STATUS__FEEDBACK, feedBack.getCaseId());
+			// 反馈信息只能反馈一次，反馈过了就不能反馈了   修改人：xie
 			
+			temp = caseService.updateCaseReceiveStatus(Constants.RECEIVE_STATUS__FEEDBACK, feedBack.getCaseId());
+          
 			if(!temp.isEmpty()){
 				Result<CaseVM> result = new Result<CaseVM>(null, false, false, false,
 						temp);

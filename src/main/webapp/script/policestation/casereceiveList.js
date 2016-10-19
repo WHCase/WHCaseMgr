@@ -325,15 +325,22 @@ var CaseManage = {
 			 * 判断修改是否合法
 			 */
 			var caseFeed = CaseManage.packageFeedBackInfo();
+			// 判断案件是否反馈过了
+			if(caseFeed.content != null){
+				$.messager.alert("提示","案件已经反馈过,不能再次进行反馈","normal");
+				return false;
+			}
 			
 			$.ajax('caseFeed/saveFeedBacInfo.do',{
 				type:'POST',
 				data:{'feedBackInfo':JSON.stringify(caseFeed)},
 				success:function(responce){
 					if(responce.isSuccess){
+						
 						$.messager.alert("提示","案件反馈成功","normal");
 						
 					}else{
+						
 						$.messager.alert("提示",responce.msg,"normal");
 					}
 				}
@@ -383,8 +390,8 @@ var CaseManage = {
 			        
 					if(obj.isSuccess==true){ 
 						window.location.href = "data/tempFile"+obj.data;
-						$.messager.alert("提示","导出成功");
-//						CaseManage.loadCaseList();  
+						$.messager.alert("提示","导出成功");		
+						CaseManage.loadCaseList();  
 						
 					}else{
 						$.messager.alert("提示","导出失败","warning");

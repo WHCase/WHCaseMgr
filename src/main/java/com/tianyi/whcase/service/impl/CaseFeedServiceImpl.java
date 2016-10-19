@@ -58,9 +58,10 @@ public class CaseFeedServiceImpl implements CaseFeedService {
 		map.put("organId", feedBack.getOrganizationId());
 		CaseFeed fb = caseFeedMapper.selectByCondition(map);
 		if (fb != null) {
-			fb.setContent(feedBack.getContent());
+			/*fb.setContent(feedBack.getContent());
 			fb.setCaseResult(feedBack.getCaseResult());
-			caseFeedMapper.updateByPrimaryKey(fb);
+			caseFeedMapper.updateByPrimaryKey(fb);*/
+			return "-1";
 		} else {
 			caseFeedMapper.insert(feedBack);
 		}
