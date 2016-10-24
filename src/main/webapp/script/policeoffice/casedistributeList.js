@@ -35,7 +35,7 @@ $(function() {
 	/**
 	 * for test
 	 */
-	$("#sendCaseByXMl").bind("click", CasePushManage.sendXML);	
+	//$("#sendCaseByXMl").bind("click", CasePushManage.sendXML);	
 
 });
 
