@@ -292,8 +292,12 @@
 		where 1=1 and co.receive_time is null
 		<if test="organId != null">
 			and co.organization_id = #{organId,jdbcType=INTEGER}
-		</if>
+		</if>		
 		order by co.receive_time DESC
+		<if test="pageStart !=null">
+			limit #{pageStart,jdbcType=INTEGER},
+			#{pageSize,jdbcType=INTEGER}
+		</if>
 	</select>
 	<select id="selectCountFeedCaseByorganId" resultType="java.lang.Integer"
 		parameterType="java.util.Map">
@@ -331,6 +335,7 @@ WHERE   1=1 and  co.receive_time > '2000-01-01'
 		<if test="organId != null">
 			and co.organization_id =#{organId,jdbcType=INTEGER}
 		</if>
+		
 		order by co.receive_time DESC) as f
 		left join
 		t_case_category_type b on f.categories_id = b.category_id
@@ -340,7 +345,10 @@ WHERE   1=1 and  co.receive_time > '2000-01-01'
 		f.organization_id = d.id
 		left join t_case_feed cf on f.id =
 		cf.case_id
-
+        <if test="pageStart !=null">
+			limit #{pageStart,jdbcType=INTEGER},
+			#{pageSize,jdbcType=INTEGER}
+		</if>
 	</select>
 	<select id="selectDistributedCase" resultMap="BaseVMResultMap">
 		select
