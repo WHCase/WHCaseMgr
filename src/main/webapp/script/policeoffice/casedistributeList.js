@@ -35,7 +35,7 @@ $(function() {
 	/**
 	 * for test
 	 */
-	//$("#sendCaseByXMl").bind("click", CasePushManage.sendXML);	
+	$("#sendCaseByXMl").bind("click", CasePushManage.sendXML);	
 
 });
 
@@ -58,15 +58,18 @@ var CasePushManage = {
 			/**
 			 * 生成xml格式的文件，post到后台
 			 */
+			
 			var doc = CasePushManage.createXML();
+			
 			var xmlHttp = CasePushManage.createXMLHttpRequest();
 			//xmlHttp.open("post",'http://223.223.183.242:40000/center/UpdateCCase',true);
-			xmlHttp.open("post",'http://192.168.0.201:40000/center/UpdateCCase',true);
-			xmlHttp.onreadystatechange = CasePushManage.handleStateChange;
+			xmlHttp.open("post",'http://192.168.0.102:8080/center/UpdateCCase',true);//alert('test');
+			xmlHttp.onreadystatechange = CasePushManage.handleStateChange;//alert('test');
 			xmlHttp.setRequestHeader("Content-Type","application/xml;charset=utf-8");
 			xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
 //			xmlHttp.send(doc.documentElement.outerHTML);
 //			xmlHttp.send(doc.documentElement);
+			
 			xmlHttp.send(doc);
 			
 //			$.ajax('http://223.223.183.242:40000/center/UpdateCCase',{

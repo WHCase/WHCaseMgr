@@ -32,7 +32,7 @@ public class XMLController {
 		Document document = DocumentHelper.parseText(requestBody);
 		/*获取xml进行解析，获取相关的数据，保存到数据库*/
 		Element root =  document.getRootElement();
-		
+		//System.out.println(requestBody);
 		Case c = new Case();
 		c.setId(root.attributeValue("id"));
 		c.setName(root.attributeValue("Name"));

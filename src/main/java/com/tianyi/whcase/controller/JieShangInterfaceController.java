@@ -22,7 +22,13 @@ import com.tianyi.whcase.util.DbConfig;
 @RequestMapping("/JieShang")
 public class JieShangInterfaceController {
 	@Autowired JieShangService jieShangService;
-	
+	/**
+	 * 更新案件
+	 * @param caseInfo
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "updateCCase.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String updateCCase(
 		@RequestParam(value="caseInfo",required = false) String caseInfo,
@@ -71,7 +77,14 @@ public class JieShangInterfaceController {
 	        sb.append(" </CCase> ");    
 	        return sb.toString();  
 	}
-	
+	/**
+	 * 获取案件附件
+	 * @param caseID
+	 * @param messageType
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "getCaseMessages.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String getCaseMessages(
 		@RequestParam(value="caseID",required = false) String caseID,
@@ -79,7 +92,12 @@ public class JieShangInterfaceController {
 		HttpServletRequest request)throws Exception{
 		return"";
 	}
-	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "getAllMsSvrStatus.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String getAllMsSvrStatus(
 		HttpServletRequest request)throws Exception{
@@ -91,12 +109,23 @@ public class JieShangInterfaceController {
 		HttpServletRequest request)throws Exception{
 		return"";
 	}
-	
+	/**
+	 * 下载案件附件
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "DownloadAttachFiles.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String DownloadAttachFiles(
 		HttpServletRequest request)throws Exception{
 		return"";
 	}
+	/**
+	 * 上传附件调用捷尚接口获取案件类型，更新最新的案件类型
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "getGetDictionary.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String getGetDictionary(
 		HttpServletRequest request)throws Exception{
@@ -117,6 +146,5 @@ public class JieShangInterfaceController {
 		}else{
 			return new Result<String>(null,false,temp).toJson();
 		}
-		
 	}
 }

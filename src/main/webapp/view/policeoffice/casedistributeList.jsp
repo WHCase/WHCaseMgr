@@ -23,6 +23,11 @@
                 <a id="showCaseInfo" name="showCaseInfo"  doc="casePushAction"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-show"
                     plain="true">查看详情</a> 
+                    
+                 <!--  <a id="sendCaseByXMl" name="sendCaseByXMl"  doc="casePushAction"
+                    href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-show"
+                    plain="true">测试插入xml</a>   -->
+                    
                 <a id="showCaseBackInfo" name="showCaseInfo" doc="caseReback"
                     href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-show"
                     plain="true">查看详情</a>
