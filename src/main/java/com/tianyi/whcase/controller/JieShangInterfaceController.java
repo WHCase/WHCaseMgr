@@ -37,7 +37,8 @@ public class JieShangInterfaceController {
 			con.setDoOutput(true); 
 			con.setRequestProperty("Content-Type", "application/xml");
 			OutputStreamWriter out = new OutputStreamWriter(con  
-                    .getOutputStream());      
+                    .getOutputStream()); 
+			// 测试写的死的数据，应该从数据库获取
             String xmlInfo = getXmlInfo();
             System.out.println("urlStr=" + urlStr);  
             System.out.println("xmlInfo=" + xmlInfo);  
