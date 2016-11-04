@@ -397,8 +397,16 @@ public class CaseController {
 		/*
 		 * 是否要删除案件相关的串并案、附件等相关信息？
 		 */
-		caseService.deleteByCaseId(caseId);
-		return getReturnXml(0);
+		int temp = -1;
+		try{
+			temp = caseService.deleteByCaseId(caseId);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+		return getReturnXml(temp);
 	}
 
 	/**
