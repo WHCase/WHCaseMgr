@@ -79,10 +79,9 @@ public class CaseController {
 		map.put("receiveStatus", caseinfo.getReceiveStatus());
 		map.put("startTime",startTime);
 		map.put("endTime",endTime);
-		ListResult<CaseVM> caseList;
+		ListResult<CaseVM> caseList = new ListResult<CaseVM>();
 		if (caseinfo.getReceiveStatus() > 0) {
 			caseList = caseService.getCasePushListByReceiveStatus(map);
-
 		} else {
 			caseList = caseService.getCaseFeedBackListByReceiveStatus(map);
 		}
@@ -369,7 +368,7 @@ public class CaseController {
 
 		c.setIsregister(false);
 		// 修改人： xie
-		c.setCaseGroupId("UserGroupId");
+		c.setCaseGroupId("UserGroupId");  // 用户所在组的id
 		c.setLevel(root.attributeValue("Level"));
 		c.setLongitude(root.attributeValue("Longitude"));
 		c.setLatitude(root.attributeValue("Latitude"));
