@@ -76,6 +76,10 @@ public class CaseAttchController {
 		}
 		
 	}
+	public  void main(String[] args) {
+		String temp = caseAttchService.deleteCaseAttach("acc35256-cd7d-064c-a885-a96005050505","54b10cc5-d27f-413f-8b58-9bd840a0c1c3");
+	    System.out.println("------------"+temp);
+	}
 	/**
 	 * (优创接口)当用户添加附件，捷尚通过调用这个接口来通知优创
 	 * @param id
@@ -124,10 +128,10 @@ public class CaseAttchController {
 			List<CaseAttachItem> caseItemList = new ArrayList<CaseAttachItem>();
 			for(int j = 0;j<itemList.size();j++){
 				CaseAttachItem caseAttachItem = new CaseAttachItem();
-				caseAttachItem.setId(itemList.get(j).attributeValue("ID"));
-				caseAttachItem.setItemType(itemList.get(j).attributeValue("Type"));
+				caseAttachItem.setId(itemList.get(j).attributeValue("ID"));				
 				caseAttachItem.setName(itemList.get(j).attributeValue("Name"));
 				caseAttachItem.setUri(itemList.get(j).attributeValue("Uri"));
+				caseAttachItem.setItemType(itemList.get(j).attributeValue("Type"));
 				caseAttachItem.setCaseAttchId(root.attributeValue("ID"));
 				caseItemList.add(caseAttachItem);
 			}
