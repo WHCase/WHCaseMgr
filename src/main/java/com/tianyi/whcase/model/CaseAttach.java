@@ -39,6 +39,12 @@ public class CaseAttach {
     private String messageType;
     
     private String resourceType;
+    
+    /**
+     * 派出所id
+     */
+    private Integer organizationId;
+    
 	public String getResourceType() {
 		return resourceType;
 	}
@@ -94,4 +100,12 @@ public class CaseAttach {
     public void setMessageType(String messageType) {
         this.messageType = messageType;
     }
+
+	public Integer getOrganizationId() {
+		return organizationId;
+	}
+
+	public void setOrganizationId(Integer organizationId) {
+		this.organizationId = organizationId;
+	}
 }

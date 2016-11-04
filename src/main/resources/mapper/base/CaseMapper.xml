@@ -426,6 +426,7 @@ WHERE   1=1 and  co.receive_time > '2000-01-01'
 		#{startTime,jdbcType=TIMESTAMP},
 		summary = #{summary,jdbcType=VARCHAR},
 		status = #{status,jdbcType=VARCHAR},
+		case_group_id = #{caseGroupId,jdbcType=VARCHAR},
 		level = #{level,jdbcType=VARCHAR},
 		organization_id = #{organizationId,jdbcType=INTEGER},
 		detectedunit_id =
