@@ -203,8 +203,33 @@ public class JieShangInterfaceController {
 	public @ResponseBody String DeleteCCaseMessage(
 		@RequestParam(value="caseId",required = false) String caseId,
 		@RequestParam(value="itemId",required = false) String itemId,
-		HttpServletRequest request)throws Exception{
-			
-		return "";	
+		HttpServletRequest request)throws Exception{						
+		try {
+			//String s = DbConfig.getInstance().getIpUrl();
+			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
+			String urlStr = "http://192.168.16.74:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+itemId;
+			URL url = new URL(urlStr);
+			URLConnection con = url.openConnection();
+			con.setDoOutput(true); 
+			con.setRequestProperty("Content-Type", "application/xml");
+			OutputStreamWriter out = new OutputStreamWriter(con  
+	                .getOutputStream()); 
+			// 测试写的死的数据，应该从数据库获取
+//            String xmlInfo = getXmlInfo();
+//            System.out.println("urlStr=" + urlStr);  
+//            System.out.println("xmlInfo=" + xmlInfo);  
+//            out.write(new String(xmlInfo.getBytes("ISO-8859-1")));  
+            out.flush();  
+            out.close();  
+            BufferedReader br = new BufferedReader(new InputStreamReader(con  
+                    .getInputStream()));  
+            String line = "";  
+            for (line = br.readLine(); line != null; line = br.readLine()) {  
+                System.out.println("\n\r 返回结果："+line);  
+            }  
+		} catch (Exception ex) {
+
+		}
+		return "";
 	}
 }
