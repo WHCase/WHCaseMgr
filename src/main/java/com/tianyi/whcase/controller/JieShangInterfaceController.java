@@ -1,6 +1,7 @@
 package com.tianyi.whcase.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
@@ -37,7 +38,7 @@ public class JieShangInterfaceController {
 		try {
 			//String s = DbConfig.getInstance().getIpUrl();
 			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
-			String urlStr = "http://192.168.0.201:40000/center/UpdateCCase";
+			String urlStr = "http://192.168.16.74:40000/center/UpdateCCase";
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true); 
@@ -79,6 +80,22 @@ public class JieShangInterfaceController {
 	        return sb.toString();  
 	}
 	/**
+	 * 获取指定案件信息
+	 * @param caseID
+	 * @param messageType
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "getCase.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getCase(
+		@RequestParam(value="caseID",required = false) String caseID,
+		@RequestParam(value="messageType",required = false) Integer messageType,
+		HttpServletRequest request)throws Exception{
+		return"";
+	}
+	
+	/**
 	 * 获取案件附件
 	 * @param caseID
 	 * @param messageType
@@ -94,7 +111,7 @@ public class JieShangInterfaceController {
 		return"";
 	}
 	/**
-	 * 
+	 * 	获取流媒体服务列表
 	 * @param request
 	 * @return
 	 * @throws Exception
@@ -104,14 +121,19 @@ public class JieShangInterfaceController {
 		HttpServletRequest request)throws Exception{
 		return"";
 	}
-	
+	/**
+	 * 	获取系统可用的工作目录列表
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "getWorkspaceInfo.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String getWorkspaceInfo(
 		HttpServletRequest request)throws Exception{
 		return"";
 	}
 	/**
-	 * 下载案件附件
+	 * 案件附件中文件下载
 	 * @param request
 	 * @return
 	 * @throws Exception
@@ -138,6 +160,12 @@ public class JieShangInterfaceController {
 		}
 		
 	}
+	/**
+	 * 获取所有组织机构
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "GetAllOrganizations.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String GetAllOrganizations(
 		HttpServletRequest request)throws Exception{
@@ -147,5 +175,36 @@ public class JieShangInterfaceController {
 		}else{
 			return new Result<String>(null,false,temp).toJson();
 		}
+	}
+	/**
+	 * 上传附件
+	 * @param caseInfo
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "updateCaseAttach.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String updateCaseAttach(
+		@RequestParam(value="caseInfo",required = false) String caseInfo,
+		@RequestParam(value="file",required = false) File file,
+		HttpServletRequest request)throws Exception{
+			
+		return "";	
+	}
+	/**
+	 * 删除附件
+	 * @param caseId
+	 * @param itemId
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "deleteCCaseMessage.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String DeleteCCaseMessage(
+		@RequestParam(value="caseId",required = false) String caseId,
+		@RequestParam(value="itemId",required = false) String itemId,
+		HttpServletRequest request)throws Exception{
+			
+		return "";	
 	}
 }
