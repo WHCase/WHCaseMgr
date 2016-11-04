@@ -368,6 +368,8 @@ public class CaseController {
 		c.setStatus(root.attributeValue("Status"));
 
 		c.setIsregister(false);
+		// 修改人： xie
+		c.setCaseGroupId("UserGroupId");
 		c.setLevel(root.attributeValue("Level"));
 		c.setLongitude(root.attributeValue("Longitude"));
 		c.setLatitude(root.attributeValue("Latitude"));
