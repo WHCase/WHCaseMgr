@@ -254,7 +254,7 @@ public class CaseServiceImpl implements CaseService {
 	}
 	
 	/**
-	 * List<CaseVM>去重
+	 * List<CaseVM>去重,去空
 	 * @param list
 	 * @return
 	 */
@@ -263,10 +263,17 @@ public class CaseServiceImpl implements CaseService {
 		if(list.size() == 0){
 			return list;
 		}else{
-			newlist.add(list.get(0));
+			for(CaseVM cv0:list){
+				if("".equals(cv0.getId()) || cv0.getId() == null)
+					continue;
+				newlist.add(list.get(0));
+				break;
+			}			
 		}
 		for(CaseVM cv:list){
 			int count = 0;
+			if("".equals(cv.getId()) || cv.getId() == null)
+				continue;
 			for(CaseVM cv1:newlist){
 				if(cv.getId().equals(cv1.getId()) && cv.getSummary().equals(cv1.getSummary())){
 					count++;

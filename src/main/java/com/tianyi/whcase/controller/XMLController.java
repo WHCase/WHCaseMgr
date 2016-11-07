@@ -65,4 +65,13 @@ public class XMLController {
 			return "案件插入成功";
 		}
 	}
+	
+	
+	@RequestMapping(value = "AddCCaseMessage.do")
+	public @ResponseBody void AddCCaseMessage(
+			@RequestBody String xmlInfo,
+		HttpServletRequest request)throws Exception{
+		
+	    System.out.println(xmlInfo);
+	}
 }
