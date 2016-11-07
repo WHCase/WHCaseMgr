@@ -344,7 +344,7 @@ public class JieShangService {
 		//String ip = "223.223.183.242";
 		 String ip = "192.168.0.201";
 		int port = 40001;
-
+        String result = "1";
 		try {
 			String serverPath = getClass().getResource("/").getFile()
 					.toString();
@@ -371,15 +371,15 @@ public class JieShangService {
 			byte[] buf = new byte[1024];
 			while ((len = bis.read(buf)) != -1) {
 				out.write(buf, 0, len);
-			}
-
+				result = "0";
+			}           
 			out.close();
 			bis.close();
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
-
+			result = "2";
 		}
-		return "";
+		return result;
 	}
 
 	@Test
@@ -414,6 +414,7 @@ public class JieShangService {
 		// String ip = mss.getServerAddress();
 		// int port = mss.getPort();
 		//String ip = "223.223.183.242";
+		String result = "1";
 		 String ip = "192.168.0.201";
 		int port = 40000;
 		WorkspaceInfo ws = getWorkspaceInfo();
@@ -440,19 +441,21 @@ public class JieShangService {
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println("\n\r 返回结果：" + line);
+				int s = getCodeFromLine(line);
+				result = String.valueOf(s);
 			}
 
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
-			return ex.getMessage();
+			return "2";
 		}
-		return "";
+		return result;
 	}
 
 	/* 调用上传附件接口 */
-	public String addCCaseMessage(String caseId, CaseAttachVM attach)
+	public  String addCCaseMessage(String caseId, CaseAttachVM attach)
 			throws Exception {
-
+		String result = "1";
 		try {
 			//String urlStr = "http://223.223.183.242:40000/center/AddCCaseMessage";
 			 String urlStr =
@@ -478,15 +481,17 @@ public class JieShangService {
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 			String line = "";
+			
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println("\n\r 返回结果：" + line);
+				int s = getCodeFromLine(line);
+				result = String.valueOf(s);
 			}
-
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
-			return ex.getMessage();
+			return "2";
 		}
-		return "";
+		return result;
 	}
 
 	/* 删除附件 */
@@ -506,7 +511,7 @@ public class JieShangService {
 					con.getInputStream()));
 
 			String line = "";
-			int s = 0;
+			int s = -2;
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println(line);
 				s = getCodeFromLine(line);
@@ -551,8 +556,7 @@ public class JieShangService {
 				+ "\" Name=\""
 				+ attach.getName()
 				+ "\" MessageType=\""
-				+ (attach.getMessageType() == null ? "4" : attach
-						.getMessageType())
+				+ (attach.getMessageType() == null ? "4" : attach.getMessageType())
 				+ "\" IsTopMost=\"false\">"
 				+ "<Attachments><Item ID=\""
 				+ item.getId()
