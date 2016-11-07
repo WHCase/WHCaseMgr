@@ -399,8 +399,7 @@ public class CaseController {
 		 */
 		int temp = -1;
 		try{
-			temp = caseService.deleteByCaseId(caseId);
-			
+			temp = (caseService.deleteByCaseId(caseId)>0?0:temp);			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
