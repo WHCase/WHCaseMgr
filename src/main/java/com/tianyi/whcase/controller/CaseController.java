@@ -103,7 +103,7 @@ public class CaseController {
 		page = page == 0 ? 1 : page;
 		map.put("pageStart", (page - 1) * rows);
 		map.put("pageSize", rows);
-		ListResult<CaseVM> caseList ;
+		ListResult<CaseVM> caseList = new  ListResult<CaseVM>();
 		if (distributeCase.getCaseType() == 2) {
 			map.put("organId", distributeCase.getOrganId());
 			caseList = caseService.getDistributeCaseByOrganId(map);
