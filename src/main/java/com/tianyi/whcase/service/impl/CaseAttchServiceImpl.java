@@ -102,5 +102,10 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 		}
 		return "";
 	}
+	// 修改人xie
+	public CaseAttach getCaseAttachBycaseID(String caseID,Integer messageType) {
+		CaseAttach caseAttach = caseAttachMapper.selectByCaseId(caseID, messageType);
+		return caseAttach;
+	}
 
 }

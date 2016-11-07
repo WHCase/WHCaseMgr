@@ -65,6 +65,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.tianyi.whcase.core.FileUtil;
+import com.tianyi.whcase.model.CaseAttach;
 import com.tianyi.whcase.model.CaseAttachItem;
 import com.tianyi.whcase.model.CaseCategory;
 import com.tianyi.whcase.model.Organ;
@@ -81,7 +82,9 @@ public class JieShangService {
 	CommonService commonService;
 	@Autowired
 	OrganService organService;
-
+	
+	@Autowired 
+	CaseAttchService caseAttchService;
 	/**
 	 * 更新案件
 	 * 
@@ -115,7 +118,7 @@ public class JieShangService {
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
-		return "";
+		return "0";
 	}
 
 	private String getXmlInfoForCase(CaseVM caseInfo) {
@@ -183,8 +186,162 @@ public class JieShangService {
 		return sb.toString();
 	}
 
+	public String getCase(String caseID){
+		try {
+			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
+			String urlStr = "http://192.168.0.201:40000/center/UpdateCCase";  //
+
+			URL url = new URL(urlStr);
+			URLConnection con = url.openConnection();
+			con.setDoOutput(true);
+			con.setDoInput(true);
+			con.setRequestProperty("Content-Type", "application/xml");
+			OutputStreamWriter out = new OutputStreamWriter(
+					con.getOutputStream());
+			String xmlInfo = getXmlCaseInfoForCase(caseID);
+			System.out.println("urlStr=" + urlStr);
+			System.out.println("xmlInfo=" + xmlInfo);
+			out.write(new String(xmlInfo.getBytes("ISO-8859-1")));
+			out.flush();
+			out.close();
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					con.getInputStream()));
+			String line = "";
+			for (line = br.readLine(); line != null; line = br.readLine()) {
+				System.out.println("\n\r 返回结果：" + line);
+			}
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+		return "0";
+		
+	}
+	private String getXmlCaseInfoForCase(String caseID) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+		if (caseID != null) {
+			sb.append("<CCase ID=\"" + caseID + "\" ");
+		}
+		/*if (caseInfo.getName() != null) {
+			sb.append("Name=\"" + caseInfo.getName() + "\" ");
+		}
+		if (caseInfo.getCreator() != null) {
+			sb.append("Creator=\"" + caseInfo.getCreator() + "\" ");
+		}
+		if (caseInfo.getCreateTime() != null) {
+			java.text.DateFormat format1 = new java.text.SimpleDateFormat(
+					"yyyy-MM-dd'T'HH:mm:ss");
+			String s = format1.format(caseInfo.getCreateTime());
+			sb.append("CreateTime=\"" + s + "\" ");
+		}
+		if (caseInfo.getStartTime() != null) {
+			java.text.DateFormat format1 = new java.text.SimpleDateFormat(
+					"yyyy-MM-dd'T'HH:mm:ss");
+			String t = format1.format(caseInfo.getStartTime());
+			sb.append("StartTime=\"" + t + "\" ");
+		}
+		if (caseInfo.getCode() != null) {
+			sb.append("Code=\"" + caseInfo.getCode() + "\" ");
+		}
+		if (caseInfo.getCategoriesId() != null) {
+			sb.append("Categories=\"" + caseInfo.getCategoriesId() + "\" ");
+		}
+		if (caseInfo.getSummary() != null) {
+			sb.append("Summary=\"" + caseInfo.getSummary() + "\" ");
+		}
+		if (caseInfo.getStatus() != null) {
+			sb.append("Status=\"" + caseInfo.getStatus() + "\" ");
+		}
+
+		if (caseInfo.getIsregister() != null) {
+			sb.append("IsRegister=\"" + caseInfo.getIsregister().toString()
+					+ "\" ");
+		}
+		sb.append("UserGroupId=\"0\" ");
+
+		if (caseInfo.getLevel() != null) {
+			sb.append("Level=\"" + caseInfo.getLevel() + "\" ");
+		}
+		if (caseInfo.getLongitude() != null) {
+			sb.append("Longitude=\"" + caseInfo.getLongitude() + "\" ");
+		}
+		if (caseInfo.getLatitude() != null) {
+			sb.append("Latitude=\"" + caseInfo.getLatitude() + "\" ");
+		}
+		if (caseInfo.getOrganizationId() != null) {
+			sb.append("OrganizationID=\"" + caseInfo.getOrganizationId()
+					+ "\" ");
+		}
+		if (caseInfo.getDetectedunitId() != null) {
+			sb.append("DetectedUnit=\"" + caseInfo.getDetectedunitId() + "\"");
+		}
+*/
+		sb.append("></CCase>");
+		return sb.toString();
+	}
+
 	public String getCaseMessages(String caseID, Integer messageType) {
+		try {
+			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
+			String urlStr = "http://192.168.0.201:40000/center/UpdateCCase";  //
+
+			URL url = new URL(urlStr);
+			URLConnection con = url.openConnection();
+			con.setDoOutput(true);
+			con.setDoInput(true);
+			con.setRequestProperty("Content-Type", "application/xml");
+			OutputStreamWriter out = new OutputStreamWriter(
+					con.getOutputStream());
+			
+			String xmlInfo = getXmlInfoForCaseMessages(caseID, messageType);
+			int len = xmlInfo.length();
+			out.write(xmlInfo, 0, len);
+			out.flush();
+			out.close();
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					con.getInputStream()));
+			String line = "";
+			for (line = br.readLine(); line != null; line = br.readLine()) {
+				System.out.println("\n\r 返回结果：" + line);
+			}
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		}
 		return "";
+	}
+
+	private String getXmlInfoForCaseMessages(String caseID, Integer messageType) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		java.util.Date date = new java.util.Date();
+		String time = sdf.format(date);
+		CaseAttachItem item = new CaseAttachItem();
+		CaseAttach attach = caseAttchService.getCaseAttachBycaseID(caseID,messageType);
+		String temp = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"+
+				"<ArrayOfMessageItem>"
+				+ "<MessageItem ID=\""
+				+ caseID
+				+ "\" Name=\""
+				+ attach.getName()
+				+ "\" MessageType=\""
+				+ messageType
+				+ "\" IsTopMost=\"false\">"
+				+ "<Attachments><Item ID=\""
+				+ item.getId()
+				+ "\" Name=\""
+				+ item.getName()
+				+ "\" Creator=\"0\" "
+				+ "CreateTime=\""
+				+ time
+				+ "\" Uri=\""
+				+ item.getUri()
+				+ "\" Type=\""
+				+ item.getItemType()
+				+ "\"/>"
+				+ "</Attachments></MessageItem></ArrayOfMessageItem>";
+				
+		return temp;
+		
 	}
 
 	public MediaSvrStatus getAllMsSvrStatus() {
@@ -283,13 +440,12 @@ public class JieShangService {
 			ws.setNo(performanceElement.attributeValue("No"));
 
 			ws.setValue(Double.parseDouble(performanceElement
-					.attributeValue("Total")));
+					.attributeValue("Value")));
 			ws.setTotal(Double.parseDouble(performanceElement
 					.attributeValue("Total")));
 
 			return ws;
 		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}

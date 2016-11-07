@@ -18,5 +18,7 @@ public interface CaseAttchService {
 
 	int AddAttachVM(CaseAttachVM caseAttachVM,HttpServletRequest request,HttpServletResponse response);
 	String deleteCaseAttach(String caseId,String caseattachId);
+	// 修改人xie
+	CaseAttach getCaseAttachBycaseID(String caseID,Integer messageType);
 
 }
