@@ -457,9 +457,8 @@ public class JieShangService {
 			throws Exception {
 		String result = "1";
 		try {
-			//String urlStr = "http://223.223.183.242:40000/center/AddCCaseMessage";
-			 String urlStr =
-			 "http://192.168.0.201:40000/center/AddCCaseMessage";
+//			String urlStr = "http://223.223.183.242:40000/center/AddCCaseMessage";
+			 String urlStr ="http://192.168.0.103:40000/center/AddCCaseMessage";
 
 			URL url = new URL(urlStr);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();

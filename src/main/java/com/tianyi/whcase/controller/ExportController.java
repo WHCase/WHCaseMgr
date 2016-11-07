@@ -157,8 +157,16 @@ public class ExportController {
 				cell_row5_1.setCellValue("案件状态");
 				sheet.autoSizeColumn(1);
 	
-				Cell cell_row5_2 = row5.createCell(1, Cell.CELL_TYPE_STRING);
-				cell_row5_2.setCellValue(caseInfo.getStatus());
+				Cell cell_row5_2 = row5.createCell(1, Cell.CELL_TYPE_STRING);				
+                if("Handling".equals(caseInfo.getStatus())){
+                	cell_row5_2.setCellValue("受理");
+				}else if("Detected".equals(caseInfo.getStatus())){
+                	cell_row5_2.setCellValue("已破");
+				}else if("CloseCase".equals(caseInfo.getStatus())){
+                	cell_row5_2.setCellValue("销案");
+				}else{
+					cell_row5_2.setCellValue(caseInfo.getStatus());
+				}
 				sheet.autoSizeColumn(1);
 				
 				Cell cell_row5_3 = row5.createCell(2, Cell.CELL_TYPE_STRING);

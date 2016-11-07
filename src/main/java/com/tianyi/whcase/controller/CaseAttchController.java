@@ -67,7 +67,7 @@ public class CaseAttchController {
 		@RequestParam(value="caseattachId",required = false) String caseattachId,
 		HttpServletRequest request)throws Exception{
 		String temp = caseAttchService.deleteCaseAttach(caseId,caseattachId);
-		if(temp ==""){
+		if("0".equals(temp)){
 			Result<CaseAttachItem> result = new Result<CaseAttachItem>(null, true, "删除成功");
 			return result.toJson();
 		}else{
