@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -36,7 +35,7 @@ import com.tianyi.whcase.viewmodel.CaseAttachVM;
 @RequestMapping("/caseAttch")
 public class CaseAttchController {
 	@Autowired CaseAttchService caseAttchService;	
-	
+	@Autowired JieShangService jieShangService;
 	@RequestMapping(value = "getCaseAttchMents.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String getCaseAttchMents(
 		@RequestParam(value="caseId",required = false) String id,
@@ -61,6 +60,21 @@ public class CaseAttchController {
 		}
 		return caseGroupList.toJson();
 	}
+	@RequestMapping(value = "downloadCaseAttch.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String downloadCaseAttch(
+			@RequestParam(value = "url", required = false) String url, 
+			HttpServletRequest request,HttpServletResponse response ){
+		String result = null;
+		try {
+			result = jieShangService.downloadAttachFiles(url, request, response);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		return result;
+		
+	}
 	@RequestMapping(value = "deleteCaseAttach.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String deleteCaseAttach(
 			@RequestParam(value="caseId",required = false) String caseId,
@@ -80,6 +94,7 @@ public class CaseAttchController {
 		String temp = caseAttchService.deleteCaseAttach("acc35256-cd7d-064c-a885-a96005050505","54b10cc5-d27f-413f-8b58-9bd840a0c1c3");
 	    System.out.println("------------"+temp);
 	}
+	
 	/**
 	 * (优创接口)当用户添加附件，捷尚通过调用这个接口来通知优创
 	 * @param id

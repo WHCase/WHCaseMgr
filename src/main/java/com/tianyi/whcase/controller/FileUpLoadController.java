@@ -123,6 +123,7 @@ public class FileUpLoadController {
 				List<CaseAttachItem> li = new ArrayList<CaseAttachItem>();
 				li.add(attch);
 				temp.setAttachItemList(li);
+				// 调用上传附件接口**捷尚
 				result = jieShangService.addCCaseMessage(id, temp);
 			}
 			return result;
