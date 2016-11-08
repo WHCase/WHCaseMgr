@@ -450,7 +450,6 @@ var CasePushManage = {
 				data:{caseId:m_rowData.id},
 				success:function(responce){
 					var obj = JSON.parse(responce);
-					
 //					var fileURL=window.open ("\\"+"case/"+obj.data,"_blank","height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");
 //			        document.document.execCommand("SaveAs",'false',"\\"+"case/"+obj.data);
 //			        fileURL.window.close();
