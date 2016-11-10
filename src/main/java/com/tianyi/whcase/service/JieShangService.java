@@ -186,10 +186,12 @@ public class JieShangService {
 		return sb.toString();
 	}
 
-	public String getCase(String caseID){
+	@Test
+	public void getCase(){
 		try {
-			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
-			String urlStr = "http://101.69.255.110:40000/center/UpdateCCase";  //
+			String caseID = "5819c5fff1928420ec07ea08";
+			String urlStr = "http://http://101.69.255.110/:40000/center/GetCase";
+
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -198,22 +200,63 @@ public class JieShangService {
 			con.setRequestProperty("Content-Type", "application/xml");
 			OutputStreamWriter out = new OutputStreamWriter(
 					con.getOutputStream());
+			
 			String xmlInfo = getXmlCaseInfoForCase(caseID);
-			System.out.println("urlStr=" + urlStr);
-			System.out.println("xmlInfo=" + xmlInfo);
-			out.write(new String(xmlInfo.getBytes("ISO-8859-1")));
+			int len = xmlInfo.length();
+			out.write(xmlInfo, 0, len);
 			out.flush();
 			out.close();
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
-			String line = "";
+			/*String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println("\n\r 返回结果：" + line);
+			}*/
+			String response = ""; 
+			String readLine = null; 
+			while((readLine =br.readLine()) != null){ 
+			 
+			    response = response + readLine; 
 			}
+			br.close();
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
-		return "0";
+	}
+	public String getCase(String caseID){
+		try {
+			String urlStr = "http://http://101.69.255.110/:40000/center/GetCase";
+
+			URL url = new URL(urlStr);
+			URLConnection con = url.openConnection();
+			con.setDoOutput(true);
+			con.setDoInput(true);
+			con.setRequestProperty("Content-Type", "application/xml");
+			OutputStreamWriter out = new OutputStreamWriter(
+					con.getOutputStream());
+			
+			String xmlInfo = getXmlCaseInfoForCase(caseID);
+			int len = xmlInfo.length();
+			out.write(xmlInfo, 0, len);
+			out.flush();
+			out.close();
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					con.getInputStream()));
+			/*String line = "";
+			for (line = br.readLine(); line != null; line = br.readLine()) {
+				System.out.println("\n\r 返回结果：" + line);
+			}*/
+			String response = ""; 
+			String readLine = null; 
+			while((readLine =br.readLine()) != null){ 
+			 
+			    response = response + readLine; 
+			}
+			br.close();
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+		return "";
 		
 	}
 	private String getXmlCaseInfoForCase(String caseID) {
@@ -460,9 +503,9 @@ public class JieShangService {
 	@Test
 	public void download() {
 
-		String uri = "/resource/icon/login/login-btn.gif";
+		String uri = "CaseCenter_ws1/Files/20161110/14/9a0f2458-cfa6-26e4-e4d7-a13d05050505.jpg";
 		String ip = "101.69.255.110";
-		int port = 40000;
+		int port = 20000;
 		try {
 			String serverPath = getClass().getResource("/").getFile()
 					.toString();
@@ -503,6 +546,7 @@ public class JieShangService {
 			HttpServletResponse response) throws Exception {
 		uri = uri.replace("resource://", "");
 		//String ip = "223.223.183.242";
+
 		 String ip = "101.69.255.110";
 		int port = 40000;
         String result = "1";
