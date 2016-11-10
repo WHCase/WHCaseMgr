@@ -189,8 +189,8 @@ public class JieShangService {
 	@Test
 	public void getCase(){
 		try {
-			String caseID = "5819c5fff1928420ec07ea08";
-			String urlStr = "http://http://101.69.255.110/:40000/center/GetCase";
+			String caseID = "bb2a2458-92f1-0984-9021-40d005050505";
+			String urlStr = "http://101.69.255.110:40000/center/GetCase?caseID="+caseID;
 
 
 			URL url = new URL(urlStr);
@@ -198,14 +198,7 @@ public class JieShangService {
 			con.setDoOutput(true);
 			con.setDoInput(true);
 			con.setRequestProperty("Content-Type", "application/xml");
-			OutputStreamWriter out = new OutputStreamWriter(
-					con.getOutputStream());
 			
-			String xmlInfo = getXmlCaseInfoForCase(caseID);
-			int len = xmlInfo.length();
-			out.write(xmlInfo, 0, len);
-			out.flush();
-			out.close();
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 			/*String line = "";
@@ -225,21 +218,21 @@ public class JieShangService {
 	}
 	public String getCase(String caseID){
 		try {
-			String urlStr = "http://http://101.69.255.110/:40000/center/GetCase";
+			String urlStr = "http://http://101.69.255.110/:40000/center/getCase?caseID="+caseID;
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
 			con.setDoInput(true);
 			con.setRequestProperty("Content-Type", "application/xml");
-			OutputStreamWriter out = new OutputStreamWriter(
+		/*	OutputStreamWriter out = new OutputStreamWriter(
 					con.getOutputStream());
 			
 			String xmlInfo = getXmlCaseInfoForCase(caseID);
 			int len = xmlInfo.length();
 			out.write(xmlInfo, 0, len);
 			out.flush();
-			out.close();
+			out.close();*/
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 			/*String line = "";
@@ -327,21 +320,14 @@ public class JieShangService {
 	public String getCaseMessages(String caseID, Integer messageType) {
 		try {
 			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
-			String urlStr = "http://101.69.255.110:40000/center/UpdateCCase";  //
+			String urlStr = "http://101.69.255.110:40000/center/GetCaseMessages?caseID="+caseID+"&messageType="+66; 
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
 			con.setDoInput(true);
 			con.setRequestProperty("Content-Type", "application/xml");
-			OutputStreamWriter out = new OutputStreamWriter(
-					con.getOutputStream());
 			
-			String xmlInfo = getXmlInfoForCaseMessages(caseID, messageType);
-			int len = xmlInfo.length();
-			out.write(xmlInfo, 0, len);
-			out.flush();
-			out.close();
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 			String line = "";
@@ -547,7 +533,7 @@ public class JieShangService {
 		uri = uri.replace("resource://", "");
 		//String ip = "223.223.183.242";
 
-		 String ip = "101.69.255.110";
+		String ip = "101.69.255.110";
 		int port = 40000;
         String result = "1";
 		try {
@@ -942,6 +928,6 @@ public class JieShangService {
 	
 	@Test
 	public void testConnect() {
-		String s = GetAllOrganizations();
+		String s = getCaseMessages("bb2a2458-92f1-0984-9021-40d005050505",14);
 	}
 }
