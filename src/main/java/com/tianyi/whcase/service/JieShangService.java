@@ -393,7 +393,7 @@ public class JieShangService {
 			mss.setPort(Integer.parseInt(configElement.attributeValue("Port")));
 			mss.setVideoPort(Integer.parseInt(configElement
 					.attributeValue("VideoPort")));
-			mss.setNginPort(Integer.parseInt(configElement
+			mss.setNginxPort(Integer.parseInt(configElement
 					.attributeValue("NginxPort")));
 
 			return mss;

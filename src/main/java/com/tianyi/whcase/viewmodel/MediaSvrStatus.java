@@ -7,10 +7,11 @@ public class MediaSvrStatus {
 	private String cpu;
 	private String memory;
 	private String freeMemory;
+	private String serverNo;
 	private String serverAddress;
 	private int port;
 	private int videoPort;
-	private int nginPort ;
+	private int nginxPort ;
 	public String getSvrNo() {
 		return svrNo;
 	}
@@ -65,11 +66,17 @@ public class MediaSvrStatus {
 	public void setVideoPort(int videoPort) {
 		this.videoPort = videoPort;
 	}
-	public int getNginPort() {
-		return nginPort;
+	public String getServerNo() {
+		return serverNo;
 	}
-	public void setNginPort(int nginPort) {
-		this.nginPort = nginPort;
+	public void setServerNo(String serverNo) {
+		this.serverNo = serverNo;
+	}
+	public int getNginxPort() {
+		return nginxPort;
+	}
+	public void setNginxPort(int nginxPort) {
+		this.nginxPort = nginxPort;
 	}
 	
 }
