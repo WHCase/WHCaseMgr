@@ -94,7 +94,7 @@ public class JieShangService {
 	public String updateCCase(CaseVM caseInfo) {
 		try {
 			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
-			String urlStr = "http://172.16.4.238:40000/center/UpdateCCase";  //
+			String urlStr = "http://101.69.255.110:40000/center/UpdateCCase";  //
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -189,7 +189,7 @@ public class JieShangService {
 	public String getCase(String caseID){
 		try {
 			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
-			String urlStr = "http://172.16.4.238:40000/center/UpdateCCase";  //
+			String urlStr = "http://101.69.255.110:40000/center/UpdateCCase";  //
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -284,7 +284,7 @@ public class JieShangService {
 	public String getCaseMessages(String caseID, Integer messageType) {
 		try {
 			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
-			String urlStr = "http://172.16.4.238:40000/center/UpdateCCase";  //
+			String urlStr = "http://101.69.255.110:40000/center/UpdateCCase";  //
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -343,13 +343,15 @@ public class JieShangService {
 		return temp;
 		
 	}
+	
+	
 
 	public MediaSvrStatus getAllMsSvrStatus() {
 		MediaSvrStatus s = new MediaSvrStatus();
 		try {
 			//String urlStr = "http://223.223.183.242:40000/center/GetAllMsSvrStatus";
 			 String urlStr =
-			 "http://172.16.4.238:40000/center/GetAllMsSvrStatus";
+			 "http://101.69.255.110:40000/center/GetAllMsSvrStatus";
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
@@ -402,13 +404,16 @@ public class JieShangService {
 		}
 
 	}
+	
+	
 
 	public WorkspaceInfo getWorkspaceInfo() {
 		WorkspaceInfo wsInfo = new WorkspaceInfo();
 		try {
 			//String urlStr = "http://223.223.183.242:40000/center/GetWorkspacesInfoList";
 			 String urlStr =
-			 "http://172.16.4.238:40000/center/GetWorkspacesInfoList";
+//			 "http://101.69.255.110:40000/center/GetWorkspacesInfoList";
+			 "http://101.69.255.110:40000/center/GetAllWorkspaceInfo";
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -456,8 +461,8 @@ public class JieShangService {
 	public void download() {
 
 		String uri = "/resource/icon/login/login-btn.gif";
-		String ip = "172.16.4.238";
-		int port = 8080;
+		String ip = "101.69.255.110";
+		int port = 40000;
 		try {
 			String serverPath = getClass().getResource("/").getFile()
 					.toString();
@@ -498,8 +503,8 @@ public class JieShangService {
 			HttpServletResponse response) throws Exception {
 		uri = uri.replace("resource://", "");
 		//String ip = "223.223.183.242";
-		 String ip = "172.16.4.238";
-		int port = 40001;
+		 String ip = "101.69.255.110";
+		int port = 40000;
         String result = "1";
 		try {
 			String serverPath = getClass().getResource("/").getFile()
@@ -571,7 +576,7 @@ public class JieShangService {
 		// int port = mss.getPort();
 		//String ip = "223.223.183.242";
 		String result = "1";
-		 String ip = "172.16.4.238";
+		 String ip = "101.69.255.110";
 		int port = 40000;
 		WorkspaceInfo ws = getWorkspaceInfo();
 		try {
@@ -614,7 +619,7 @@ public class JieShangService {
 		String result = "1";
 		try {
 //			String urlStr = "http://223.223.183.242:40000/center/AddCCaseMessage";
-			 String urlStr ="http://172.16.4.238:40000/center/AddCCaseMessage";
+			 String urlStr ="http://101.69.255.110:40000/center/AddCCaseMessage";
 
 			URL url = new URL(urlStr);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -655,7 +660,7 @@ public class JieShangService {
 //			String urlStr = "http://223.223.183.242:40000/center/DeleteCCaseMessage?caseID="
 //					+ caseId + "&itemId=" + attachItemId;
 			 String urlStr =
-			 "http://172.16.4.238:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
+			 "http://101.69.255.110:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -772,7 +777,7 @@ public class JieShangService {
 
 	public String GetDictionary() {
 		//String urlStr = "http://223.223.183.242:40000/center/GetDictionary";
-		 String urlStr = "http://172.16.4.238:40000/center/GetDictionary";
+		 String urlStr = "http://101.69.255.110:40000/center/GetDictionary";
 		
 		try {
 			URL url = new URL(urlStr);
@@ -861,7 +866,7 @@ public class JieShangService {
 	public String GetAllOrganizations() {
 		//String urlStr = "http://223.223.183.242:40000/center/GetAllOrganizations";
 		 String urlStr =
-		 "http://172.16.4.238:40000/center/GetAllOrganizations";
+		 "http://101.69.255.110:40000/center/GetAllOrganizations";
 		URL url;
 		try {
 			url = new URL(urlStr);
@@ -889,5 +894,10 @@ public class JieShangService {
 			//return e.getMessage();
 		}
 		return"";
+	}
+	
+	@Test
+	public void testConnect() {
+		String s = GetAllOrganizations();
 	}
 }
