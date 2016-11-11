@@ -21,6 +21,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.security.Principal;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -85,8 +86,10 @@ public class JieShangService {
 	
 	@Autowired 
 	CaseAttchService caseAttchService;
+	
+	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	/**
-	 * 更新案件
+	 * 更新案件接口
 	 * 
 	 * @param caseInfo
 	 * @return
@@ -121,6 +124,11 @@ public class JieShangService {
 		return "0";
 	}
 
+	/**
+	 * 案件更新信息-->xml
+	 * @param caseInfo
+	 * @return
+	 */
 	private String getXmlInfoForCase(CaseVM caseInfo) {
 		StringBuilder sb = new StringBuilder();
 
@@ -216,6 +224,11 @@ public class JieShangService {
 			System.out.println(ex.getMessage());
 		}
 	}
+	/**
+	 * 获取案件信息接口
+	 * @param caseID
+	 * @return
+	 */
 	public String getCase(String caseID){
 		try {
 			String urlStr = "http://http://101.69.255.110/:40000/center/getCase?caseID="+caseID;
@@ -252,6 +265,12 @@ public class JieShangService {
 		return "";
 		
 	}
+	
+	/**
+	 * 案件信息-->xml
+	 * @param caseID
+	 * @return
+	 */
 	private String getXmlCaseInfoForCase(String caseID) {
 		StringBuilder sb = new StringBuilder();
 
@@ -317,6 +336,12 @@ public class JieShangService {
 		return sb.toString();
 	}
 
+	/**
+	 * 获取案件附件信息
+	 * @param caseID
+	 * @param messageType
+	 * @return
+	 */
 	public String getCaseMessages(String caseID, Integer messageType) {
 		try {
 			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
@@ -340,8 +365,14 @@ public class JieShangService {
 		return "";
 	}
 
+	/**
+	 * CaseAttachItem-->xml
+	 * @param caseID
+	 * @param messageType
+	 * @return
+	 */
 	private String getXmlInfoForCaseMessages(String caseID, Integer messageType) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		java.util.Date date = new java.util.Date();
 		String time = sdf.format(date);
 		CaseAttachItem item = new CaseAttachItem();
@@ -375,6 +406,10 @@ public class JieShangService {
 	
 	
 
+	/**
+	 * 获取流媒体信息接口
+	 * @return
+	 */
 	public MediaSvrStatus getAllMsSvrStatus() {
 		MediaSvrStatus s = new MediaSvrStatus();
 		try {
@@ -402,6 +437,11 @@ public class JieShangService {
 		return s;
 	}
 
+	/**
+	 * xml==>流媒体信息
+	 * @param xml
+	 * @return MediaSvrStatus
+	 */
 	private MediaSvrStatus getMediaSvrStatusInfoFromxml(String xml) {
 		try {
 			MediaSvrStatus mss = new MediaSvrStatus();
@@ -436,6 +476,10 @@ public class JieShangService {
 	
 	
 
+	/**
+	 * 获取工作空间接口
+	 * @return
+	 */
 	public WorkspaceInfo getWorkspaceInfo() {
 		WorkspaceInfo wsInfo = new WorkspaceInfo();
 		try {
@@ -463,7 +507,43 @@ public class JieShangService {
 		}
 		return wsInfo;
 	}
+	
+	/**
+	 * xml-->CaseAttach案件附件信息
+	 * @param xml
+	 * @return
+	 */
+	private CaseAttach getCaseMessageFromxml(String xml) {
+		try {
+			CaseAttach ca = new CaseAttach();
+			Document document = DocumentHelper.parseText(xml);
+			Element root = document.getRootElement();
+			Element attach = root.element("MessageItem");
+			ca.setId(attach.attributeValue("ID"));
+			ca.setName(attach.attributeValue("Name"));
+			ca.setDescription(attach.attributeValue("Description"));
+			ca.setCreator(Integer.valueOf(attach.attributeValue("Creator")));
+			ca.setMessageType(attach.attributeValue("MessageType"));
+			try {
+				ca.setCreateTime(sdf.parse(attach.attributeValue("CreateTime")));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+ 
+			return ca;
+		} catch (DocumentException e) {
+			e.printStackTrace();
+			return null;
+		}
 
+	}
+
+	/**
+	 * xml-->工作空间对象
+	 * @param xml
+	 * @return
+	 */
 	private WorkspaceInfo getWorkspaceInfoFromxml(String xml) {
 		try {
 			WorkspaceInfo ws = new WorkspaceInfo();
@@ -528,6 +608,14 @@ public class JieShangService {
 
 	}
 
+	/**
+	 * 下载文件接口
+	 * @param uri
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	public String downloadAttachFiles(String uri, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		uri = uri.replace("resource://", "");
@@ -599,7 +687,12 @@ public class JieShangService {
 		out.close();
 	}
 
-	/* 上传文件 */
+	/**
+	 * 上传文件接口
+	 * @param file
+	 * @param relativePath
+	 * @return
+	 */
 	public String uploadFile(CommonsMultipartFile file, String relativePath) {
 		// MediaSvrStatus mss = getAllMsSvrStatus();
 		// String ip = mss.getServerAddress();
@@ -643,7 +736,13 @@ public class JieShangService {
 		return result;
 	}
 
-	/* 调用上传附件接口 */
+	/**
+	 * 上传附件信息接口
+	 * @param caseId
+	 * @param attach
+	 * @return
+	 * @throws Exception
+	 */
 	public  String addCCaseMessage(String caseId, CaseAttachVM attach)
 			throws Exception {
 		String result = "1";
@@ -684,7 +783,12 @@ public class JieShangService {
 		return result;
 	}
 
-	/* 删除附件 */
+	/**
+	 * 删除附件
+	 * @param caseId
+	 * @param attachItemId
+	 * @return
+	 */
 	public int deleteCaseAttach(String caseId, String attachItemId) {
 		try {
 //			String urlStr = "http://223.223.183.242:40000/center/DeleteCCaseMessage?caseID="
@@ -715,6 +819,11 @@ public class JieShangService {
 
 	}
 
+	/**
+	 * 返回值(成功0)
+	 * @param line
+	 * @return
+	 */
 	private int getCodeFromLine(String line) {
 		try {
 			Document document = DocumentHelper.parseText(line);
@@ -730,6 +839,13 @@ public class JieShangService {
 		// return 0;
 	}
 
+	/**
+	 * 案件附件信息-->xml
+	 * @param caseId
+	 * @param attach
+	 * @return
+	 * @throws ParseException
+	 */
 	private String getXmlInfoForAttach(String caseId, CaseAttachVM attach)
 			throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -801,11 +917,11 @@ public class JieShangService {
 		// return sb.toString();
 	}
 
-	/*
-	 * 获取案件类型
+	/**
+	 * 获取所有案件类型接口
+	 * @return
 	 */
-
-	public String GetDictionary() {
+	public String getDictionary() {
 		//String urlStr = "http://223.223.183.242:40000/center/GetDictionary";
 		 String urlStr = "http://101.69.255.110:40000/center/GetDictionary";
 		
@@ -833,7 +949,7 @@ public class JieShangService {
 			BufferedReader br1 = new BufferedReader(br);
 			for (line = br1.readLine(); line != null; line = br1.readLine()) {
 				System.out.println(line);
-				List<CaseCategory> categoryList = GetCaseCategoryFromXml(line);
+				List<CaseCategory> categoryList = getCaseCategoryFromXml(line);
 				for (int i = 0; i < categoryList.size(); i++) {
 					commonService.InsertCaseCategory(categoryList.get(i));
 				}
@@ -850,7 +966,13 @@ public class JieShangService {
 		return "";
 	}
 
-	private List<CaseCategory> GetCaseCategoryFromXml(String xml)
+	/**
+	 * xml-->案件类型对象集合
+	 * @param xml
+	 * @return
+	 * @throws DocumentException
+	 */
+	private List<CaseCategory> getCaseCategoryFromXml(String xml)
 			throws DocumentException {
 		// String xml =
 		// "<ArrayOfDictionaryItem xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><DictionaryItem DictType=\"3\" No=\"dc440454-34dc-10c6-78fc-aa4d05050505\" Value=\"危害国家安全案\" Flag=\"0\"/><DictionaryItem DictType=\"3\" No=\"dc440454-34dc-10c6-78fc-aa4f05050505\" Value=\"背叛国家案\" Flag=\"0\"/></ArrayOfDictionaryItem>";
@@ -871,7 +993,13 @@ public class JieShangService {
 		return list;
 	}
 
-	private List<Organ> GetOrganListFromXml(String xml)
+	/**
+	 * xml-->组织机构对象集合
+	 * @param xml
+	 * @return
+	 * @throws DocumentException
+	 */
+	private List<Organ> getOrganListFromXml(String xml)
 			throws DocumentException {
 		// xml = xml.replaceAll("<?xml version=\"1.0\" encoding=\"utf-8\"?>",
 		// "");
@@ -892,8 +1020,11 @@ public class JieShangService {
 		return list;
 	}
 
-	
-	public String GetAllOrganizations() {
+	/**
+	 * 获取所有组织机构接口
+	 * @return
+	 */
+	public String getAllOrganizations() {
 		//String urlStr = "http://223.223.183.242:40000/center/GetAllOrganizations";
 		 String urlStr =
 		 "http://101.69.255.110:40000/center/GetAllOrganizations";
@@ -910,7 +1041,7 @@ public class JieShangService {
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println(line);
-				List<Organ> organList = GetOrganListFromXml(line);
+				List<Organ> organList = getOrganListFromXml(line);
 				System.out.println(organList.size());
 				for (int i = 0; i < organList.size(); i++) {
 					System.out.println(organList.get(i).getName());

@@ -212,7 +212,7 @@ public class JieShangInterfaceController {
 	@RequestMapping(value = "getGetDictionary.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String getGetDictionary(
 		HttpServletRequest request)throws Exception{
-		String temp = jieShangService.GetDictionary();
+		String temp = jieShangService.getDictionary();
 		if(temp.equals("")){
 			return new Result<String>(null,true,"获取案件类型成功").toJson();
 		}else{
@@ -229,7 +229,7 @@ public class JieShangInterfaceController {
 	@RequestMapping(value = "GetAllOrganizations.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String GetAllOrganizations(
 		HttpServletRequest request)throws Exception{
-		String temp = jieShangService.GetAllOrganizations();
+		String temp = jieShangService.getAllOrganizations();
 		if(temp.equals("")){
 			return new Result<String>(null,true,"获取案件类型成功").toJson();
 		}else{
