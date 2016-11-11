@@ -216,6 +216,7 @@ public class JieShangService {
 			System.out.println(ex.getMessage());
 		}
 	}
+	
 	public String getCase(String caseID){
 		try {
 			String urlStr = "http://http://101.69.255.110/:40000/center/getCase?caseID="+caseID;
@@ -317,6 +318,12 @@ public class JieShangService {
 		return sb.toString();
 	}
 
+	/**
+	 * 获取案件附件  通过
+	 * @param caseID
+	 * @param messageType
+	 * @return
+	 */
 	public String getCaseMessages(String caseID, Integer messageType) {
 		try {
 			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
@@ -435,7 +442,10 @@ public class JieShangService {
 	}
 	
 	
-
+    /**
+     * 获取工作目录   通过
+     * @return
+     */
 	public WorkspaceInfo getWorkspaceInfo() {
 		WorkspaceInfo wsInfo = new WorkspaceInfo();
 		try {
@@ -491,7 +501,7 @@ public class JieShangService {
 
 		String uri = "CaseCenter_ws1/Files/20161110/14/9a0f2458-cfa6-26e4-e4d7-a13d05050505.jpg";
 		String ip = "101.69.255.110";
-		int port = 20000;
+		int port = 21001;
 		try {
 			String serverPath = getClass().getResource("/").getFile()
 					.toString();
@@ -606,8 +616,8 @@ public class JieShangService {
 		// int port = mss.getPort();
 		//String ip = "223.223.183.242";
 		String result = "1";
-		 String ip = "101.69.255.110";
-		int port = 40000;
+		String ip = "101.69.255.110";
+		int port = 21000;
 		WorkspaceInfo ws = getWorkspaceInfo();
 		try {
 			// URLEncoder.encode(relativePath, "UTF-8");
@@ -802,7 +812,7 @@ public class JieShangService {
 	}
 
 	/*
-	 * 获取案件类型
+	 * 获取案件类型  通过
 	 */
 
 	public String GetDictionary() {
@@ -928,6 +938,6 @@ public class JieShangService {
 	
 	@Test
 	public void testConnect() {
-		String s = getCaseMessages("bb2a2458-92f1-0984-9021-40d005050505",14);
+		String s = GetDictionary();
 	}
 }
