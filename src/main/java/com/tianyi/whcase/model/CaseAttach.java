@@ -1,5 +1,7 @@
 package com.tianyi.whcase.model;
 
+import java.util.Date;
+
 /**
  * ��������������Ϣ
  * @author lq
@@ -44,6 +46,8 @@ public class CaseAttach {
      * 派出所id
      */
     private Integer organizationId;
+    
+    private Date createTime;
     
 	public String getResourceType() {
 		return resourceType;
@@ -108,4 +112,14 @@ public class CaseAttach {
 	public void setOrganizationId(Integer organizationId) {
 		this.organizationId = organizationId;
 	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	
 }
