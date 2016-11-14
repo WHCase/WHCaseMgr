@@ -224,6 +224,7 @@ public class JieShangService {
 			System.out.println(ex.getMessage());
 		}
 	}
+
 	/**
 	 * 获取案件信息接口
 	 * @param caseID
@@ -337,7 +338,11 @@ public class JieShangService {
 	}
 
 	/**
+<<<<<<< HEAD
+	 * 获取案件附件  通过
+=======
 	 * 获取案件附件信息
+>>>>>>> branch 'master' of https://github.com/WHCase/WHCaseMgr.git
 	 * @param caseID
 	 * @param messageType
 	 * @return
@@ -467,19 +472,19 @@ public class JieShangService {
 
 			return mss;
 		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 			return null;
 		}
 
 	}
 	
-	
 
-	/**
-	 * 获取工作空间接口
-	 * @return
-	 */
+    /**
+     * 获取工作目录   通过
+     * @return
+     */
+
 	public WorkspaceInfo getWorkspaceInfo() {
 		WorkspaceInfo wsInfo = new WorkspaceInfo();
 		try {
@@ -571,7 +576,7 @@ public class JieShangService {
 
 		String uri = "CaseCenter_ws1/Files/20161110/14/9a0f2458-cfa6-26e4-e4d7-a13d05050505.jpg";
 		String ip = "101.69.255.110";
-		int port = 20000;
+		int port = 21001;
 		try {
 			String serverPath = getClass().getResource("/").getFile()
 					.toString();
@@ -699,8 +704,8 @@ public class JieShangService {
 		// int port = mss.getPort();
 		//String ip = "223.223.183.242";
 		String result = "1";
-		 String ip = "101.69.255.110";
-		int port = 40000;
+		String ip = "101.69.255.110";
+		int port = 21000;
 		WorkspaceInfo ws = getWorkspaceInfo();
 		try {
 			// URLEncoder.encode(relativePath, "UTF-8");
@@ -917,8 +922,8 @@ public class JieShangService {
 		// return sb.toString();
 	}
 
-	/**
-	 * 获取所有案件类型接口
+	/*
+	 * 获取案件类型  通过
 	 * @return
 	 */
 	public String getDictionary() {
@@ -1059,6 +1064,6 @@ public class JieShangService {
 	
 	@Test
 	public void testConnect() {
-		String s = getCaseMessages("bb2a2458-92f1-0984-9021-40d005050505",14);
+		String s = getDictionary();
 	}
 }

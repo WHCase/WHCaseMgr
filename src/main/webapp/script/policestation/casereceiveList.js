@@ -62,6 +62,7 @@ $(function() {
 			this.setData(data);
 			var text = "文件上传中";
 			interval = window.setInterval(function() {
+				debugger;
 				if (text.length < 20) {
 					text += ".";
 				} else {
