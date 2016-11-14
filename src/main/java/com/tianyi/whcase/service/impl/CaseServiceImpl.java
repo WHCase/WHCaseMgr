@@ -286,4 +286,24 @@ public class CaseServiceImpl implements CaseService {
 		return newlist;		
 	}
 
+	
+	/**
+	 * 案件更新
+	 * @param list
+	 */
+	public void updateCase(List<Case> list){
+		try{
+			Case t = new Case();
+			for(Case c:list){
+				t = caseMapper.selectByPrimaryKey(c.getId());
+				if(t == null){
+					caseMapper.insert(c);
+				}else{
+					caseMapper.updateByPrimaryKey(c);
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 }
