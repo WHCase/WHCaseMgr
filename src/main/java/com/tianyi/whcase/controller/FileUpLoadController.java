@@ -50,9 +50,9 @@ public class FileUpLoadController {
 			@RequestParam("file") CommonsMultipartFile cmFile, // 请求参数一定要与form中的参数名对应
 																// 
 			@RequestParam(value="id",required = false) String id,
-//			@RequestParam(value="organizationId",required = false) String organId,
+			@RequestParam(value="organizationId",required = false) String organId,
 			HttpServletRequest request, HttpServletResponse response) {
-//		int organizationId = Integer.parseInt(organId);
+		    int organizationId = Integer.parseInt(organId);
 		try {
 			String result = "";
 			
@@ -92,7 +92,10 @@ public class FileUpLoadController {
 				attach.setId(u.toString());
 				attach.setCaseId(id);
 				attach.setCreator(0);
-//				attach.setOrganizationId(organizationId);
+				// 修改人 xie
+				attach.setMessageType("66");
+			    attach.setOrganizationId(organizationId);
+			    attach.setDescription(name);
 				attach.setResourceType("2");
 				//设置附件相关信息
 				attach.setName("派出所上传附件");
@@ -160,7 +163,7 @@ public class FileUpLoadController {
 	public  WorkspaceInfo getWorkspaceInfo(){
 		WorkspaceInfo wsInfo = new WorkspaceInfo();
 		try {
-			String urlStr = "http://172.16.4.238:40000:40000/center/GetWorkspacesInfoList";
+			String urlStr = "http://101.69.255.110:40000/center/GetAllWorkspaceInfo";
 			//String urlStr = "http://192.168.0.201:40000/center/GetWorkspacesInfoList";
 			
 			URL url = new URL(urlStr);

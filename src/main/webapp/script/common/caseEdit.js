@@ -79,7 +79,6 @@ var CaseDetailsManage = {
 			 * 判断修改是否合法
 			 */
 			var caseInfo = CaseDetailsManage.packageObject();
-			
 			$.ajax('case/SaveCaseInfo.do',{
 				type:'POST',
 				data:{'caseInfo':JSON.stringify(caseInfo)},

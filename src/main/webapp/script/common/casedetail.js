@@ -99,10 +99,12 @@ var CaseDetailsManage = {
 				data:{url:url},
 				type:"get",
 				success: function(data){
-			
+			        if(data == 0){
+			        	$.messager.alert('操作提示',"下载成功",'info');
+			        }
 				},
 			});
-			$.messager.alert('操作提示',"下载成功",'info');
+			
 		},
 		cancelSave:function(){
 			parent.m_caseInfo_dlg.close();

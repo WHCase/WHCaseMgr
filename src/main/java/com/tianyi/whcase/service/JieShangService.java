@@ -2,6 +2,7 @@ package com.tianyi.whcase.service;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -88,6 +89,12 @@ public class JieShangService {
 	CaseAttchService caseAttchService;
 	
 	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	
+	private CaseVM caseInfo(){
+		
+		return null;
+		
+	}
 	/**
 	 * 更新案件接口
 	 * 
@@ -338,11 +345,7 @@ public class JieShangService {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * 获取案件附件  通过
-=======
-	 * 获取案件附件信息
->>>>>>> branch 'master' of https://github.com/WHCase/WHCaseMgr.git
 	 * @param caseID
 	 * @param messageType
 	 * @return
@@ -627,7 +630,7 @@ public class JieShangService {
 		//String ip = "223.223.183.242";
 
 		String ip = "101.69.255.110";
-		int port = 40000;
+		int port = 21001;
         String result = "1";
 		try {
 			String serverPath = getClass().getResource("/").getFile()
@@ -702,7 +705,6 @@ public class JieShangService {
 		// MediaSvrStatus mss = getAllMsSvrStatus();
 		// String ip = mss.getServerAddress();
 		// int port = mss.getPort();
-		//String ip = "223.223.183.242";
 		String result = "1";
 		String ip = "101.69.255.110";
 		int port = 21000;
@@ -720,7 +722,7 @@ public class JieShangService {
 			con.setRequestProperty("Content-Type", "application/octet-stream");
 			con.setRequestMethod("POST");
 			con.connect();
-			OutputStream out = con.getOutputStream();
+			BufferedOutputStream out = (BufferedOutputStream) con.getOutputStream();
 			out.write(file.getBytes());
 
 			out.flush();
