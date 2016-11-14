@@ -203,7 +203,7 @@ public class CaseController {
 			Result<CaseVM> result = new Result<CaseVM>(null, true, false,
 					false, "查询数据成功");
 			/* 调用捷尚更新案件接口 */
-			jieShangService.updateCCase(caseinfo);
+			//jieShangService.updateCCase(caseinfo);
 
 			return result.toJson();
 		} catch (Exception ex) {

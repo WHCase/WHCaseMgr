@@ -11,7 +11,7 @@
   </head>
   
   <body>
- 	 <div>
+ 	<div>
  	 	<p style="padding:2px;border-bottom:1px solid black;width:99%;"> 
 			<a id="btnSaveCaseInfo"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-save" plain="true">保存</a> 
 			<a id="btnCancelSave"  href="javascript:void(0);" class="easyui-linkbutton" iconcls="icon-udq-close" plain="true">关闭</a> 
