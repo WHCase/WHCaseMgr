@@ -301,9 +301,11 @@
 	</select>
 	<select id="selectCountFeedCaseByorganId" resultType="java.lang.Integer"
 		parameterType="java.util.Map">
-		select count(*) from t_case_organ co
+		select count(co.id) from t_case_organ co
+		left join t_case tc on tc.id=co.case_id
 		where 1=1 and
 		 co.receive_time > '2000-01-01'
+		 and tc.id != ""
 		<if test="organId != null">
 			and co.organization_id = #{organId,jdbcType=INTEGER}
 		</if>
