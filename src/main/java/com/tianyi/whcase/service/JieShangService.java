@@ -50,6 +50,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.sound.sampled.AudioFormat.Encoding;
+import javax.xml.crypto.Data;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -200,12 +201,11 @@ public class JieShangService {
 		sb.append("></CCase>");
 		return sb.toString();
 	}
-
-	@Test
-	public void getCase(){
+  
+	public String QueryCases4WuHou(String start,String end,Integer pageIndex,Integer pageSize){
 		try {
-			String caseID = "bb2a2458-92f1-0984-9021-40d005050505";
-			String urlStr = "http://101.69.255.110:40000/center/GetCase?caseID="+caseID;
+			
+			String urlStr = "http://101.69.255.110:40000/center/QueryCases4WuHou?start="+start+"&end="+end+"&pageIndex="+0+"&pageSize="+100;
 
 
 			URL url = new URL(urlStr);
@@ -230,8 +230,9 @@ public class JieShangService {
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
+		return null;
+		
 	}
-
 	/**
 	 * 获取案件信息接口
 	 * @param caseID
@@ -574,47 +575,6 @@ public class JieShangService {
 
 	}
 
-	@Test
-	public void download() {
-
-		String uri = "CaseCenter_ws1/Files/20161110/14/9a0f2458-cfa6-26e4-e4d7-a13d05050505.jpg";
-		String ip = "101.69.255.110";
-		int port = 21001;
-		try {
-			String serverPath = getClass().getResource("/").getFile()
-					.toString();
-			serverPath = serverPath.substring(0, (serverPath.length() - 16));
-
-			File file = new File(serverPath + "/" + uri);
-			System.out.println(serverPath);
-			if (!file.getParentFile().exists()) {
-				file.getParentFile().mkdirs();
-			}
-			// file.createNewFile();
-			System.out.println(serverPath + "/" + uri);
-			String urlStr = "http://" + ip + ":" + port + "/" + uri;
-			System.out.println(urlStr);
-			URL url = new URL(urlStr);
-			URLConnection con = url.openConnection();
-
-			BufferedInputStream bis = new BufferedInputStream(
-					con.getInputStream());
-			FileOutputStream out = new FileOutputStream(serverPath + "/" + uri);
-
-			int len = 0;
-			byte[] buf = new byte[1024];
-			while ((len = bis.read(buf)) != -1) {
-				out.write(buf, 0, len);
-			}
-
-			out.close();
-			bis.close();
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-
-		}
-
-	}
 
 	/**
 	 * 下载文件接口
@@ -705,9 +665,9 @@ public class JieShangService {
 		// MediaSvrStatus mss = getAllMsSvrStatus();
 		// String ip = mss.getServerAddress();
 		// int port = mss.getPort();
-		String result = "1";
+		String result = "0";
 		String ip = "101.69.255.110";
-		int port = 21000;
+		int port = 40000;
 		WorkspaceInfo ws = getWorkspaceInfo();
 		try {
 			// URLEncoder.encode(relativePath, "UTF-8");
@@ -722,19 +682,19 @@ public class JieShangService {
 			con.setRequestProperty("Content-Type", "application/octet-stream");
 			con.setRequestMethod("POST");
 			con.connect();
-			BufferedOutputStream out = (BufferedOutputStream) con.getOutputStream();
+			OutputStream out = con.getOutputStream();
 			out.write(file.getBytes());
 
 			out.flush();
 			out.close();
-			BufferedReader br = new BufferedReader(new InputStreamReader(
+		/*	BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println("\n\r 返回结果：" + line);
 				int s = getCodeFromLine(line);
 				result = String.valueOf(s);
-			}
+			}*/
 
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
@@ -752,7 +712,7 @@ public class JieShangService {
 	 */
 	public  String addCCaseMessage(String caseId, CaseAttachVM attach)
 			throws Exception {
-		String result = "1";
+		String result = "0";
 		try {
 //			String urlStr = "http://223.223.183.242:40000/center/AddCCaseMessage";
 			 String urlStr ="http://101.69.255.110:40000/center/AddCCaseMessage";
@@ -774,7 +734,7 @@ public class JieShangService {
 			out.write(xmlInfo, 0, len);
 			out.flush();
 			out.close();
-			BufferedReader br = new BufferedReader(new InputStreamReader(
+			/*BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 			String line = "";
 			
@@ -782,7 +742,7 @@ public class JieShangService {
 				System.out.println("\n\r 返回结果：" + line);
 				int s = getCodeFromLine(line);
 				result = String.valueOf(s);
-			}
+			}*/
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 			return "2";
@@ -1063,9 +1023,54 @@ public class JieShangService {
 		}
 		return"";
 	}
-	
 	@Test
-	public void testConnect() {
-		String s = getDictionary();
+	public void download() {
+
+		String uri = "CaseCenter_ws1/Files/20161110/14/9a0f2458-cfa6-26e4-e4d7-a13d05050505.jpg";
+		String ip = "101.69.255.110";
+		int port = 21001;
+		try {
+			String serverPath = getClass().getResource("/").getFile()
+					.toString();
+			serverPath = serverPath.substring(0, (serverPath.length() - 16));
+
+			File file = new File(serverPath + "/" + uri);
+			System.out.println(serverPath);
+			if (!file.getParentFile().exists()) {
+				file.getParentFile().mkdirs();
+			}
+			// file.createNewFile();
+			System.out.println(serverPath + "/" + uri);
+			String urlStr = "http://" + ip + ":" + port + "/" + uri;
+			System.out.println(urlStr);
+			URL url = new URL(urlStr);
+			URLConnection con = url.openConnection();
+
+			BufferedInputStream bis = new BufferedInputStream(
+					con.getInputStream());
+			FileOutputStream out = new FileOutputStream(serverPath + "/" + uri);
+
+			int len = 0;
+			byte[] buf = new byte[1024];
+			while ((len = bis.read(buf)) != -1) {
+				out.write(buf, 0, len);
+			}
+
+			out.close();
+			bis.close();
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+
+		}
+
+	}
+	@Test
+	public void testConnect() throws ParseException {
+		
+		String endTime = sdf.format(new Date());
+		String startTime = "2001-01-01T00:00:01";
+		/*Date start = sdf.parse(startTime);
+		Date end = sdf.parse(endTime);*/
+		String s = QueryCases4WuHou(startTime,endTime,0,100);
 	}
 }
