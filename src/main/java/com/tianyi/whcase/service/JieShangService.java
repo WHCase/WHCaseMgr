@@ -95,6 +95,7 @@ public class JieShangService {
 	 * @return
 	 */
 	public String updateCCase(CaseVM caseInfo) {
+		String result = "-2";
 		try {
 			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
 			String urlStr = "http://101.69.255.110:40000/center/UpdateCCase";  //
@@ -117,11 +118,14 @@ public class JieShangService {
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println("\n\r 返回结果：" + line);
+				//案件更新结果返回
+				int code =getCodeFromLine(line);
+				result = String.valueOf(code);
 			}
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
-		return "0";
+		return result;
 	}
 
 	/**
@@ -338,11 +342,7 @@ public class JieShangService {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * 获取案件附件  通过
-=======
 	 * 获取案件附件信息
->>>>>>> branch 'master' of https://github.com/WHCase/WHCaseMgr.git
 	 * @param caseID
 	 * @param messageType
 	 * @return
