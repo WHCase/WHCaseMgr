@@ -97,8 +97,9 @@ public class JieShangService {
 	 * @param caseInfo
 	 * @return
 	 */
-	public String updateCCase() {
+	public String updateCCase(CaseVM caseInfo) {
 		try {
+			/*测试写的死数据
 			CaseVM caseInfo = new CaseVM();
 			caseInfo.setId("392d2958-92f1-2384-58fc-14d405050505");
 			caseInfo.setName("WH-风劲角优创");
@@ -117,7 +118,7 @@ public class JieShangService {
 			caseInfo.setLongitude("9999");
 			caseInfo.setLatitude("9999"); 
 			caseInfo.setOrganizationId(2);
-			caseInfo.setDetectedunitId(-1);
+			caseInfo.setDetectedunitId(-1);*/
 			
 			String urlStr = "http://101.69.255.110:40000/center/UpdateCCase";  
 

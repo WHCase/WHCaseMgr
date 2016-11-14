@@ -46,6 +46,7 @@ public class JieShangInterfaceController {
 		HttpServletRequest request)throws Exception{
 		Document document = DocumentHelper.parseText(caseInfo);
 		CaseVM cvm = getCaseVMInfoFromDocument(document);
+		// 调用洁尚接口
 		String temp = jieShangService.updateCCase(cvm);
 		/*try {
 			//String s = DbConfig.getInstance().getIpUrl();
