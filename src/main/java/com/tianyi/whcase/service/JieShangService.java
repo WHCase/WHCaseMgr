@@ -91,21 +91,35 @@ public class JieShangService {
 	
 	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	
-	private CaseVM caseInfo(){
-		
-		return null;
-		
-	}
 	/**
-	 * 更新案件接口
+	 * 更新案件接口  通过
 	 * 
 	 * @param caseInfo
 	 * @return
 	 */
-	public String updateCCase(CaseVM caseInfo) {
+	public String updateCCase() {
 		try {
-			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
-			String urlStr = "http://101.69.255.110:40000/center/UpdateCCase";  //
+			CaseVM caseInfo = new CaseVM();
+			caseInfo.setId("392d2958-92f1-2384-58fc-14d405050505");
+			caseInfo.setName("WH-风劲角优创");
+			caseInfo.setCreator(3);
+			String cteateTime = "2016-11-14T03:19:21.961Z";
+			caseInfo.setCreateTime(sdf.parse(cteateTime));
+			caseInfo.setCode("111111111412");
+			caseInfo.setCategoriesId("dc440454-34dc-10c6-78fc-aa5e05050505");
+			String startTime = "2016-11-13T16:00:00Z";
+			caseInfo.setStartTime(sdf.parse(startTime));
+			caseInfo.setSummary("圣达菲优创");
+			caseInfo.setStatus("Detected");
+			caseInfo.setIsregister(false);
+			caseInfo.setLevel("0");
+			caseInfo.setCaseGroupId("0");
+			caseInfo.setLongitude("9999");
+			caseInfo.setLatitude("9999"); 
+			caseInfo.setOrganizationId(2);
+			caseInfo.setDetectedunitId(-1);
+			
+			String urlStr = "http://101.69.255.110:40000/center/UpdateCCase";  
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -117,7 +131,7 @@ public class JieShangService {
 			String xmlInfo = getXmlInfoForCase(caseInfo);
 			System.out.println("urlStr=" + urlStr);
 			System.out.println("xmlInfo=" + xmlInfo);
-			out.write(new String(xmlInfo.getBytes("ISO-8859-1")));
+			out.write(new String(xmlInfo.getBytes("UTF-8")));
 			out.flush();
 			out.close();
 			BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -216,10 +230,6 @@ public class JieShangService {
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
-			/*String line = "";
-			for (line = br.readLine(); line != null; line = br.readLine()) {
-				System.out.println("\n\r 返回结果：" + line);
-			}*/
 			String response = ""; 
 			String readLine = null; 
 			while((readLine =br.readLine()) != null){ 
@@ -353,7 +363,7 @@ public class JieShangService {
 	 */
 	public String getCaseMessages(String caseID, Integer messageType) {
 		try {
-			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
+			
 			String urlStr = "http://101.69.255.110:40000/center/GetCaseMessages?caseID="+caseID+"&messageType="+66; 
 
 			URL url = new URL(urlStr);
@@ -422,9 +432,8 @@ public class JieShangService {
 	public MediaSvrStatus getAllMsSvrStatus() {
 		MediaSvrStatus s = new MediaSvrStatus();
 		try {
-			//String urlStr = "http://223.223.183.242:40000/center/GetAllMsSvrStatus";
-			 String urlStr =
-			 "http://101.69.255.110:40000/center/GetAllMsSvrStatus";
+			
+			String urlStr = "http://101.69.255.110:40000/center/GetAllMsSvrStatus";
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
@@ -1065,12 +1074,11 @@ public class JieShangService {
 
 	}
 	@Test
-	public void testConnect() throws ParseException {
+	public void testConnect() {
 		
-		String endTime = sdf.format(new Date());
+		/*String endTime = sdf.format(new Date());
 		String startTime = "2001-01-01T00:00:01";
-		/*Date start = sdf.parse(startTime);
-		Date end = sdf.parse(endTime);*/
-		String s = QueryCases4WuHou(startTime,endTime,0,100);
+		String s = QueryCases4WuHou(startTime,endTime,0,100);*/
+		MediaSvrStatus src = getAllMsSvrStatus();
 	}
 }
