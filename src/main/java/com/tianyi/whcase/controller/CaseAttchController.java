@@ -66,6 +66,7 @@ public class CaseAttchController {
 			HttpServletRequest request,HttpServletResponse response ){
 		String result = null;
 		try {
+			/*调取洁尚接口*/
 			result = jieShangService.downloadAttachFiles(url, request, response);
 		} catch (Exception e) {
 			

@@ -129,11 +129,23 @@ var CaseDetailsManage = {
 				return;
 			}
 			var url = target.uri;
-			url = url.replace('resource://','');
+			/*url = url.replace('resource://','');
 			 var fileURL=window.open ("\\"+"case/"+url,"_blank","height=0,width=0,toolbar=no,menubar=no,scrollbars=no,resizable=on,location=no,status=no");
 		        fileURL.document.execCommand("SaveAs");
 		        fileURL.window.close();
-		        fileURL.close();
+		        fileURL.close();*/
+			// 修改人 xie
+			$.ajax({
+				url:"caseAttch/downloadCaseAttch.do",
+				dataType:"JSON",
+				data:{url:url},
+				type:"get",
+				success: function(data){
+			        if(data == 0){
+			        	$.messager.alert('操作提示',"下载成功",'info');
+			        }
+				},
+			});
 		},
 		cancelSave:function(){
 			parent.m_caseInfo_dlg.close();
