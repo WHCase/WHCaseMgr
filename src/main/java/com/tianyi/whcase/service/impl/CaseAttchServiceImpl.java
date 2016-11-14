@@ -13,6 +13,7 @@ import com.tianyi.whcase.controller.JieShangInterfaceController;
 import com.tianyi.whcase.core.ListResult;
 import com.tianyi.whcase.dao.CaseAttachItemMapper;
 import com.tianyi.whcase.dao.CaseAttachMapper;
+import com.tianyi.whcase.model.Case;
 import com.tianyi.whcase.model.CaseAttach;
 import com.tianyi.whcase.model.CaseAttachItem;
 import com.tianyi.whcase.service.CaseAttchService;
@@ -55,6 +56,9 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 		
 	}
 
+	/**
+	 * 案件附件更新
+	 */
 	public int AddAttachVM(CaseAttachVM caseAttachVM,HttpServletRequest request,HttpServletResponse response) {
 		int temp =0;
 		CaseAttach caseAttach = caseAttachVM.getCaseAttach();
@@ -108,4 +112,24 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 		return caseAttach;
 	}
 
+	
+//	/**
+//	 * 案件附件信息更新
+//	 * @param list
+//	 */
+//	public void updateCaseAttach(List<CaseAttach> list){
+//		try{
+//			CaseAttach t = new CaseAttach();
+//			for(CaseAttach c:list){
+//				t = caseAttachMapper.selectByPrimaryKey(c.getId());
+//				if(t == null){
+//					caseAttachMapper.insert(c);
+//				}else{
+//					caseAttachMapper.updateByPrimaryKey(c);
+//				}
+//			}
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}
+//	}
 }
