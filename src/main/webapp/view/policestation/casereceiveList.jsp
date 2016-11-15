@@ -32,7 +32,7 @@
 	</div>
 	<div id="caseReceiveListGrid" style="margin:5px"></div>
 	<div style="display:none">
-		<div id="div_backInfo" style="width:520px;height:420px">
+		<div id="div_backInfo" style="width:520px;height:420px;overflow-y:scroll;">
 			<p id="tb_operation"
 				style="padding:2px;border-bottom:1px solid black;width:99%;">
 				<a id="btnSaveBackInfo" href="javascript:void(0);"
@@ -64,7 +64,7 @@
 		</div>
 	</div>
 	<div style="display:none">
-		<div id="caseBackAttchMentsTb" style="height:40px">
+		<div id="caseBackAttchMentsTb" style="height:40px;">
 			<p>
 				<a id="btnUploadFile" href="javascript:void(0);"
 					class="easyui-linkbutton" plain="true">上传</a>

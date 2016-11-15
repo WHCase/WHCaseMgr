@@ -53,6 +53,7 @@ public class FileUpLoadController {
 			@RequestParam(value="organizationId",required = false) String organId,
 			HttpServletRequest request, HttpServletResponse response) {
 		    int organizationId = Integer.parseInt(organId);
+		    
 		try {
 			String result = "";
 			
@@ -83,7 +84,7 @@ public class FileUpLoadController {
 				
 				WorkspaceInfo ws = getWorkspaceInfo();
 				
-				String filePath = "resource://"+ws.getNo()+"/"+relativePath+"/"+uriName;
+				String filePath = "resource://"+ ws.getNo()+"/"+relativePath+"/"+uriName;
 
 				attchType = generateClassFromFileType(fileType);
 				
@@ -117,6 +118,15 @@ public class FileUpLoadController {
 				attch.setName(name);
 				
 				caseAttachItempper.insert(attch);
+				// 修改人 xie
+				List<CaseAttachItem> attchItem = caseAttachItempper.selectByCaseAttachId(id);
+				String itemType = null;
+				for (int i = 0; i< attchItem.size(); i++) {
+					itemType = attchItem.get(i).getItemType();
+					if(itemType.equals("")){
+						
+					}
+				}
 				/*调用捷尚接口，上传附件*/
 				String s = jieShangService.uploadFile(cmFile, relativePath+"/"+uriName);
 				if(!"0".equals(s))
@@ -133,6 +143,7 @@ public class FileUpLoadController {
 		} catch (Exception ex) {
 			return "File Upload Failed";
 		}
+		
 	}
 	private String getFileType(String fileName){
 		String[] types = fileName.split("\\.");

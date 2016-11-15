@@ -677,13 +677,13 @@ public class JieShangService {
 		// int port = mss.getPort();
 		String result = "0";
 		String ip = "101.69.255.110";
-		int port = 40000;
+		int port = 21000;
 		WorkspaceInfo ws = getWorkspaceInfo();
 		try {
 			// URLEncoder.encode(relativePath, "UTF-8");
 			// URLEncoder.encode(relativePath,"GBK");
 			String urlStr = "http://" + ip + ":" + port
-					+ "/center/UploadFile?s=" + ws.getNo() + "&p="
+					+ "/media/UploadFile?s=" + ws.getNo() + "&p="
 					+ URLEncoder.encode(relativePath, "UTF-8");
 			URL url = new URL(urlStr);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -744,7 +744,7 @@ public class JieShangService {
 			out.write(xmlInfo, 0, len);
 			out.flush();
 			out.close();
-			/*BufferedReader br = new BufferedReader(new InputStreamReader(
+			BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 			String line = "";
 			
@@ -752,7 +752,7 @@ public class JieShangService {
 				System.out.println("\n\r 返回结果：" + line);
 				int s = getCodeFromLine(line);
 				result = String.valueOf(s);
-			}*/
+			}
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 			return "2";
@@ -770,8 +770,7 @@ public class JieShangService {
 		try {
 //			String urlStr = "http://223.223.183.242:40000/center/DeleteCCaseMessage?caseID="
 //					+ caseId + "&itemId=" + attachItemId;
-			 String urlStr =
-			 "http://101.69.255.110:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
+			String urlStr = "http://101.69.255.110:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -838,6 +837,8 @@ public class JieShangService {
 				+ attach.getId()
 				+ "\" Name=\""
 				+ attach.getName()
+				+ "\" Description=\""
+				+ attach.getDescription()
 				+ "\" MessageType=\""
 				+ (attach.getMessageType() == null ? "4" : attach.getMessageType())
 				+ "\" IsTopMost=\"false\">"
@@ -845,8 +846,8 @@ public class JieShangService {
 				+ item.getId()
 				+ "\" Name=\""
 				+ item.getName()
-				+ "\" Creator=\"0\" CreateTime=\""
-				+ time
+				/*+ "\" Creator=\"0\" CreateTime=\""
+				+ time*/
 				+ "\" Uri=\""
 				+ item.getUri()
 				+ "\" Type=\""
@@ -1080,6 +1081,6 @@ public class JieShangService {
 		/*String endTime = sdf.format(new Date());
 		String startTime = "2001-01-01T00:00:01";
 		String s = QueryCases4WuHou(startTime,endTime,0,100);*/
-		MediaSvrStatus src = getAllMsSvrStatus();
+		//int src = deleteCaseAttach("ffc51958-92f1-2084-ec07-ea0805050505","");
 	}
 }
