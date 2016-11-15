@@ -430,6 +430,11 @@ public class CaseController {
 		return getReturnXml(0);
 	}
 
+	/**
+	 * 返回值写入
+	 * @param returnNum
+	 * @return
+	 */
 	private String getReturnXml(int returnNum) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");

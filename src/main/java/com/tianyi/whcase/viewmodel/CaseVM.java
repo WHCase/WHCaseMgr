@@ -13,6 +13,11 @@ public class CaseVM extends Case {
 	private Date feedTime;
 	private String caseStatus;
 	private String feedInfo;
+	
+	private Date SectionTime;
+	private String address;
+	private String userGroupId;
+	private boolean OnlyWithResource;
 	public String getFeedInfo() {
 		return feedInfo;
 	}
@@ -82,6 +87,30 @@ public class CaseVM extends Case {
 		c.setCreator(this.getCreator());
 		c.setOrganizationId(this.getOrganizationId());
 		return c;
+	}
+	public Date getSectionTime() {
+		return SectionTime;
+	}
+	public void setSectionTime(Date sectionTime) {
+		SectionTime = sectionTime;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getUserGroupId() {
+		return userGroupId;
+	}
+	public void setUserGroupId(String userGroupId) {
+		this.userGroupId = userGroupId;
+	}
+	public boolean isOnlyWithResource() {
+		return OnlyWithResource;
+	}
+	public void setOnlyWithResource(boolean onlyWithResource) {
+		OnlyWithResource = onlyWithResource;
 	}
 
 
