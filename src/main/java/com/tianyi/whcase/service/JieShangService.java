@@ -17,6 +17,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -61,6 +62,7 @@ public class JieShangService {
 	 * @return
 	 */
 	public String updateCCase(CaseVM caseInfo) {
+		String result = "-1";
 		try {
 			/*测试写的死数据
 			CaseVM caseInfo = new CaseVM();
@@ -103,11 +105,12 @@ public class JieShangService {
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println("\n\r 返回结果：" + line);
+				result = "" + getCodeFromLine(line);
 			}
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
-		return "0";
+		return result;
 	}
 
 	/**
@@ -118,7 +121,8 @@ public class JieShangService {
 	 * @param pageSize
 	 * @return
 	 */
-	public String QueryCases4WuHou(String start,String end,Integer pageIndex,Integer pageSize){
+	public List<CaseVM> QueryCases4WuHou(String start,String end,Integer pageIndex,Integer pageSize){
+		List<CaseVM> list = new ArrayList<CaseVM>();
 		try {
 			
 			String urlStr = "http://101.69.255.110:40000/center/QueryCases4WuHou?start="+start+"&end="+end+"&pageIndex="+0+"&pageSize="+100;
@@ -134,15 +138,15 @@ public class JieShangService {
 					con.getInputStream()));
 			String response = ""; 
 			String readLine = null; 
-			while((readLine =br.readLine()) != null){ 
-			 
+			while((readLine =br.readLine()) != null){ 		 
 			    response = response + readLine; 
+			    list = getCCaseFromXml(response);
 			}
 			br.close();
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
-		return null;
+		return list;
 		
 	}
 
@@ -688,6 +692,49 @@ public class JieShangService {
 	}
 	
 	/**
+	 * xml-->案件list
+	 * @param xml
+	 * @return
+	 * @throws DocumentException
+	 * @throws ParseException 
+	 */
+	private List<CaseVM> getCCaseFromXml(String xml)throws DocumentException, ParseException {
+		// xml = xml.replaceAll("<?xml version=\"1.0\" encoding=\"utf-8\"?>",
+		// "");
+		Document document = DocumentHelper.parseText(xml);
+		Element root = document.getRootElement();
+		@SuppressWarnings("rawtypes")
+		Iterator item = root.elementIterator();
+		List<CaseVM> list = new ArrayList<CaseVM>();
+		while (item.hasNext()) {
+			Element element = (Element) item.next();
+			CaseVM ccase = new CaseVM();
+			ccase.setId(element.attributeValue("ID"));
+			ccase.setName(element.attributeValue("Name"));
+			ccase.setCreator(Integer.parseInt(element.attributeValue("Creator")));
+			ccase.setCreateTime(sdf.parse(element.attributeValue("CreateTime")));
+			ccase.setCode(element.attributeValue("Code"));
+			ccase.setCategoriesId(element.attributeValue("Categories"));
+			ccase.setStartTime(sdf.parse(element.attributeValue("StartTime")));
+			ccase.setSectionTime(sdf.parse(element.attributeValue("SectionTime")));
+			ccase.setAddress(element.attributeValue("Address"));
+			ccase.setSummary(element.attributeValue("Summary"));
+			ccase.setStatus(element.attributeValue("Status"));
+			ccase.setCaseGroupId(element.attributeValue("CaseGroupId"));
+			ccase.setIsregister(Boolean.valueOf(element.attributeValue("IsRegister")));			
+			ccase.setUserGroupId(element.attributeValue("UserGroupId"));
+			ccase.setLevel(element.attributeValue("Level"));
+			ccase.setLongitude(element.attributeValue("Longitude"));
+			ccase.setLatitude(element.attributeValue("Latitude"));
+			ccase.setOrganizationId(Integer.parseInt(element.attributeValue("OrganizationID")));
+			ccase.setDetectedunitId(Integer.parseInt(element.attributeValue("DetectedUnit")));
+			ccase.setOnlyWithResource(Boolean.valueOf(element.attributeValue("OnlyWithResource")));
+			list.add(ccase);
+		}
+		return list;
+	}
+	
+	/**
 	 * xml-->CaseAttach案件附件信息
 	 * @param xml
 	 * @return
@@ -1081,12 +1128,14 @@ public class JieShangService {
 
 	}
 	@Test
-	public void testConnect() {
+	public void testConnect() throws DocumentException, ParseException {
 		
-		/*String endTime = sdf.format(new Date());
+		String endTime = sdf.format(new Date());
 		String startTime = "2001-01-01T00:00:01";
-		String s = QueryCases4WuHou(startTime,endTime,0,100);*/
-		MediaSvrStatus src = getAllMsSvrStatus();
+		List<CaseVM> list = new ArrayList<CaseVM>();
+		list = QueryCases4WuHou(startTime,endTime,0,4);
+		System.out.println(list.size());
+	//	MediaSvrStatus src = getAllMsSvrStatus();
 
 	}
 	@Test
@@ -1113,5 +1162,8 @@ public class JieShangService {
 		}
 		out.close();
 	}
-
+	@Test
+	public void syslist(){
+		getDictionary();
+	}
 }
