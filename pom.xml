@@ -12,7 +12,7 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
-			<scope>test</scope>
+			<!-- <scope>test</scope> -->
 		</dependency>
 		<!-- JSTL引用包 -->
 		<dependency>
@@ -285,6 +285,13 @@
 			<artifactId>poi</artifactId>
 			<version>3.9</version>
 		</dependency>
+		
+		<!-- <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-quartz</artifactId>
+            <version>1.2.4</version>
+        </dependency> -->
+		
   </dependencies>
   <build>
     <finalName>case</finalName>
