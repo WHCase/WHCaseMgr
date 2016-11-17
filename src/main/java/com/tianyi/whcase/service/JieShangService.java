@@ -1032,13 +1032,15 @@ public class JieShangService {
 				+ attach.getId()
 				+ "\" Name=\""
 				+ attach.getName()
+				+ "\" Description=\""
+				+ attach.getDescription()
 				+ "\" MessageType=\""
 				+ (attach.getMessageType() == null ? "4" : attach.getMessageType())
 				+ "\" IsTopMost=\"false\">"
 				+ "<Attachments><Item ID=\""
 				+ item.getId()
 				+ "\" Name=\""
-				+ item.getName()
+				+ item.getName()		
 				+ "\" Creator=\"0\" CreateTime=\""
 				+ time
 				+ "\" Uri=\""
