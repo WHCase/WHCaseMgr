@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.tianyi.whcase.model.Case;
 import com.tianyi.whcase.model.CaseAttach;
 import com.tianyi.whcase.model.CaseAttachItem;
 import com.tianyi.whcase.model.CaseCategory;
@@ -114,7 +115,7 @@ public class JieShangService {
 	}
 
 	/**
-	 * 大量案件获取更新
+	 * 大量案件获取更新  通过
 	 * @param start
 	 * @param end
 	 * @param pageIndex
@@ -154,27 +155,20 @@ public class JieShangService {
 	}
 
 	/**
-	 * 获取案件信息接口
+	 * 获取案件信息接口  通过
 	 * @param caseID
 	 * @return
 	 */
 	public String getCase(String caseID){
 		try {
-			String urlStr = "http://101.69.255.110/:40000/center/getCase?caseID="+caseID;
+			String urlStr = "http://101.69.255.110:40000/center/getCase?caseID="+caseID;
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
 			con.setDoInput(true);
 			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
-		/*	OutputStreamWriter out = new OutputStreamWriter(
-					con.getOutputStream());
-			
-			String xmlInfo = getXmlCaseInfoForCase(caseID);
-			int len = xmlInfo.length();
-			out.write(xmlInfo, 0, len);
-			out.flush();
-			out.close();*/
+		
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream(),"UTF-8"));
 			/*String line = "";
@@ -352,33 +346,47 @@ public class JieShangService {
 		String result = "0";
 		String ip = "101.69.255.110";
 		int port = 21000;
-		WorkspaceInfo ws = getWorkspaceInfo();
+		//WorkspaceInfo ws = getWorkspaceInfo();
 		try {
-			// URLEncoder.encode(relativePath, "UTF-8");
-			// URLEncoder.encode(relativePath,"GBK");
+			
 			String urlStr = "http://" + ip + ":" + port
-					+ "/media/UploadFile?s=" + ws.getNo() + "&p="
+					+ "/media/UploadFile?s=CaseCenter_ws1&p="
 					+ URLEncoder.encode(relativePath, "UTF-8");
 			URL url = new URL(urlStr);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoInput(true);
-			con.setDoOutput(true);
+			con.setDoOutput(true); 
 			con.setRequestProperty("Content-Type", "application/octet-stream");
-			con.setRequestMethod("POST");
-			con.connect();
-			OutputStream out = con.getOutputStream();
-			out.write(file.getBytes());
+			con.setRequestMethod("POST"); 
+			
+			//获得数据字节数据，请求数据流的编码，必须和下面服务器端处理请求流的编码一致
+            byte[] requestStringBytes = file.getBytes();
 
-			out.flush();
-			out.close();
-		/*	BufferedReader br = new BufferedReader(new InputStreamReader(
+            //设置请求属性
+            con.setRequestProperty("Content-length", "" + requestStringBytes.length);
+          //建立输出流，并写入数据
+            OutputStream outputStream = con.getOutputStream();
+            outputStream.write(requestStringBytes);
+            outputStream.close();
+//			con.connect();
+//			OutputStream out = con.getOutputStream();
+//			out.write(file.getBytes());
+
+            outputStream.flush();
+            outputStream.close();
+            
+          //获得响应状态
+            int responseCode = con.getResponseCode();
+            
+            
+			BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println("\n\r 返回结果：" + line);
 				int s = getCodeFromLine(line);
 				result = String.valueOf(s);
-			}*/
+			}
 
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
@@ -877,12 +885,12 @@ public class JieShangService {
 	 */
 	private String getXmlCaseInfoForCase(String caseID) {
 		StringBuilder sb = new StringBuilder();
-
+        Case caseInfo = new Case();
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
 		if (caseID != null) {
 			sb.append("<CCase ID=\"" + caseID + "\" ");
 		}
-		/*if (caseInfo.getName() != null) {
+		if (caseInfo.getName() != null) {
 			sb.append("Name=\"" + caseInfo.getName() + "\" ");
 		}
 		if (caseInfo.getCreator() != null) {
@@ -935,7 +943,7 @@ public class JieShangService {
 		if (caseInfo.getDetectedunitId() != null) {
 			sb.append("DetectedUnit=\"" + caseInfo.getDetectedunitId() + "\"");
 		}
-*/
+
 		sb.append("></CCase>");
 		return sb.toString();
 	}
@@ -1090,8 +1098,11 @@ public class JieShangService {
 		// return sb.toString();
 	}
 
+	/**
+	 * 通过  下载附件
+	 */
 	@Test
-	public void download() {
+	public void download() {   
 
 		String uri = "CaseCenter_ws1/Files/20161110/14/9a0f2458-cfa6-26e4-e4d7-a13d05050505.jpg";
 		String ip = "101.69.255.110";
@@ -1140,8 +1151,9 @@ public class JieShangService {
 //		list = QueryCases4WuHou(startTime,endTime,0,4);
 //		System.out.println(list.size());
 	//	MediaSvrStatus src = getAllMsSvrStatus();
-		getCase("392d2958-92f1-2384-58fc-14d405050505");
-
+		String s = getCase("a75b2d58-92f1-0884-38d9-2caf05050505");
+     	//String s = getCaseMessages("a75b2d58-92f1-0884-38d9-2caf05050505",66);
+		
 	}
 
 

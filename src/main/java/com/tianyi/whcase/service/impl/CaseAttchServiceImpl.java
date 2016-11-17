@@ -100,8 +100,8 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 		if(caseAttachItemMapper.deleteByPrimaryKey(caseattachId)<0){
 			return "删除失败";
 		}
-
-		if(jieShangService.deleteCaseAttach(caseId,cAttachItem.getCaseAttchId())<0){
+		// 修改人xie
+		if(jieShangService.deleteCaseAttach(caseId,cAttachItem.getId())<0){
 			return "调用捷尚删除接口删除失败";
 		}
 		return "0";
