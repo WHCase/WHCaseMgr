@@ -132,16 +132,17 @@ public class JieShangService {
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
 			con.setDoInput(true);
-			con.setRequestProperty("Content-Type", "application/xml");
+			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
+					con.getInputStream(),"UTF-8"));
 			String response = ""; 
 			String readLine = null; 
-			 System.out.println(1+response);
 			while((readLine =br.readLine()) != null){ 		 
 			    response = response + readLine; 
-			//    System.out.println(2+response);
+//			    String[] xmls = response.split(" ");
+//			    for(String p:xmls)
+//			        System.err.println(p);
 			    list = getCCaseFromXml(response);
 			}
 			br.close();
@@ -159,13 +160,13 @@ public class JieShangService {
 	 */
 	public String getCase(String caseID){
 		try {
-			String urlStr = "http://http://101.69.255.110/:40000/center/getCase?caseID="+caseID;
+			String urlStr = "http://101.69.255.110/:40000/center/getCase?caseID="+caseID;
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
 			con.setDoInput(true);
-			con.setRequestProperty("Content-Type", "application/xml");
+			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
 		/*	OutputStreamWriter out = new OutputStreamWriter(
 					con.getOutputStream());
 			
@@ -175,7 +176,7 @@ public class JieShangService {
 			out.flush();
 			out.close();*/
 			BufferedReader br = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
+					con.getInputStream(),"UTF-8"));
 			/*String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println("\n\r 返回结果：" + line);
@@ -185,6 +186,7 @@ public class JieShangService {
 			while((readLine =br.readLine()) != null){ 
 			 
 			    response = response + readLine; 
+			    System.out.println(response);
 			}
 			br.close();
 		} catch (Exception ex) {
@@ -209,10 +211,10 @@ public class JieShangService {
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
 			con.setDoInput(true);
-			con.setRequestProperty("Content-Type", "application/xml");
+			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
+					con.getInputStream(),"UTF-8"));
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println("\n\r 返回结果：" + line);
@@ -235,10 +237,10 @@ public class JieShangService {
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
-			con.setRequestProperty("Content-Type", "application/xml");
+			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
+					con.getInputStream(),"UTF-8"));
 
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
@@ -266,10 +268,10 @@ public class JieShangService {
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
-			con.setRequestProperty("Content-Type", "application/xml");
+			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
+					con.getInputStream(),"UTF-8"));
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				wsInfo = getWorkspaceInfoFromxml(line);
@@ -343,7 +345,7 @@ public class JieShangService {
 	 * @param relativePath
 	 * @return
 	 */
-	public String uploadFile(HttpServletRequest request,CommonsMultipartFile file, String relativePath) {
+	public String uploadFile(CommonsMultipartFile file, String relativePath) {
 		// MediaSvrStatus mss = getAllMsSvrStatus();
 		// String ip = mss.getServerAddress();
 		// int port = mss.getPort();
@@ -354,48 +356,29 @@ public class JieShangService {
 		try {
 			// URLEncoder.encode(relativePath, "UTF-8");
 			// URLEncoder.encode(relativePath,"GBK");
-//			String serverPath = request.getSession().getServletContext().getRealPath("Files");
-//			serverPath = serverPath.substring(0, serverPath.length()-5);
-//			relativePath = serverPath +relativePath;
-			//serverPath = request.getSession().getServletContext().getContextPath();
 			String urlStr = "http://" + ip + ":" + port
-					+ "/media/UploadFile?s=CaseCenter_ws1&p="
+					+ "/media/UploadFile?s=" + ws.getNo() + "&p="
 					+ URLEncoder.encode(relativePath, "UTF-8");
 			URL url = new URL(urlStr);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoInput(true);
-			con.setDoOutput(true); 
+			con.setDoOutput(true);
 			con.setRequestProperty("Content-Type", "application/octet-stream");
-			con.setRequestMethod("POST"); 
-			
-			//获得数据字节数据，请求数据流的编码，必须和下面服务器端处理请求流的编码一致
-            byte[] requestStringBytes = file.getBytes();
+			con.setRequestMethod("POST");
+			con.connect();
+			OutputStream out = con.getOutputStream();
+			out.write(file.getBytes());
 
-            //设置请求属性
-            con.setRequestProperty("Content-length", "" + requestStringBytes.length);
-          //建立输出流，并写入数据
-            OutputStream outputStream = con.getOutputStream();
-            outputStream.write(requestStringBytes);
-            outputStream.close();
-//			con.connect();
-//			OutputStream out = con.getOutputStream();
-//			out.write(file.getBytes());
-
-            outputStream.flush();
-            outputStream.close();
-            
-          //获得响应状态
-            int responseCode = con.getResponseCode();
-            
-            
-			BufferedReader br = new BufferedReader(new InputStreamReader(
+			out.flush();
+			out.close();
+		/*	BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println("\n\r 返回结果：" + line);
 				int s = getCodeFromLine(line);
 				result = String.valueOf(s);
-			}
+			}*/
 
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
@@ -415,7 +398,7 @@ public class JieShangService {
 			throws Exception {
 		String result = "0";
 		try {
-
+//			String urlStr = "http://223.223.183.242:40000/center/AddCCaseMessage";
 			 String urlStr ="http://101.69.255.110:40000/center/AddCCaseMessage";
 
 			URL url = new URL(urlStr);
@@ -466,10 +449,10 @@ public class JieShangService {
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
-			con.setRequestProperty("Content-Type", "application/xml");
+			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
+					con.getInputStream(),"UTF-8"));
 
 			String line = "";
 			int s = -2;
@@ -519,7 +502,7 @@ public class JieShangService {
 			url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
-			con.setRequestProperty("Content-Type", "application/xml");
+			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream(), "utf8"));
@@ -1150,15 +1133,23 @@ public class JieShangService {
 	}
 	@Test
 	public void testConnect() throws DocumentException, ParseException {
-		
-		String endTime = sdf.format(new Date());
-		String startTime = "2001-01-01T00:00:01";
-		List<CaseVM> list = new ArrayList<CaseVM>();
-		list = QueryCases4WuHou(startTime,endTime,0,4);
-		System.out.println(list.size());
+//		
+//		String endTime = sdf.format(new Date());
+//		String startTime = "2001-01-01T00:00:01";
+//		List<CaseVM> list = new ArrayList<CaseVM>();
+//		list = QueryCases4WuHou(startTime,endTime,0,4);
+//		System.out.println(list.size());
 	//	MediaSvrStatus src = getAllMsSvrStatus();
+		getCase("392d2958-92f1-2384-58fc-14d405050505");
 
 	}
+
+
+
+	
+		
+
+	
 	@Test
 	public void code() throws UnsupportedEncodingException {
 		System.out.println(URLEncoder.encode("This string has 你好", "UTF-8"));

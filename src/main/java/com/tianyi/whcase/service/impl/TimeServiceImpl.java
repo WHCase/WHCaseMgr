@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,19 +23,22 @@ import com.tianyi.whcase.viewmodel.CaseVM;
 public class TimeServiceImpl implements TimeService {
 
 
-	@Autowired CaseMapper caseMapper;   //这里注解有问题， 不能用auto哪个， 要用Resource
+	@Autowired CaseMapper caseMapper;   
 	@Autowired JieShangService jieshangService;
     DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-	
-	@Scheduled(fixedDelay = 3600*1000)
+	/**
+	 * 7小时扫描一次+3点执行 =每周更新一次（凌晨3点）
+	 */
+	@Scheduled(fixedDelay = 7*60*60*1000)
 	public void initTimer() {
-		System.out.println("更新案件????条!");
+		System.out.println("开启定时服务...");
 		try{
 			int count = -1;
 			String time = sdf.format(new Date());
-			String hours = time.substring(13, 15);
-			System.out.println(hours+"点");	
-	//		if("10".equals(hours))
+			String hours = time.substring(11, 13);
+			//System.out.println("当前时间："+hours+"点");	
+			//三点更新
+			if("03".equals(hours))
 				count = updateCCase();			
 			System.out.println("更新案件"+count+"条!");			
 		}catch(Exception e){
@@ -49,6 +52,7 @@ public class TimeServiceImpl implements TimeService {
 	 * @return temp：更新案件总数
 	 */
 	private int updateCCase(){
+		System.out.println("开始从捷尚获取数据...");
 		Calendar c = Calendar.getInstance();
 		Date endTime = new Date();
 		c.setTime(endTime);
@@ -60,7 +64,7 @@ public class TimeServiceImpl implements TimeService {
 		List<CaseVM> list = new ArrayList<CaseVM>();
 		//每次更新20条
 		while(pageSize ==20){
-			//list = jieshangService.QueryCases4WuHou(st, et, pageIndex, pageSize);			
+			list = jieshangService.QueryCases4WuHou(st, et, pageIndex, pageSize);			
 			pageSize = list.size();
 			pageIndex++;
 			if(pageSize > 0){
@@ -79,6 +83,7 @@ public class TimeServiceImpl implements TimeService {
 	 * @return code:插入数据库案件总数
 	 */
 	private int insertCase(List<CaseVM> list){
+		System.out.println("获取数据"+list.size()+"条，插入数据库...");
 		int code = 0;
 		Case ccase = new Case();
 		try{
@@ -87,6 +92,7 @@ public class TimeServiceImpl implements TimeService {
 				if(ccase != null){
 					caseMapper.updateByPrimaryKey(c);
 				}else{
+					c.setReceiveStatus(1);
 					caseMapper.insert(c);
 				}
 				code ++;
@@ -94,6 +100,7 @@ public class TimeServiceImpl implements TimeService {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		System.out.println("插入数据库"+code+"条数据!");
 		return code;		
 	}
 	
