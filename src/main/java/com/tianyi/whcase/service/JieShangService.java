@@ -132,16 +132,17 @@ public class JieShangService {
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
 			con.setDoInput(true);
-			con.setRequestProperty("Content-Type", "application/xml");
+			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
+					con.getInputStream(),"UTF-8"));
 			String response = ""; 
 			String readLine = null; 
-			// System.out.println(1+response);
 			while((readLine =br.readLine()) != null){ 		 
 			    response = response + readLine; 
-			//    System.out.println(2+response);
+//			    String[] xmls = response.split(" ");
+//			    for(String p:xmls)
+//			        System.err.println(p);
 			    list = getCCaseFromXml(response);
 			}
 			br.close();
@@ -165,7 +166,7 @@ public class JieShangService {
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
 			con.setDoInput(true);
-			con.setRequestProperty("Content-Type", "application/xml");
+			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
 		/*	OutputStreamWriter out = new OutputStreamWriter(
 					con.getOutputStream());
 			
@@ -175,7 +176,7 @@ public class JieShangService {
 			out.flush();
 			out.close();*/
 			BufferedReader br = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
+					con.getInputStream(),"UTF-8"));
 			/*String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println("\n\r 返回结果：" + line);
@@ -209,10 +210,10 @@ public class JieShangService {
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
 			con.setDoInput(true);
-			con.setRequestProperty("Content-Type", "application/xml");
+			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
+					con.getInputStream(),"UTF-8"));
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println("\n\r 返回结果：" + line);
@@ -235,10 +236,10 @@ public class JieShangService {
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
-			con.setRequestProperty("Content-Type", "application/xml");
+			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
+					con.getInputStream(),"UTF-8"));
 
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
@@ -268,10 +269,10 @@ public class JieShangService {
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
-			con.setRequestProperty("Content-Type", "application/xml");
+			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
+					con.getInputStream(),"UTF-8"));
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				wsInfo = getWorkspaceInfoFromxml(line);
@@ -449,10 +450,10 @@ public class JieShangService {
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
-			con.setRequestProperty("Content-Type", "application/xml");
+			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(
-					con.getInputStream()));
+					con.getInputStream(),"UTF-8"));
 
 			String line = "";
 			int s = -2;
@@ -502,7 +503,7 @@ public class JieShangService {
 			url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
-			con.setRequestProperty("Content-Type", "application/xml");
+			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream(), "utf8"));
