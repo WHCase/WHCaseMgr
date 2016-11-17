@@ -261,9 +261,7 @@ public class JieShangService {
 		WorkspaceInfo wsInfo = new WorkspaceInfo();
 		try {
 			//String urlStr = "http://223.223.183.242:40000/center/GetWorkspacesInfoList";
-			 String urlStr =
-//			 "http://101.69.255.110:40000/center/GetWorkspacesInfoList";
-			 "http://101.69.255.110:40000/center/GetAllWorkspaceInfo";
+			 String urlStr = "http://101.69.255.110:40000/center/GetAllWorkspaceInfo";
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
