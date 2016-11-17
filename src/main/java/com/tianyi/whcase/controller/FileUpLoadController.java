@@ -118,22 +118,24 @@ public class FileUpLoadController {
 				attch.setName(name);
 				
 				caseAttachItempper.insert(attch);
+				/*调用捷尚接口，上传文件*/
+				String s = jieShangService.uploadFile(request,cmFile, relativePath+"/"+uriName);
+				if(!"0".equals(s))
+					return "File Upload Failed";
 				// 修改人 xie
-				List<CaseAttachItem> attchItem = caseAttachItempper.selectByCaseAttachId(id);
+				/*List<CaseAttachItem> attchItem = caseAttachItempper.selectByCaseAttachId(id);
 				String itemType = null;
 				for (int i = 0; i< attchItem.size(); i++) {
 					itemType = attchItem.get(i).getItemType();
 					if(itemType.equals("document") || itemType.equals("Video")){
-						/*调用捷尚接口，上传文件*/
-						String s = jieShangService.uploadFile(cmFile, relativePath+"/"+uriName);
-						if(!"0".equals(s))
-							return "File Upload Failed";
+						
+						
 						
 					}else{
 						break;
 					}
 					
-				}
+				}*/
 				
 				CaseAttachVM temp = new CaseAttachVM();
 				temp.SetCaseAttach(attach);
