@@ -119,7 +119,7 @@ public class FileUpLoadController {
 				
 				caseAttachItempper.insert(attch);
 				/*调用捷尚接口，上传文件*/
-				String s = jieShangService.uploadFile(request,cmFile, relativePath+"/"+uriName);
+				String s = jieShangService.uploadFile(cmFile, relativePath+"/"+uriName);
 				if(!"0".equals(s))
 					return "File Upload Failed";
 				// 修改人 xie
