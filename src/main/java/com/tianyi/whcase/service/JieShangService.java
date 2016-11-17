@@ -138,7 +138,7 @@ public class JieShangService {
 					con.getInputStream()));
 			String response = ""; 
 			String readLine = null; 
-			// System.out.println(1+response);
+			 System.out.println(1+response);
 			while((readLine =br.readLine()) != null){ 		 
 			    response = response + readLine; 
 			//    System.out.println(2+response);

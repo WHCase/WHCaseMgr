@@ -60,7 +60,7 @@ public class TimeServiceImpl implements TimeService {
 		List<CaseVM> list = new ArrayList<CaseVM>();
 		//每次更新20条
 		while(pageSize ==20){
-			list = jieshangService.QueryCases4WuHou(st, et, pageIndex, pageSize);			
+			//list = jieshangService.QueryCases4WuHou(st, et, pageIndex, pageSize);			
 			pageSize = list.size();
 			pageIndex++;
 			if(pageSize > 0){
