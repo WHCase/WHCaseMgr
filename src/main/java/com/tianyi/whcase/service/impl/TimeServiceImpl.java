@@ -27,7 +27,7 @@ public class TimeServiceImpl implements TimeService {
 	@Autowired JieShangService jieshangService;
     DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	
-	@Scheduled(fixedDelay = 10*1000)
+	@Scheduled(fixedDelay = 3600*1000)
 	public void initTimer() {
 		System.out.println("更新案件????条!");
 		try{
