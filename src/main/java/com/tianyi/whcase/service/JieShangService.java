@@ -125,7 +125,7 @@ public class JieShangService {
 		List<CaseVM> list = new ArrayList<CaseVM>();
 		try {
 			
-			String urlStr = "http://101.69.255.110:40000/center/QueryCases4WuHou?start="+start+"&end="+end+"&pageIndex="+0+"&pageSize="+100;
+			String urlStr = "http://101.69.255.110:40000/center/QueryCases4WuHou?start="+start+"&end="+end+"&pageIndex="+0+"&pageSize="+pageSize;
 
 
 			URL url = new URL(urlStr);
@@ -138,8 +138,10 @@ public class JieShangService {
 					con.getInputStream()));
 			String response = ""; 
 			String readLine = null; 
+			// System.out.println(1+response);
 			while((readLine =br.readLine()) != null){ 		 
 			    response = response + readLine; 
+			//    System.out.println(2+response);
 			    list = getCCaseFromXml(response);
 			}
 			br.close();
