@@ -123,14 +123,18 @@ public class FileUpLoadController {
 				String itemType = null;
 				for (int i = 0; i< attchItem.size(); i++) {
 					itemType = attchItem.get(i).getItemType();
-					if(itemType.equals("")){
+					if(itemType.equals("document") || itemType.equals("Video")){
+						/*调用捷尚接口，上传文件*/
+						String s = jieShangService.uploadFile(cmFile, relativePath+"/"+uriName);
+						if(!"0".equals(s))
+							return "File Upload Failed";
 						
+					}else{
+						break;
 					}
+					
 				}
-				/*调用捷尚接口，上传附件*/
-				String s = jieShangService.uploadFile(cmFile, relativePath+"/"+uriName);
-				if(!"0".equals(s))
-					return "File Upload Failed";
+				
 				CaseAttachVM temp = new CaseAttachVM();
 				temp.SetCaseAttach(attach);
 				List<CaseAttachItem> li = new ArrayList<CaseAttachItem>();
