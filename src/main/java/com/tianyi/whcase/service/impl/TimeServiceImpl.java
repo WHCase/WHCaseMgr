@@ -9,12 +9,14 @@ import java.util.List;
 
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.tianyi.whcase.dao.CaseMapper;
 import com.tianyi.whcase.model.Case;
+import com.tianyi.whcase.service.CommonService;
 import com.tianyi.whcase.service.JieShangService;
 import com.tianyi.whcase.service.TimeService;
 import com.tianyi.whcase.viewmodel.CaseVM;
@@ -25,11 +27,12 @@ public class TimeServiceImpl implements TimeService {
 
 	@Autowired CaseMapper caseMapper;   
 	@Autowired JieShangService jieshangService;
+	@Autowired CommonService commomService;
     DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	/**
-	 * 7小时扫描一次+3点执行 =每周更新一次（凌晨3点）
+	 * 每天更新一次（凌晨3点）
 	 */
-	@Scheduled(fixedDelay = 7*60*60*1000)
+	@Scheduled(fixedDelay = 60*60*1000)
 	public void initTimer() {
 		System.out.println("开启定时服务...");
 		try{
@@ -38,7 +41,7 @@ public class TimeServiceImpl implements TimeService {
 			String hours = time.substring(11, 13);
 			//System.out.println("当前时间："+hours+"点");	
 			//三点更新
-			if("03".equals(hours))
+		//	if("03".equals(hours))
 				count = updateCCase();			
 			System.out.println("更新案件"+count+"条!");			
 		}catch(Exception e){
@@ -48,7 +51,7 @@ public class TimeServiceImpl implements TimeService {
 	
 	
 	/**
-	 * 更新一月内案件信息
+	 * 更新三天内案件信息
 	 * @return temp：更新案件总数
 	 */
 	private int updateCCase(){
@@ -56,7 +59,7 @@ public class TimeServiceImpl implements TimeService {
 		Calendar c = Calendar.getInstance();
 		Date endTime = new Date();
 		c.setTime(endTime);
-		c.add(Calendar.MONTH, -1);
+		c.add(Calendar.DAY_OF_MONTH, -3);
 		Date StartTime = c.getTime();
 		String et = sdf.format(endTime);
 		String st = sdf.format(StartTime);
@@ -86,15 +89,20 @@ public class TimeServiceImpl implements TimeService {
 		System.out.println("获取数据"+list.size()+"条，插入数据库...");
 		int code = 0;
 		Case ccase = new Case();
+		CaseVM cv = new CaseVM();
 		try{
 			for(Case c:list){
-				ccase = caseMapper.selectByPrimaryKey(c.getId());
+				cv = jieshangService.getCase(c.getId());
+				int temp = commomService.insertOrUpdateCaseVM(cv);
+				if(temp == 400)
+					System.out.println("更新案件及其信息失败，案件ID:"+cv.getId());
+				/*ccase = caseMapper.selectByPrimaryKey(c.getId());
 				if(ccase != null){
 					caseMapper.updateByPrimaryKey(c);
 				}else{
 					c.setReceiveStatus(1);
 					caseMapper.insert(c);
-				}
+				}*/
 				code ++;
 			}
 		}catch(Exception e){

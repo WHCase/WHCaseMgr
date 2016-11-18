@@ -1,6 +1,7 @@
 package com.tianyi.whcase.viewmodel;
 
 import java.util.Date;
+import java.util.List;
 
 import com.tianyi.whcase.model.Case;
 
@@ -18,6 +19,8 @@ public class CaseVM extends Case {
 	private String address;
 	private String userGroupId;
 	private boolean OnlyWithResource;
+	
+	private List<CaseAttachVM> caseAttachVMlist;
 	public String getFeedInfo() {
 		return feedInfo;
 	}
@@ -111,6 +114,12 @@ public class CaseVM extends Case {
 	}
 	public void setOnlyWithResource(boolean onlyWithResource) {
 		OnlyWithResource = onlyWithResource;
+	}
+	public List<CaseAttachVM> getCaseAttachVMlist() {
+		return caseAttachVMlist;
+	}
+	public void setCaseAttachVMlist(List<CaseAttachVM> caseAttachVMlist) {
+		this.caseAttachVMlist = caseAttachVMlist;
 	}
 
 

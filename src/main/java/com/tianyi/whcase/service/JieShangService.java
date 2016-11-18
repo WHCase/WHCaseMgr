@@ -65,27 +65,7 @@ public class JieShangService {
 	public String updateCCase(CaseVM caseInfo) {
 		String result = "-1";
 		try {
-			/*测试写的死数据
-			CaseVM caseInfo = new CaseVM();
-			caseInfo.setId("392d2958-92f1-2384-58fc-14d405050505");
-			caseInfo.setName("WH-风劲角优创");
-			caseInfo.setCreator(3);
-			String cteateTime = "2016-11-14T03:19:21.961Z";
-			caseInfo.setCreateTime(sdf.parse(cteateTime));
-			caseInfo.setCode("111111111412");
-			caseInfo.setCategoriesId("dc440454-34dc-10c6-78fc-aa5e05050505");
-			String startTime = "2016-11-13T16:00:00Z";
-			caseInfo.setStartTime(sdf.parse(startTime));
-			caseInfo.setSummary("圣达菲优创");
-			caseInfo.setStatus("Detected");
-			caseInfo.setIsregister(false);
-			caseInfo.setLevel("0");
-			caseInfo.setCaseGroupId("0");
-			caseInfo.setLongitude("9999");
-			caseInfo.setLatitude("9999"); 
-			caseInfo.setOrganizationId(2);
-			caseInfo.setDetectedunitId(-1);*/
-			
+						
 			String urlStr = "http://101.69.255.110:40000/center/UpdateCCase";  
 
 			URL url = new URL(urlStr);
@@ -159,7 +139,8 @@ public class JieShangService {
 	 * @param caseID
 	 * @return
 	 */
-	public String getCase(String caseID){
+	public  CaseVM getCase(String caseID){
+		CaseVM ccase = new CaseVM();
 		try {
 			String urlStr = "http://101.69.255.110:40000/center/getCase?caseID="+caseID;
 
@@ -179,14 +160,15 @@ public class JieShangService {
 			String readLine = null; 
 			while((readLine =br.readLine()) != null){ 
 			 
-			    response = response + readLine; 
-			    System.out.println(response);
+			    response = response + readLine; 		  
+			    ccase = getCaseMessagesFromXml(response);
+			    System.out.println(ccase.getId());
 			}
 			br.close();
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
-		return "";
+		return ccase;
 		
 	}
 
@@ -196,7 +178,8 @@ public class JieShangService {
 	 * @param messageType
 	 * @return
 	 */
-	public String getCaseMessages(String caseID, Integer messageType) {
+	public List<CaseAttachVM> getCaseMessages(String caseID, Integer messageType) {
+		List<CaseAttachVM> list = new ArrayList<CaseAttachVM>();
 		try {
 			
 			String urlStr = "http://101.69.255.110:40000/center/GetCaseMessages?caseID="+caseID+"&messageType="+66; 
@@ -211,12 +194,14 @@ public class JieShangService {
 					con.getInputStream(),"UTF-8"));
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
-				System.out.println("\n\r 返回结果：" + line);
+			//	System.out.println("\n\r 返回结果：" + line);
+				list = getMessagesFromXml(line,caseID);
+				System.out.println("获取案件"+caseID+"附件数量:"+list.size());
 			}
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
-		return "";
+		return list;
 	}
 
 	/**
@@ -343,7 +328,7 @@ public class JieShangService {
 		// MediaSvrStatus mss = getAllMsSvrStatus();
 		// String ip = mss.getServerAddress();
 		// int port = mss.getPort();
-		String result = "0";
+		String result = "-1";
 		String ip = "101.69.255.110";
 		int port = 21000;
 		//WorkspaceInfo ws = getWorkspaceInfo();
@@ -376,7 +361,7 @@ public class JieShangService {
             outputStream.close();
             
           //获得响应状态
-            int responseCode = con.getResponseCode();
+           // int responseCode = con.getResponseCode();
             
             
 			BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -390,7 +375,7 @@ public class JieShangService {
 
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
-			return "2";
+			return "-2";
 		}
 		return result;
 	}
@@ -404,7 +389,7 @@ public class JieShangService {
 	 */
 	public  String addCCaseMessage(String caseId, CaseAttachVM attach)
 			throws Exception {
-		String result = "0";
+		String result = "-1";
 		try {
 //			String urlStr = "http://223.223.183.242:40000/center/AddCCaseMessage";
 			 String urlStr ="http://101.69.255.110:40000/center/AddCCaseMessage";
@@ -437,7 +422,7 @@ public class JieShangService {
 			}
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
-			return "2";
+			return "-2";
 		}
 		return result;
 	}
@@ -463,7 +448,7 @@ public class JieShangService {
 					con.getInputStream(),"UTF-8"));
 
 			String line = "";
-			int s = -2;
+			int s = -1;
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println(line);
 				s = getCodeFromLine(line);
@@ -472,7 +457,7 @@ public class JieShangService {
 
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
-			return -1;
+			return -2;
 		}
 
 	}
@@ -506,6 +491,7 @@ public class JieShangService {
 		 String urlStr =
 		 "http://101.69.255.110:40000/center/GetAllOrganizations";
 		URL url;
+		String result = "-1";
 		try {
 			url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -514,70 +500,6 @@ public class JieShangService {
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream(), "utf8"));
-
-		/*String temp = "<?xml version=\"1.0\" encoding=\"utf-8\"?><CCaseMessageAdd CasdID=\""
-				+ caseId
-				+ "\">"
-				+ "<MessageItem ID=\""
-				+ attach.getId()
-				+ "\" Name=\""
-				+ attach.getName()
-				+ "\" Description=\""
-				+ attach.getDescription()
-				+ "\" MessageType=\""
-				+ (attach.getMessageType() == null ? "4" : attach.getMessageType())
-				+ "\" IsTopMost=\"false\">"
-				+ "<Attachments><Item ID=\""
-				+ item.getId()
-				+ "\" Name=\""
-				+ item.getName()
-				+ "\" Creator=\"0\" CreateTime=\""
-				+ time
-				+ "\" Uri=\""
-				+ item.getUri()
-				+ "\" Type=\""
-				+ item.getItemType()
-				+ "\"/>"
-				+ "</Attachments></MessageItem></CCaseMessageAdd>";
-		// return sb.toString();
-		return temp;*/
-		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-		// Date datetime = sdf.parse((new Date()).toString());
-		// StringBuilder sb = new StringBuilder();
-		//
-		// sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-		// sb.append("<CCaseMessageAdd CasdID=\""+caseId+"\">");
-		// sb.append("<MessageItem");
-		// if(attach.getId()!=null){
-		// sb.append(" ID=\""+attach.getId()+"\"");
-		// }
-		// if(attach.getName()!=null){
-		// sb.append(" Name=\""+attach.getName()+"\"");
-		// }
-		// if(attach.getDescription()!=null){
-		// sb.append(" Description=\"\"");
-		// }
-		// if(attach.getMessageType()!=null){
-		// sb.append(" MessageType=\""+attach.getMessageType()+"\"");
-		// //sb.append(" Creator=\"0\" CreateTime=\"2015-10-10 00:00:00\" IsTopMost=\"false\" ");
-		// }
-		// sb.append("><Attachments><Item");
-		// CaseAttachItem item = attach.getAttachItemList().get(0);
-		// if(item.getId()!=null){
-		// sb.append(" ID=\""+item.getId()+"\"");
-		// }
-		// if(item.getName()!=null){
-		// sb.append(" Name=\""+item.getName()+"\"");
-		// sb.append(" Creator=\"0\" CreateTime=\"2015-10-10T00:00:00\"");
-		// }
-		// if(item.getItemType()!=null){
-		// sb.append(" Type=\""+item.getItemType()+"\"");
-		// }
-		// if(item.getUri()!=null){
-		// sb.append(" Uri=\""+item.getUri()+"\"");
-		// }
-		// sb.append("/></Attachments></MessageItem></CCaseMessageAdd>");
-		// return sb.toString();
 
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
@@ -588,14 +510,16 @@ public class JieShangService {
 					System.out.println(organList.get(i).getName());
 					organService.insert(organList.get(i));
 				}
+				result = "0";
 			}
 			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			//return e.getMessage();
+			result = "-2";
 		}
-		return"";
+		return result;
 	}
 
 	/**
@@ -605,7 +529,7 @@ public class JieShangService {
 	public String getDictionary() {
 		//String urlStr = "http://223.223.183.242:40000/center/GetDictionary";
 		 String urlStr = "http://101.69.255.110:40000/center/GetDictionary";
-		
+		String temp = "-1";
 		try {
 			URL url = new URL(urlStr);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -634,6 +558,7 @@ public class JieShangService {
 				for (int i = 0; i < categoryList.size(); i++) {
 					commonService.InsertCaseCategory(categoryList.get(i));
 				}
+				temp = "0";
 			}
 
 			br.close();
@@ -641,10 +566,10 @@ public class JieShangService {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return e.getMessage();
+			temp = "-2";
 		}
 
-		return "";
+		return temp;
 	}
 
 	/**
@@ -745,34 +670,130 @@ public class JieShangService {
 	}
 	
 	/**
-	 * xml-->CaseAttach案件附件信息
+	 * xml-->案件附件list
+	 * @param xml
+	 * @param caseID
+	 * @return List<CaseAttachVM>
+	 * @throws ParseException
+	 */
+	private List<CaseAttachVM> getMessagesFromXml(String xml,String caseID) throws ParseException {		
+		List<CaseAttachVM> attachlist = new ArrayList<CaseAttachVM>();
+		try {					
+			Document document = DocumentHelper.parseText(xml);
+			Element root = document.getRootElement();			
+			//案件附件信息
+			@SuppressWarnings("rawtypes")
+			Iterator item = root.elementIterator();
+			while (item.hasNext()) {
+				CaseAttachVM ca = new CaseAttachVM();
+				List<CaseAttachItem> list = new ArrayList<CaseAttachItem>();
+				Element message = (Element) item.next();				
+				ca.setId(message.attributeValue("ID"));
+				ca.setName(message.attributeValue("Name"));
+				ca.setDescription(message.attributeValue("Description"));
+				ca.setCreator(Integer.valueOf(message.attributeValue("Creator")));
+				ca.setCreateTime(sdf.parse(message.attributeValue("CreateTime")));
+				ca.setMessageType(message.attributeValue("MessageType"));
+				ca.setCaseId(caseID);
+				ca.setResourceType("1");
+				//附件所带文件
+				Element Item = message.element("Attachments");
+				@SuppressWarnings("rawtypes")
+				Iterator items = Item.elementIterator();
+				while (items.hasNext()) {
+					CaseAttachItem cai = new CaseAttachItem();
+					Element elements = (Element) items.next();
+					cai.setId(elements.attributeValue("ID"));
+					cai.setName(elements.attributeValue("Name"));
+					cai.setItemType(elements.attributeValue("Type"));
+					cai.setUri(elements.attributeValue("Uri"));
+					cai.setCaseAttchId(ca.getId());
+					list.add(cai);
+				}
+				ca.setAttachItemList(list);
+				attachlist.add(ca);
+			}
+ 		} catch (DocumentException e) {
+			e.printStackTrace();
+			System.out.println("解析案件信息出错！");
+		}
+		return attachlist;
+	}
+	
+	/**
+	 * xml-->案件主体信息及其相关附件、文件信息
 	 * @param xml
 	 * @return
+	 * @throws ParseException 
 	 */
-	private CaseAttach getCaseMessageFromxml(String xml) {
-		try {
-			CaseAttach ca = new CaseAttach();
+	private CaseVM getCaseMessagesFromXml(String xml) throws ParseException {		
+		List<CaseAttachVM> calist = new ArrayList<CaseAttachVM>();
+		CaseVM ccase = new CaseVM();
+		try {					
 			Document document = DocumentHelper.parseText(xml);
 			Element root = document.getRootElement();
-			Element attach = root.element("MessageItem");
-			ca.setId(attach.attributeValue("ID"));
-			ca.setName(attach.attributeValue("Name"));
-			ca.setDescription(attach.attributeValue("Description"));
-			ca.setCreator(Integer.valueOf(attach.attributeValue("Creator")));
-			ca.setMessageType(attach.attributeValue("MessageType"));
-			try {
-				ca.setCreateTime(sdf.parse(attach.attributeValue("CreateTime")));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			//案件主体信息
+			ccase.setId(root.attributeValue("ID"));
+			ccase.setName(root.attributeValue("Name"));
+			ccase.setCreator(Integer.parseInt(root.attributeValue("Creator")));
+			ccase.setCreateTime(sdf.parse(root.attributeValue("CreateTime")));
+			ccase.setCode(root.attributeValue("Code"));
+			ccase.setCategoriesId(root.attributeValue("Categories"));
+			ccase.setStartTime(sdf.parse(root.attributeValue("StartTime")));
+			ccase.setSectionTime(sdf.parse(root.attributeValue("SectionTime")));
+			ccase.setAddress(root.attributeValue("Address"));
+			ccase.setSummary(root.attributeValue("Summary"));
+			ccase.setStatus(root.attributeValue("Status"));
+			ccase.setCaseGroupId(root.attributeValue("CaseGroupId"));
+			ccase.setIsregister(Boolean.valueOf(root.attributeValue("IsRegister")));			
+			ccase.setUserGroupId(root.attributeValue("UserGroupId"));
+			ccase.setLevel(root.attributeValue("Level"));
+			ccase.setLongitude(root.attributeValue("Longitude"));
+			ccase.setLatitude(root.attributeValue("Latitude"));
+			ccase.setOrganizationId(Integer.parseInt(root.attributeValue("OrganizationID")));
+			ccase.setDetectedunitId(Integer.parseInt(root.attributeValue("DetectedUnit")));
+			ccase.setOnlyWithResource(Boolean.valueOf(root.attributeValue("OnlyWithResource")));
+			//案件附件信息
+			Element messageList = root.element("MessageList");
+			@SuppressWarnings("rawtypes")
+			Iterator item = messageList.elementIterator();
+			while (item.hasNext()) {
+				CaseAttachVM ca = new CaseAttachVM();
+				List<CaseAttachItem> list = new ArrayList<CaseAttachItem>();									
+				Element message = (Element) item.next();
+					
+				ca.setId(message.attributeValue("ID"));
+				ca.setName(message.attributeValue("Name"));
+				ca.setDescription(message.attributeValue("Description"));
+				ca.setCreator(Integer.valueOf(message.attributeValue("Creator")));
+				ca.setCreateTime(sdf.parse(message.attributeValue("CreateTime")));
+				ca.setMessageType(message.attributeValue("MessageType"));
+				ca.setCaseId(ccase.getId());
+				ca.setResourceType("1");
+				//附件所带文件
+				Element Item = message.element("Attachments");
+				@SuppressWarnings("rawtypes")
+				Iterator items = Item.elementIterator();
+				while (items.hasNext()) {
+					CaseAttachItem cai = new CaseAttachItem();
+					Element elements = (Element) items.next();
+					cai.setId(elements.attributeValue("ID"));
+					cai.setName(elements.attributeValue("Name"));
+					cai.setItemType(elements.attributeValue("Type"));
+					cai.setUri(elements.attributeValue("Uri"));
+					cai.setCaseAttchId(ca.getId());
+					list.add(cai);
+				}
+				ca.setAttachItemList(list);
+				calist.add(ca);
 			}
- 
-			return ca;
-		} catch (DocumentException e) {
-			e.printStackTrace();
-			return null;
-		}
+            ccase.setCaseAttachVMlist(calist);
 
+ 		} catch (DocumentException e) {
+			e.printStackTrace();
+			System.out.println("解析案件信息出错！");
+		}
+		return ccase;
 	}
 
 	/**
@@ -1151,24 +1172,16 @@ public class JieShangService {
 //		list = QueryCases4WuHou(startTime,endTime,0,4);
 //		System.out.println(list.size());
 	//	MediaSvrStatus src = getAllMsSvrStatus();
-		String s = getCase("a75b2d58-92f1-0884-38d9-2caf05050505");
-     	//String s = getCaseMessages("a75b2d58-92f1-0884-38d9-2caf05050505",66);
+	//	CaseVM s = getCase("a75b2d58-92f1-0884-38d9-2caf05050505");
+	//	System.out.println(s.getId());
+	//	System.out.println(s.getCaseAttachVMlist().get(0).getId());
 		
-	}
-
-
-
-	
 		
-
-	
-	@Test
-	public void code() throws UnsupportedEncodingException {
-		System.out.println(URLEncoder.encode("This string has 你好", "UTF-8"));
-		System.out.println(URLEncoder.encode("This string has spaces", "GBK"));
-		System.out.println(URLEncoder.encode("This string has spaces",
-				"ISO-8859-1"));
+     	List<CaseAttachVM> s = getCaseMessages("a75b2d58-92f1-0884-38d9-2caf05050505",66);
+     	System.out.println(s.size());
 	}
+	
+	
 	@Test
 	public void test() throws Exception {
 		File sf = new File("F:/gongsi/problems/grid.jpg");
