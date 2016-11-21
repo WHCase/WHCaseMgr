@@ -426,8 +426,15 @@ public class CaseController {
 		 * 是否需要重新获取案件附件？
 		 */
 		Case c = getCaseInfoFromDocument(document);
-		caseService.updateCase(c);
-		return getReturnXml(0);
+		int temp = -1;
+		try{
+			caseService.updateCase(c);
+			temp = 0;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return getReturnXml(temp);
 	}
 
 	/**
