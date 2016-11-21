@@ -435,8 +435,7 @@ public class JieShangService {
 	 */
 	public int deleteCaseAttach(String caseId, String attachItemId) {
 		try {
-//			String urlStr = "http://223.223.183.242:40000/center/DeleteCCaseMessage?caseID="
-//					+ caseId + "&itemId=" + attachItemId;
+			//String attachItemIds = "a113e4be-b9ed-47f6-a8ff-9c2da96af9ba";
 			String urlStr = "http://101.69.255.110:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
 
 			URL url = new URL(urlStr);
@@ -1175,10 +1174,10 @@ public class JieShangService {
 	//	CaseVM s = getCase("a75b2d58-92f1-0884-38d9-2caf05050505");
 	//	System.out.println(s.getId());
 	//	System.out.println(s.getCaseAttachVMlist().get(0).getId());
-		
-		
-     	List<CaseAttachVM> s = getCaseMessages("a75b2d58-92f1-0884-38d9-2caf05050505",66);
-     	System.out.println(s.size());
+		int s = deleteCaseAttach("bf5d3258-92f1-0884-9455-b9b905050505","a113e4be-b9ed-47f6-a8ff-9c2da96af9ba");
+		System.out.println(s);
+     	//List<CaseAttachVM> s = getCaseMessages("a75b2d58-92f1-0884-38d9-2caf05050505",66);
+     	//System.out.println(s.size());
 	}
 	
 	

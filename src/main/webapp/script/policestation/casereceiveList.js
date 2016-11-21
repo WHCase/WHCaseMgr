@@ -329,11 +329,11 @@ var CaseManage = {
 			var caseFeed = CaseManage.packageFeedBackInfo();
 			
 			// 判断案件是否反馈过了
-			if(caseFeed.content != ""){
+			/*if(caseFeed.content != null){
 				alert(caseFeed.content);
 				$.messager.alert("提示","案件已经反馈过,不能再次进行反馈","normal");
 				return false;
-			}
+			}*/
 			
 			$.ajax('caseFeed/saveFeedBacInfo.do',{
 				type:'POST',
@@ -344,7 +344,7 @@ var CaseManage = {
 						$.messager.alert("提示","案件反馈成功","normal");
 						
 					}else{
-						
+						alert(responce.msg)
 						$.messager.alert("提示",responce.msg,"normal");
 					}
 				}
@@ -357,7 +357,7 @@ var CaseManage = {
 			var feedBack = {};
 			feedBack.caseId = m_rowData.id;
 			feedBack.content = $('#txtBackWords').val();
-			feedBack.caseResult = $('#txtCaseResult').val();;
+			feedBack.caseResult = $('#txtCaseResult').val();
 		    feedBack.createTime = $('#txtCaseTime').datebox('getValue');
 //			feedBack.organizationId = $('#txtCaseOrgan').val();
 			feedBack.creator = 0;
