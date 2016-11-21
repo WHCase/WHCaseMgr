@@ -329,12 +329,12 @@ var CaseManage = {
 			var caseFeed = CaseManage.packageFeedBackInfo();
 			
 			// 判断案件是否反馈过了
-			if(caseFeed.content != ""){
-				alert(caseFeed.content);
-				$.messager.alert("提示","案件已经反馈过,不能再次进行反馈","normal");
-				return false;
-			}
-			
+//			if(caseFeed.content != ""){
+//				alert(caseFeed.content);
+//				$.messager.alert("提示","案件已经反馈过,不能再次进行反馈","normal");
+//				return false;
+//			}
+//			
 			$.ajax('caseFeed/saveFeedBacInfo.do',{
 				type:'POST',
 				data:{'feedBackInfo':JSON.stringify(caseFeed)},

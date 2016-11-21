@@ -491,7 +491,7 @@ public class JieShangService {
 		 String urlStr =
 		 "http://101.69.255.110:40000/center/GetAllOrganizations";
 		URL url;
-		String result = "-1";
+		String result = "组织机构类型更新失败!";
 		try {
 			url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -510,14 +510,14 @@ public class JieShangService {
 					System.out.println(organList.get(i).getName());
 					organService.insert(organList.get(i));
 				}
-				result = "0";
+				result = "组织机构类型更新成功!";
 			}
 			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			//return e.getMessage();
-			result = "-2";
+			result = "数据获取出错!";
 		}
 		return result;
 	}
@@ -529,7 +529,7 @@ public class JieShangService {
 	public String getDictionary() {
 		//String urlStr = "http://223.223.183.242:40000/center/GetDictionary";
 		 String urlStr = "http://101.69.255.110:40000/center/GetDictionary";
-		String temp = "-1";
+		String temp = "案件类型更新失败!";
 		try {
 			URL url = new URL(urlStr);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -558,7 +558,7 @@ public class JieShangService {
 				for (int i = 0; i < categoryList.size(); i++) {
 					commonService.InsertCaseCategory(categoryList.get(i));
 				}
-				temp = "0";
+				temp = "案件类型更新成功!";
 			}
 
 			br.close();
@@ -566,7 +566,7 @@ public class JieShangService {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			temp = "-2";
+			temp = "获取数据失败!";
 		}
 
 		return temp;
@@ -1052,7 +1052,7 @@ public class JieShangService {
 		java.util.Date date = new java.util.Date();
 		String time = sdf.format(date);
 
-		CaseAttachItem item = attach.getAttachItemList().get(0);
+	//	CaseAttachItem item = new  CaseAttachItem();
 
 		String temp = "<?xml version=\"1.0\" encoding=\"utf-8\"?><CCaseMessageAdd CasdID=\""
 				+ caseId
@@ -1066,57 +1066,26 @@ public class JieShangService {
 				+ "\" MessageType=\""
 				+ (attach.getMessageType() == null ? "4" : attach.getMessageType())
 				+ "\" IsTopMost=\"false\">"
-				+ "<Attachments><Item ID=\""
-				+ item.getId()
-				+ "\" Name=\""
-				+ item.getName()		
-				+ "\" Creator=\"0\" CreateTime=\""
-				+ time
-				+ "\" Uri=\""
-				+ item.getUri()
-				+ "\" Type=\""
-				+ item.getItemType()
-				+ "\"/>"
-				+ "</Attachments></MessageItem></CCaseMessageAdd>";
+				+ "<Attachments>";
+				
+			
+		for(CaseAttachItem item:attach.getAttachItemList()){
+			temp += "<Item ID=\""
+					+ item.getId()
+					+ "\" Name=\""
+					+ item.getName()		
+					+ "\" Creator=\"0\" CreateTime=\""
+					+ time
+					+ "\" Uri=\""
+					+ item.getUri()
+					+ "\" Type=\""
+					+ item.getItemType()
+					+ "\"/>";
+		}
+		temp +=  "</Attachments></MessageItem></CCaseMessageAdd>";
 		// return sb.toString();
 		return temp;
-		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-		// Date datetime = sdf.parse((new Date()).toString());
-		// StringBuilder sb = new StringBuilder();
-		//
-		// sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-		// sb.append("<CCaseMessageAdd CasdID=\""+caseId+"\">");
-		// sb.append("<MessageItem");
-		// if(attach.getId()!=null){
-		// sb.append(" ID=\""+attach.getId()+"\"");
-		// }
-		// if(attach.getName()!=null){
-		// sb.append(" Name=\""+attach.getName()+"\"");
-		// }
-		// if(attach.getDescription()!=null){
-		// sb.append(" Description=\"\"");
-		// }
-		// if(attach.getMessageType()!=null){
-		// sb.append(" MessageType=\""+attach.getMessageType()+"\"");
-		// //sb.append(" Creator=\"0\" CreateTime=\"2015-10-10 00:00:00\" IsTopMost=\"false\" ");
-		// }
-		// sb.append("><Attachments><Item");
-		// CaseAttachItem item = attach.getAttachItemList().get(0);
-		// if(item.getId()!=null){
-		// sb.append(" ID=\""+item.getId()+"\"");
-		// }
-		// if(item.getName()!=null){
-		// sb.append(" Name=\""+item.getName()+"\"");
-		// sb.append(" Creator=\"0\" CreateTime=\"2015-10-10T00:00:00\"");
-		// }
-		// if(item.getItemType()!=null){
-		// sb.append(" Type=\""+item.getItemType()+"\"");
-		// }
-		// if(item.getUri()!=null){
-		// sb.append(" Uri=\""+item.getUri()+"\"");
-		// }
-		// sb.append("/></Attachments></MessageItem></CCaseMessageAdd>");
-		// return sb.toString();
+		
 	}
 
 	/**
@@ -1182,25 +1151,6 @@ public class JieShangService {
 	}
 	
 	
-	@Test
-	public void test() throws Exception {
-		File sf = new File("F:/gongsi/problems/grid.jpg");
-		File df = new File("F:/gongsi/problems/copy.jpg");
-		if (!df.getParentFile().exists()) {
-			df.getParentFile().mkdirs();
-		}
-		df.createNewFile();
-		FileInputStream in = new FileInputStream(sf);
-		FileOutputStream out = new FileOutputStream(df, true);
-		int len = 0;
-		byte[] buf = new byte[1024];
-		while ((len = in.read(buf)) != -1) {
-			out.write(buf, 0, len);
-		}
-		out.close();
-	}
-	@Test
-	public void syslist(){
-		getDictionary();
-	}
+
+	
 }
