@@ -76,6 +76,7 @@ public class CaseAttchController {
 		return result;
 		
 	}
+	
 	@RequestMapping(value = "deleteCaseAttach.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String deleteCaseAttach(
 			@RequestParam(value="caseId",required = false) String caseId,
@@ -96,6 +97,29 @@ public class CaseAttchController {
 	    System.out.println("------------"+temp);
 	}
 	
+	/**
+	 * (优创接口)当用户删除附件，捷尚通过调用这个接口来通知优创
+	 * @param caseId
+	 * @param caseattachId
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "DeleteCaseAttach.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String DeleteCaseAttach(
+			@RequestParam(value="caseId",required = false) String caseId,
+		@RequestParam(value="caseattachId",required = false) String caseattachId,
+		HttpServletRequest request)throws Exception{
+		int temp = -1;
+		try {
+			temp = Integer.valueOf(caseAttchService.deleteCaseAttach(caseId,caseattachId));
+		} catch (Exception e) {			
+			e.printStackTrace();
+			System.out.println("捷尚删除附件错误");
+		}
+		return getReturnXml(temp);
+		
+	}
 	/**
 	 * (优创接口)当用户添加附件，捷尚通过调用这个接口来通知优创
 	 * @param id
@@ -162,5 +186,6 @@ public class CaseAttchController {
           
         return sb.toString();  
 	}
+	
 	
 }
