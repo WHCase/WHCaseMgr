@@ -28,7 +28,7 @@ public class CaseLevelServiceImpl implements CaseLevelService {
 		if(temp ==-1){
 			return "推送失败";
 		}
-		return "";
+		return "推送成功，共推送"+temp+"条案件!";
 		
 	}
 

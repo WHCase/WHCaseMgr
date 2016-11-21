@@ -41,7 +41,7 @@ public class TimeServiceImpl implements TimeService {
 			String hours = time.substring(11, 13);
 			//System.out.println("当前时间："+hours+"点");	
 			//三点更新
-		//	if("03".equals(hours))
+			if("03".equals(hours))
 				count = updateCCase();			
 			System.out.println("更新案件"+count+"条!");			
 		}catch(Exception e){
@@ -88,7 +88,6 @@ public class TimeServiceImpl implements TimeService {
 	private int insertCase(List<CaseVM> list){
 		System.out.println("获取数据"+list.size()+"条，插入数据库...");
 		int code = 0;
-		Case ccase = new Case();
 		CaseVM cv = new CaseVM();
 		try{
 			for(Case c:list){
@@ -96,13 +95,6 @@ public class TimeServiceImpl implements TimeService {
 				int temp = commomService.insertOrUpdateCaseVM(cv);
 				if(temp == 400)
 					System.out.println("更新案件及其信息失败，案件ID:"+cv.getId());
-				/*ccase = caseMapper.selectByPrimaryKey(c.getId());
-				if(ccase != null){
-					caseMapper.updateByPrimaryKey(c);
-				}else{
-					c.setReceiveStatus(1);
-					caseMapper.insert(c);
-				}*/
 				code ++;
 			}
 		}catch(Exception e){
