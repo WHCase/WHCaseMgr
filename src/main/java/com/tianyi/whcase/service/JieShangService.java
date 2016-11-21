@@ -254,6 +254,7 @@ public class JieShangService {
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				wsInfo = getWorkspaceInfoFromxml(line);
+				System.out.println(wsInfo);
 			}
 
 		} catch (Exception ex) {
@@ -1139,14 +1140,15 @@ public class JieShangService {
 //		List<CaseVM> list = new ArrayList<CaseVM>();
 //		list = QueryCases4WuHou(startTime,endTime,0,4);
 //		System.out.println(list.size());
-	//	MediaSvrStatus src = getAllMsSvrStatus();
+	//  MediaSvrStatus src = getAllMsSvrStatus();
 	//	CaseVM s = getCase("a75b2d58-92f1-0884-38d9-2caf05050505");
 	//	System.out.println(s.getId());
 	//	System.out.println(s.getCaseAttachVMlist().get(0).getId());
-		int s = deleteCaseAttach("bf5d3258-92f1-0884-9455-b9b905050505","a113e4be-b9ed-47f6-a8ff-9c2da96af9ba");
-		System.out.println(s);
+		//int s = deleteCaseAttach("bf5d3258-92f1-0884-9455-b9b905050505","a113e4be-b9ed-47f6-a8ff-9c2da96af9ba");
+		//System.out.println(s);
      	//List<CaseAttachVM> s = getCaseMessages("a75b2d58-92f1-0884-38d9-2caf05050505",66);
      	//System.out.println(s.size());
+		WorkspaceInfo w = getWorkspaceInfo();
 	}
 	
 	

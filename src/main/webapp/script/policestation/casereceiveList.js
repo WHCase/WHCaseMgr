@@ -334,7 +334,7 @@ var CaseManage = {
 //				$.messager.alert("提示","案件已经反馈过,不能再次进行反馈","normal");
 //				return false;
 //			}
-//			
+			
 			$.ajax('caseFeed/saveFeedBacInfo.do',{
 				type:'POST',
 				data:{'feedBackInfo':JSON.stringify(caseFeed)},
