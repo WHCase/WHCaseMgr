@@ -1094,38 +1094,33 @@ public class JieShangService {
 	@Test
 	public void download() {   
 
-		String uri = "CaseCenter_ws1/Files/20161110/14/9a0f2458-cfa6-26e4-e4d7-a13d05050505.jpg";
+		String uri = "DeleteCaseAttach.do";
 		String ip = "101.69.255.110";
-		int port = 21001;
+		int port = 8080;
 		try {
-			String serverPath = getClass().getResource("/").getFile()
-					.toString();
-			serverPath = serverPath.substring(0, (serverPath.length() - 16));
+			String caseId = "bb2a2458-92f1-0984-9021-40d005050505";
+					
+			String caseattachId = "62d6b9c7-d36d-4ab2-a6f1-ab938740d6da";
 
-			File file = new File(serverPath + "/" + uri);
-			System.out.println(serverPath);
-			if (!file.getParentFile().exists()) {
-				file.getParentFile().mkdirs();
-			}
-			// file.createNewFile();
-			System.out.println(serverPath + "/" + uri);
-			String urlStr = "http://" + ip + ":" + port + "/" + uri;
+			
+			String urlStr = "http://" + ip + ":" + port + "/" + uri+"?caseId="+caseId+"&caseattachId="+caseattachId;
 			System.out.println(urlStr);
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
+			con.setDoOutput(true);
+			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
 
-			BufferedInputStream bis = new BufferedInputStream(
-					con.getInputStream());
-			FileOutputStream out = new FileOutputStream(serverPath + "/" + uri);
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					con.getInputStream(),"UTF-8"));
 
-			int len = 0;
-			byte[] buf = new byte[1024];
-			while ((len = bis.read(buf)) != -1) {
-				out.write(buf, 0, len);
+			String line = "";
+			int s = -1;
+			for (line = br.readLine(); line != null; line = br.readLine()) {
+				System.out.println(line);
+				s = getCodeFromLine(line);
 			}
-
-			out.close();
-			bis.close();
+			
+			
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 
