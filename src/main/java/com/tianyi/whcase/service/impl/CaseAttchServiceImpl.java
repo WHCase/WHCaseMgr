@@ -65,7 +65,7 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 		caseAttach.setResourceType("1");
 		try{
 			if(caseAttachMapper.selectByPrimaryKey(caseAttach.getId())!=null){
-				return -2;
+				return 100;
 			}		
 			temp = caseAttachMapper.insert(caseAttach);		
 			/*
@@ -111,10 +111,10 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 	 * @param caseattachId
 	 * @return
 	 */
-	public int deleteLocalAttach(String caseId,String caseattachId) {
+	public int deleteLocalAttach(String caseId,String caseAttachId) {
 		int temp = -1;
 		try{
-			if(caseAttachItemMapper.deleteByPrimaryKey(caseattachId)>0)
+			if(caseAttachItemMapper.deleteByPrimaryKey(caseAttachId)>0)
 				temp = 0;
 		}catch(Exception e){
 			e.printStackTrace();

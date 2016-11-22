@@ -191,25 +191,26 @@ public class CaseAttchController {
 	
 	@Test
 	public void TestAddCaseAttach(){
-		String caseId = "";
-		String caseAttachId = "";
-		try{
-			int temp = caseAttchService.deleteLocalAttach(caseId,caseAttachId);
-			System.out.print(getReturnXml(temp));
-		}catch(Exception e){
-			e.printStackTrace();
-		}		
+//		String caseId = "bf5d3258-92f1-0884-9455-b9b905050505";
+//		String caseAttachId = "618b3258-cfa6-a0e4-0ce9-037505050505";
+//		try{
+//			int temp = caseAttchService.deleteLocalAttach(caseId,caseAttachId);
+//			System.out.print(getReturnXml(temp));
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}		
 	}
 	
 	@Test
 	public void TestDeleteLocalAttach(){
-		String caseId = "";
-		String caseAttachId = "";
-		try{
-			int temp = caseAttchService.deleteLocalAttach(caseId,caseAttachId);
-			System.out.print(getReturnXml(temp));
-		}catch(Exception e){
-			e.printStackTrace();
-		}		
+//		String caseId = "bf5d3258-92f1-0884-9455-b9b905050505";
+//		String caseAttachId = "618b3258-cfa6-a0e4-0ce9-037505050505";
+//		try{
+//			int temp = 0;
+//			temp = caseAttchService.deleteLocalAttach(caseId,caseAttachId);
+//			System.out.print(getReturnXml(temp));
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}		
 	}
 }
