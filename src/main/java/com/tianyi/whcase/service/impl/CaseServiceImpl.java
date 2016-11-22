@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tianyi.whcase.core.ListResult;
+import com.tianyi.whcase.dao.CaseAttachMapper;
 import com.tianyi.whcase.dao.CaseFeedMapper;
 import com.tianyi.whcase.dao.CaseMapper;
 import com.tianyi.whcase.dao.CaseOrganMapper;
@@ -17,6 +18,8 @@ import com.tianyi.whcase.model.CaseCategory;
 import com.tianyi.whcase.model.CaseFeed;
 import com.tianyi.whcase.model.CaseUnit;
 import com.tianyi.whcase.service.CaseService;
+import com.tianyi.whcase.service.CommonService;
+import com.tianyi.whcase.service.JieShangService;
 import com.tianyi.whcase.viewmodel.CaseTJVM;
 import com.tianyi.whcase.viewmodel.CaseVM;
 
@@ -26,9 +29,14 @@ public class CaseServiceImpl implements CaseService {
 	@Autowired
 	CaseMapper caseMapper;
 	@Autowired
+	CaseAttachMapper caseAttachMapper;
+	@Autowired
 	CaseOrganMapper caseOrganMapper;
 	@Autowired
 	CaseFeedMapper caseFeedMapper;
+	
+	@Autowired JieShangService jieShangService; 
+	@Autowired CommonService commonService; 
 	/**
 	 * 获取案件列表
 	 * 
@@ -112,9 +120,47 @@ public class CaseServiceImpl implements CaseService {
 	public int deleteByCaseId(String caseId) {
 		return caseMapper.deleteByPrimaryKey(caseId);
 	}
+	
+	/**
+	 * 删除本地案件及其附件信息
+	 * @param CaseId
+	 * @return
+	 */
+	public int deleteLocalCase(String CaseId){
+		int temp = -1;
+		try{
+			if(!(caseMapper.deleteByPrimaryKey(CaseId) > 0))
+				return 100;
+			if(!(caseAttachMapper.deleteByCaseId(CaseId) > 0))
+				return 200;
+			temp = 0;
+		}catch(Exception e){
+			e.printStackTrace();
+			temp = -2;
+		}
+		return temp;
+	}
 
 	public int updateCase(Case c) {
 		return caseMapper.updateByPrimaryKey(c);
+	}
+	
+	/**
+	 * 更新案件及其相关信息
+	 * @param c
+	 * @return
+	 */
+	public int updateCCase(Case c) {
+		CaseVM cc = new CaseVM();
+		int temp = -1;
+		try{
+			cc = jieShangService.getCase(c.getId());
+			temp = commonService.insertOrUpdateCaseVM(cc);
+		}catch(Exception e){
+			e.printStackTrace();
+			temp = -2;
+		}
+		return temp;	
 	}
 
 	public String updateCaseReceiveStatusAndLevel(int receiveStatus, String level,

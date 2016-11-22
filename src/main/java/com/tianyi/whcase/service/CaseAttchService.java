@@ -20,5 +20,6 @@ public interface CaseAttchService {
 	String deleteCaseAttach(String caseId,String caseattachId);
 	// 修改人xie
 	CaseAttach getCaseAttachBycaseID(String caseID,Integer messageType);
+	int deleteLocalAttach(String caseId, String caseattachId);
 
 }
