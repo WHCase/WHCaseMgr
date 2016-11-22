@@ -106,6 +106,24 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 		}
 		return "0";
 	}
+	
+	/**
+	 * 本地删除附件
+	 * @param caseId
+	 * @param caseattachId
+	 * @return
+	 */
+	public int deleteLocalAttach(String caseId,String caseattachId) {
+		int temp = -1;
+		try{
+			if(caseAttachItemMapper.deleteByPrimaryKey(caseattachId)>0)
+				temp = 0;
+		}catch(Exception e){
+			e.printStackTrace();
+			temp = -2;
+		}
+		return temp;	
+	}
 	// 修改人xie
 	public CaseAttach getCaseAttachBycaseID(String caseID,Integer messageType) {
 		CaseAttach caseAttach = caseAttachMapper.selectByCaseId(caseID, messageType);

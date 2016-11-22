@@ -112,7 +112,7 @@ public class CaseAttchController {
 		HttpServletRequest request)throws Exception{
 		int temp = -1;
 		try {
-			temp = Integer.valueOf(caseAttchService.deleteCaseAttach(caseId,caseattachId));
+			temp = caseAttchService.deleteLocalAttach(caseId,caseattachId);
 		} catch (Exception e) {			
 			e.printStackTrace();
 			System.out.println("捷尚删除附件错误");

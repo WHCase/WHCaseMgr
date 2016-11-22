@@ -30,6 +30,10 @@
     delete from t_case_attach
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+   <delete id="deleteByCaseId" parameterType="java.lang.String" >
+    delete from t_case_attach
+    where case_id = #{caseId,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.tianyi.whcase.model.CaseAttach" >
     insert into t_case_attach (id, name, case_id, 
       description, creator, message_type,resource_type,organization_id

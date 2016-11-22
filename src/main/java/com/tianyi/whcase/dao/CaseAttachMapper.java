@@ -21,4 +21,6 @@ public interface CaseAttachMapper {
     CaseAttach selectByCaseId(String caseId,int resourceType);
     
 	List<CaseAttach> selectByCaseId(String caseId,String resourceType);
+
+	int deleteByCaseId(String caseId);
 }

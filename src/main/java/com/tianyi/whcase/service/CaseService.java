@@ -53,4 +53,8 @@ public interface CaseService {
 
 	ListResult<CaseVM> getFeedCaseByOrganId(Map<String, Object> map);
 
+	int updateCCase(Case c);
+
+	int deleteLocalCase(String caseId);
+
 }

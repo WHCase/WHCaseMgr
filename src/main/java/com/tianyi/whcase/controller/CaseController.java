@@ -317,20 +317,17 @@ public class CaseController {
 	@RequestMapping(value = "AddCase.do", produces = "application/xml;charset=UTF-8")
 	public @ResponseBody
 	String AddCase(@RequestBody String requestBody, HttpServletRequest request)
-			throws Exception {
-		Document document = DocumentHelper.parseText(requestBody);
-
-		Case c = getCaseInfoFromDocument(document);
-
-		String temp = caseService.insert(c);
-
-		if (!temp.isEmpty()) {
-			return getReturnXml(-1);
-		} else {
-
-			return getReturnXml(0);
-		}
-
+			throws Exception {		
+		int temp = -1;
+        try{
+        	Document document = DocumentHelper.parseText(requestBody);
+    		Case c = getCaseInfoFromDocument(document);
+        	temp = caseService.updateCCase(c);
+        }catch(Exception e){
+        	e.printStackTrace();
+        	temp = -1;
+        }
+    	return getReturnXml(temp);	
 	}
 
 	private Case getCaseInfoFromDocument(Document document) {
@@ -399,12 +396,11 @@ public class CaseController {
 		 */
 		int temp = -1;
 		try{
-			temp = (caseService.deleteByCaseId(caseId)>0?0:temp);			
+			temp = caseService.deleteLocalCase(caseId);			
 		}catch(Exception e){
 			e.printStackTrace();
-		}
-		
-		
+			temp = -2;
+		}				
 		return getReturnXml(temp);
 	}
 
@@ -428,10 +424,11 @@ public class CaseController {
 		Case c = getCaseInfoFromDocument(document);
 		int temp = -1;
 		try{
-			caseService.updateCase(c);
-			temp = 0;
+			temp = caseService.updateCCase(c);
+			
 		}catch(Exception e){
 			e.printStackTrace();
+			temp = -2;
 		}
 		
 		return getReturnXml(temp);
