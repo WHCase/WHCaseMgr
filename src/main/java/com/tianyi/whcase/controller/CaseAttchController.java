@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -138,7 +139,7 @@ public class CaseAttchController {
 		Document document = DocumentHelper.parseText(requestBody);
 		
 		CaseAttachVM caseAttachVM =getAttachVMByDocument(document,id);
-		int temp = 0;
+		int temp = -1;
 		temp = caseAttchService.AddAttachVM(caseAttachVM,request,response);
 
 		return getReturnXml(temp);
@@ -188,4 +189,27 @@ public class CaseAttchController {
 	}
 	
 	
+	@Test
+	public void TestAddCaseAttach(){
+		String caseId = "";
+		String caseAttachId = "";
+		try{
+			int temp = caseAttchService.deleteLocalAttach(caseId,caseAttachId);
+			System.out.print(getReturnXml(temp));
+		}catch(Exception e){
+			e.printStackTrace();
+		}		
+	}
+	
+	@Test
+	public void TestDeleteLocalAttach(){
+		String caseId = "";
+		String caseAttachId = "";
+		try{
+			int temp = caseAttchService.deleteLocalAttach(caseId,caseAttachId);
+			System.out.print(getReturnXml(temp));
+		}catch(Exception e){
+			e.printStackTrace();
+		}		
+	}
 }

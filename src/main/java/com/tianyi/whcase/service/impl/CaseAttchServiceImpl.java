@@ -60,36 +60,34 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 	 * 案件附件更新
 	 */
 	public int AddAttachVM(CaseAttachVM caseAttachVM,HttpServletRequest request,HttpServletResponse response) {
-		int temp =0;
+		int temp =-1;
 		CaseAttach caseAttach = caseAttachVM.getCaseAttach();
 		caseAttach.setResourceType("1");
-		if(caseAttachMapper.selectByPrimaryKey(caseAttach.getId())!=null){
-			return -2;
-		}
-		
-		temp = caseAttachMapper.insert(caseAttach);
-		
-		/*
-		 * 获取附件文件列表，单独保存
-		 */
-		List<CaseAttachItem> attachItemList = caseAttachVM.getAttachItemList();
-		if(attachItemList==null ||attachItemList.size() ==0){
-			return temp;
-		}
-		for(int i = 0;i<attachItemList.size();i++){
-			if(caseAttachItemMapper.selectByPrimaryKey(attachItemList.get(i).getId())!=null){
-				return -3;
+		try{
+			if(caseAttachMapper.selectByPrimaryKey(caseAttach.getId())!=null){
+				return -2;
+			}		
+			temp = caseAttachMapper.insert(caseAttach);		
+			/*
+			 * 获取附件文件列表，单独保存
+			 */
+			List<CaseAttachItem> attachItemList = caseAttachVM.getAttachItemList();
+			if(attachItemList==null ||attachItemList.size() ==0){
+				return temp;
 			}
-			temp = caseAttachItemMapper.insert(attachItemList.get(i));
-			/*调用捷尚接口下载相应的附件*/
-			try {
-				jieShangService.downloadAttachFiles(attachItemList.get(i).getUri(),request,response);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			for(int i = 0;i<attachItemList.size();i++){
+				if(caseAttachItemMapper.selectByPrimaryKey(attachItemList.get(i).getId())!=null){
+					return -3;
+				}
+				temp = caseAttachItemMapper.insert(attachItemList.get(i));
+				/*调用捷尚接口下载相应的附件*/
+				jieShangService.downloadAttachFiles(attachItemList.get(i).getUri(),request,response);		
 			}
+		}catch(Exception e){
+			e.printStackTrace();
+			temp = -2;
 		}
-		return temp;
+		return (temp>=0?0:-1);
 	}
 	public String deleteCaseAttach(String caseId,String caseattachId) {
 		CaseAttachItem cAttachItem = caseAttachItemMapper.selectByPrimaryKey(caseattachId);
