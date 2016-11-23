@@ -11,7 +11,7 @@ public class ycylInterfaceTest extends BaseTest {
 	
 	@Test
 	public void AddAttach(){
-		
+		String xml = "";
 	}
 	
 	@Test

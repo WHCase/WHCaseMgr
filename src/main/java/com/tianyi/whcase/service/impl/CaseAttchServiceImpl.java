@@ -76,12 +76,13 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 				return temp;
 			}
 			for(int i = 0;i<attachItemList.size();i++){
-				if(caseAttachItemMapper.selectByPrimaryKey(attachItemList.get(i).getId())!=null){
-					return -3;
-				}
-				temp = caseAttachItemMapper.insert(attachItemList.get(i));
-				/*调用捷尚接口下载相应的附件*/
-				jieShangService.downloadAttachFiles(attachItemList.get(i).getUri(),request,response);		
+				if(caseAttachItemMapper.selectByPrimaryKey(attachItemList.get(i).getId())==null){
+					//return -3;			
+					temp = caseAttachItemMapper.insert(attachItemList.get(i));
+					/*调用捷尚接口下载相应的附件*/
+					jieShangService.downloadAttachFiles(attachItemList.get(i).getUri(),request,response);
+				}				
+					
 			}
 		}catch(Exception e){
 			e.printStackTrace();
