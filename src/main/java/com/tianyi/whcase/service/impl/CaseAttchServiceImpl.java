@@ -89,13 +89,13 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 		}
 		return (temp>=0?0:-1);
 	}
-	public String deleteCaseAttach(String caseId,String caseattachId) {
-		CaseAttachItem cAttachItem = caseAttachItemMapper.selectByPrimaryKey(caseattachId);
+	public String deleteCaseAttach(String caseId,String caseAttachItemId) {
+		CaseAttachItem cAttachItem = caseAttachItemMapper.selectByPrimaryKey(caseAttachItemId);
 		if(cAttachItem==null){
 			return "查询附件文件对应的附件信息不存在";
 		}
 		/*本地数据库删除，调用捷尚接口删除远程文件*/
-		if(caseAttachItemMapper.deleteByPrimaryKey(caseattachId)<0){
+		if(caseAttachItemMapper.deleteByPrimaryKey(caseAttachItemId)<0){
 			return "删除失败";
 		}
 		// 修改人xie
@@ -111,10 +111,13 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 	 * @param caseattachId
 	 * @return
 	 */
-	public int deleteLocalAttach(String caseId,String caseAttachId) {
+	public int deleteLocalAttach(String caseId,String caseAttachItemId) {
+
 		int temp = -1;
 		try{
-			if(caseAttachItemMapper.deleteByPrimaryKey(caseAttachId)>0)
+
+			if(caseAttachItemMapper.deleteByPrimaryKey(caseAttachItemId)>0)
+
 				temp = 0;
 		}catch(Exception e){
 			e.printStackTrace();

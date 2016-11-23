@@ -243,7 +243,7 @@ var CaseManage = {
 			$.ajax('caseAttch/deleteCaseAttach.do',{
 				type:'POST',
 				data:{caseId:m_rowData.id,
-					caseattachId:attachItemId},
+					caseAttachItemId:attachItemId},
 				success:function(responce){
 					if(responce.isSuccess){
 						$("#caseBackAttchs").datagrid({

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -380,7 +381,35 @@ public class JieShangService {
 		}
 		return result;
 	}
-
+	@Test
+	public void test66() throws Exception{
+		CaseAttach attach = new CaseAttach();
+		UUID u = java.util.UUID.randomUUID();
+		attach.setId(u.toString());
+		attach.setCaseId("bf5d3258-92f1-0884-9455-b9b905050505");
+		attach.setCreator(0);
+		// 修改人 xie
+		attach.setMessageType("66");
+	    attach.setOrganizationId(856);
+	    attach.setDescription("test附件");
+		attach.setResourceType("2");
+		//设置附件相关信息
+		attach.setName("派出所上传附件");
+		
+		CaseAttachItem attch = new CaseAttachItem();
+		UUID d = java.util.UUID.randomUUID();
+		attch.setId(d.toString());
+		attch.setCaseAttchId(attach.getId());
+		attch.setUri("resource://CaseCenter_ws1/Files/20161117/17/399.png");
+		attch.setItemType("Image");
+		attch.setName("test附件");
+		CaseAttachVM temp = new CaseAttachVM();
+		temp.SetCaseAttach(attach);
+		List<CaseAttachItem> li = new ArrayList<CaseAttachItem>();
+		li.add(attch);
+		temp.setAttachItemList(li);
+		String s = addCCaseMessage("bf5d3258-92f1-0884-9455-b9b905050505", temp);
+	}
 	/**
 	 * 上传附件信息接口
 	 * @param caseId
@@ -392,9 +421,9 @@ public class JieShangService {
 			throws Exception {
 		String result = "-1";
 		try {
-//			String urlStr = "http://223.223.183.242:40000/center/AddCCaseMessage";
-			 String urlStr ="http://101.69.255.110:40000/center/AddCCaseMessage";
-
+			//String urlStr = "http://121.199.8.150:80/case/caseAttch/AddCaseAttach.do?caseId="+caseId;
+		    String urlStr ="http://101.69.255.110:40000/center/AddCCaseMessage";
+            System.out.println(urlStr);
 			URL url = new URL(urlStr);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
@@ -1089,21 +1118,19 @@ public class JieShangService {
 	}
 
 	/**
-	 * 通过  下载附件
+	 * 
 	 */
 	@Test
 	public void download() {   
 
-		String uri = "DeleteCaseAttach.do";
-		String ip = "101.69.255.110";
-		int port = 8080;
+		String uri = "case/caseAttch/DeleteCaseAttach.do";
+		String ip = "121.199.8.150";
+		int port = 80;
 		try {
-			String caseId = "bb2a2458-92f1-0984-9021-40d005050505";
-					
-			String caseattachId = "62d6b9c7-d36d-4ab2-a6f1-ab938740d6da";
-
+			String caseId = "bb2a2458-92f1-0984-9021-40d005050505";					
+			String caseAttachItemId = "84f4b846-cbbc-4825-8faf-d9574175e3e0";
 			
-			String urlStr = "http://" + ip + ":" + port + "/" + uri+"?caseId="+caseId+"&caseattachId="+caseattachId;
+			String urlStr = "http://" + ip + ":" + port + "/" + uri+"?caseId="+caseId+"&caseAttachItemId="+caseAttachItemId;
 			System.out.println(urlStr);
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -1114,10 +1141,9 @@ public class JieShangService {
 					con.getInputStream(),"UTF-8"));
 
 			String line = "";
-			int s = -1;
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				System.out.println(line);
-				s = getCodeFromLine(line);
+				
 			}
 			
 			

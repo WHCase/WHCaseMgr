@@ -17,9 +17,9 @@ public interface CaseAttchService {
 	ListResult<CaseAttachItem> getCaseRelativeByCaseId(String id,String resourceType);
 
 	int AddAttachVM(CaseAttachVM caseAttachVM,HttpServletRequest request,HttpServletResponse response);
-	String deleteCaseAttach(String caseId,String caseattachId);
+	String deleteCaseAttach(String caseId,String caseAttachItemId);
 	// 修改人xie
 	CaseAttach getCaseAttachBycaseID(String caseID,Integer messageType);
-	int deleteLocalAttach(String caseId, String caseattachId);
+	int deleteLocalAttach(String caseId, String caseAttachItemId);
 
 }

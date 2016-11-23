@@ -81,9 +81,9 @@ public class CaseAttchController {
 	@RequestMapping(value = "deleteCaseAttach.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String deleteCaseAttach(
 			@RequestParam(value="caseId",required = false) String caseId,
-		@RequestParam(value="caseattachId",required = false) String caseattachId,
+		@RequestParam(value="caseAttachItemId",required = false) String caseAttachItemId,
 		HttpServletRequest request)throws Exception{
-		String temp = caseAttchService.deleteCaseAttach(caseId,caseattachId);
+		String temp = caseAttchService.deleteCaseAttach(caseId,caseAttachItemId);
 		if("0".equals(temp)){
 			Result<CaseAttachItem> result = new Result<CaseAttachItem>(null, true, "删除成功");
 			return result.toJson();
@@ -94,7 +94,7 @@ public class CaseAttchController {
 		
 	}
 	public  void main(String[] args) {
-		String temp = caseAttchService.deleteCaseAttach("acc35256-cd7d-064c-a885-a96005050505","54b10cc5-d27f-413f-8b58-9bd840a0c1c3");
+		String temp = caseAttchService.deleteCaseAttach("bb2a2458-92f1-0984-9021-40d005050505","ca624d2c-abf1-480b-9e82-3698fdaedd00");
 	    System.out.println("------------"+temp);
 	}
 	
@@ -106,14 +106,14 @@ public class CaseAttchController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "DeleteCaseAttach.do", produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "DeleteCaseAttachItem.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String DeleteCaseAttach(
 			@RequestParam(value="caseId",required = false) String caseId,
-		@RequestParam(value="caseattachId",required = false) String caseattachId,
+		@RequestParam(value="caseAttachItemId",required = false) String caseAttachItemId,
 		HttpServletRequest request)throws Exception{
 		int temp = -1;
 		try {
-			temp = caseAttchService.deleteLocalAttach(caseId,caseattachId);
+			temp = caseAttchService.deleteLocalAttach(caseId,caseAttachItemId);
 		} catch (Exception e) {			
 			e.printStackTrace();
 			System.out.println("捷尚删除附件错误");
