@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -138,7 +139,7 @@ public class CaseAttchController {
 		Document document = DocumentHelper.parseText(requestBody);
 		
 		CaseAttachVM caseAttachVM =getAttachVMByDocument(document,id);
-		int temp = 0;
+		int temp = -1;
 		temp = caseAttchService.AddAttachVM(caseAttachVM,request,response);
 
 		return getReturnXml(temp);
@@ -188,4 +189,28 @@ public class CaseAttchController {
 	}
 	
 	
+	@Test
+	public void TestAddCaseAttach(){
+//		String caseId = "bf5d3258-92f1-0884-9455-b9b905050505";
+//		String caseAttachId = "618b3258-cfa6-a0e4-0ce9-037505050505";
+//		try{
+//			int temp = caseAttchService.deleteLocalAttach(caseId,caseAttachId);
+//			System.out.print(getReturnXml(temp));
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}		
+	}
+	
+	@Test
+	public void TestDeleteLocalAttach(){
+//		String caseId = "bf5d3258-92f1-0884-9455-b9b905050505";
+//		String caseAttachId = "618b3258-cfa6-a0e4-0ce9-037505050505";
+//		try{
+//			int temp = 0;
+//			temp = caseAttchService.deleteLocalAttach(caseId,caseAttachId);
+//			System.out.print(getReturnXml(temp));
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}		
+	}
 }
