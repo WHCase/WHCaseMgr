@@ -123,19 +123,6 @@ public class FileUpLoadController {
 				if(!"0".equals(s))
 					return "File Upload Failed";
 				// 修改人 xie
-				/*List<CaseAttachItem> attchItem = caseAttachItempper.selectByCaseAttachId(id);
-				String itemType = null;
-				for (int i = 0; i< attchItem.size(); i++) {
-					itemType = attchItem.get(i).getItemType();
-					if(itemType.equals("document") || itemType.equals("Video")){
-						
-						
-						
-					}else{
-						break;
-					}
-					
-				}*/
 				
 				CaseAttachVM temp = new CaseAttachVM();
 				temp.SetCaseAttach(attach);
