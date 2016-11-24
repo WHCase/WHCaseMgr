@@ -172,7 +172,7 @@ public class CaseAttchController {
 				caseAttachItem.setId(itemList.get(j).attributeValue("ID"));				
 				caseAttachItem.setName(itemList.get(j).attributeValue("Name"));
 				caseAttachItem.setUri(itemList.get(j).attributeValue("Uri"));
-				caseAttachItem.setItemType(itemList.get(j).attributeValue("Type"));
+				caseAttachItem.setItemType(generateClassFromFileType(caseAttachItem.getUri()));
 				caseAttachItem.setCaseAttchId(root.attributeValue("ID"));
 				caseItemList.add(caseAttachItem);
 			}
@@ -188,6 +188,34 @@ public class CaseAttchController {
         return sb.toString();  
 	}
 	
+	/**
+	 * 文件类型
+	 * @param uri
+	 * @return
+	 */
+	private String generateClassFromFileType(String uri){
+		if(uri == null || "".equals(uri))
+			return "";
+		String[] names = uri.split(".");
+		String fileType = names[names.length - 1];
+ 		if(fileType.toLowerCase().equals("png")||fileType.equals("jpg")||fileType.equals("jpeg")||fileType.equals("gif")||fileType.equals("ico")||fileType.equals("bmp")){
+			return "Image"; 
+		}else if(fileType.equals("doc")||fileType.equals("docx")){
+			return "document"; 
+		}else if(fileType.equals("ppt")||fileType.equals("pptx")){
+			return "document"; 
+		}else if(fileType.equals("xls")||fileType.equals("xlsx")){
+			return "document"; 
+		}else if(fileType.equals("txt")){
+			return "document"; 
+		}else if(fileType.toLowerCase().equals("3gp")||fileType.equals("avi")||fileType.equals("wma")||fileType.equals("rmvb")||fileType.equals("rm")||fileType.equals("flash")||fileType.equals("mp4")||fileType.equals("mid")){
+			return "Video"; 
+		}else if(fileType.toUpperCase().equals("MP3")||fileType.equals("WMA")||fileType.equals("WAV")||fileType.equals("ASF")||fileType.equals("AAC")||fileType.equals("Mp3Pro")||fileType.equals("VQF")||fileType.equals("FLAC")||fileType.equals("APE")||fileType.equals("MID")||fileType.equals("OGG")){
+			return "Audio"; 
+		}else{
+			return "Unknown"; 
+		}
+	}
 	
 	@Test
 	public void TestAddCaseAttach(){
