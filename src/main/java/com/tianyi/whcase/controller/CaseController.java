@@ -317,11 +317,13 @@ public class CaseController {
 	@RequestMapping(value = "AddCase.do", produces = "application/xml;charset=UTF-8")
 	public @ResponseBody
 	String AddCase(@RequestBody String requestBody, HttpServletRequest request)
-			throws Exception {		
+			throws Exception {	
+		System.out.println("添加案件接口调用开始");
 		int temp = -1;
         try{
         	Document document = DocumentHelper.parseText(requestBody);
     		Case c = getCaseInfoFromDocument(document);
+    		System.out.println("传送过来的数据："+ c.getName());
         	temp = caseService.updateCCase(c);
         }catch(Exception e){
         	e.printStackTrace();
