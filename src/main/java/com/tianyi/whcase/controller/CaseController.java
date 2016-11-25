@@ -318,13 +318,16 @@ public class CaseController {
 	public @ResponseBody
 	String AddCase(@RequestBody String requestBody, HttpServletRequest request)
 			throws Exception {	
-		System.out.println("添加案件接口调用开始");
+		System.out.println("添加案件接口调用开始:"+requestBody);
 		int temp = -1;
         try{
         	Document document = DocumentHelper.parseText(requestBody);
     		Case c = getCaseInfoFromDocument(document);
     		System.out.println("传送过来的数据："+ c.getName());
-        	temp = caseService.updateCCase(c);
+        	//temp = caseService.updateCCase(c);
+    		String result = caseService.insert(c);
+    		if("".equals(result))
+    			temp = 0;
         }catch(Exception e){
         	e.printStackTrace();
         	temp = -1;
@@ -367,7 +370,7 @@ public class CaseController {
 
 		c.setIsregister(false);
 		// 修改人： xie
-		c.setCaseGroupId("UserGroupId");  // 用户所在组的id
+		c.setCaseGroupId(root.attributeValue("UserGroupId"));  // 用户所在组的id
 		c.setLevel(root.attributeValue("Level"));
 		c.setLongitude(root.attributeValue("Longitude"));
 		c.setLatitude(root.attributeValue("Latitude"));

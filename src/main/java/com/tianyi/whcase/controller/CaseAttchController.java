@@ -93,10 +93,20 @@ public class CaseAttchController {
 		}
 		
 	}
-	public  void main(String[] args) {
-		String temp = caseAttchService.deleteCaseAttach("bb2a2458-92f1-0984-9021-40d005050505","ca624d2c-abf1-480b-9e82-3698fdaedd00");
-	    System.out.println("------------"+temp);
-	}
+//	public  void main(String[] args) {
+//		/*String temp = caseAttchService.deleteCaseAttach("bb2a2458-92f1-0984-9021-40d005050505","ca624d2c-abf1-480b-9e82-3698fdaedd00");
+//	    System.out.println("------------"+temp);*/
+//		String uri1 = "resource://CaseCenter_ws1/Files/20161124/16/c0a73658-cfa6-78e4-40ae-dd8005050505.mp4";
+//		String uri2 = "resource://CaseCenter_ws1/Files/20161121/13/788b3258-cfa6-a0e4-0ce9-037705050505.jpg";
+//		
+//		String type1 = generateClassFromFileType(uri1);
+//		String type2 = generateClassFromFileType(uri2);
+//		
+//		System.out.println("文件1:"+uri1);
+//		System.out.println("类型:"+type1);
+//		System.out.println("文件2:"+uri2);
+//		System.out.println("类型:"+type2);	
+//	}
 	
 	/**
 	 * (优创接口)当用户删除附件，捷尚通过调用这个接口来通知优创
@@ -215,6 +225,20 @@ public class CaseAttchController {
 		}else{
 			return "Unknown"; 
 		}
+	}
+	
+	@Test
+	public void TestType(){
+		String uri1 = "resource://CaseCenter_ws1/Files/20161124/16/c0a73658-cfa6-78e4-40ae-dd8005050505.mp4";
+		String uri2 = "resource://CaseCenter_ws1/Files/20161121/13/788b3258-cfa6-a0e4-0ce9-037705050505.jpg";
+		
+		String type1 = generateClassFromFileType(uri1);
+		String type2 = generateClassFromFileType(uri2);
+		
+		System.out.println("文件1:"+uri1);
+		System.out.println("类型:"+type1);
+		System.out.println("文件2:"+uri2);
+		System.out.println("类型:"+type2);		
 	}
 	
 	@Test
