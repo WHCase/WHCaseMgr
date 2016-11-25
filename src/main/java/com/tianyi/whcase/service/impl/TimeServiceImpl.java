@@ -32,7 +32,7 @@ public class TimeServiceImpl implements TimeService {
 	/**
 	 * 每天更新一次（凌晨3点）
 	 */
-	@Scheduled(fixedDelay = 30*60*1000)
+	@Scheduled(fixedDelay = 60*60*1000)
 	public void initTimer() {
 		System.out.println("开启定时服务...");
 		try{
@@ -41,7 +41,7 @@ public class TimeServiceImpl implements TimeService {
 			String hours = time.substring(11, 13);
 			//System.out.println("当前时间："+hours+"点");	
 			//三点更新
-			//if("03".equals(hours))
+			if("03".equals(hours))
 				count = updateCCase();			
 			System.out.println("更新案件"+count+"条!");			
 		}catch(Exception e){
