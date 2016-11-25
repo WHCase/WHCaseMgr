@@ -402,6 +402,7 @@ var CasePushManage = {
 							success:function(responce){
 								if(responce.isSuccess){
 									$.messager.confirm("提示","案件推送成功。");
+									m_casePush_dlg.close();
 									CasePushManage.loadCaseList();
 								}else{
 									$.messager.alert("提示",responce.msg,"warning");
@@ -421,6 +422,8 @@ var CasePushManage = {
 		 */
 		cancelSave:function(){
 			m_casePush_dlg.close();
+			/*重新加载案件列表*/
+			CasePushManage.loadCaseList();
 		},
 		doSearch:function(){			
 			startTimes = $("#sch_startTime").datebox("getValue");
