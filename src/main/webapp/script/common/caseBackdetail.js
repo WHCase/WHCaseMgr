@@ -74,9 +74,9 @@ var CaseDetailsManage = {
 				idField : 'id',  
 				columns : [ [ 
 				              { title : 'id', field : 'id', hidden : true },
-				              { title : '附件名称', field : 'name', align : 'center', width : 150 },
-				              { title : '附件类型', field : 'itemType', align : 'center', width : 150 },
-				              { title : '链接', field : 'uri', align : 'center', width : 150 }
+				              { title : '附件名称', field : 'name', align : 'center', width : 100 },
+				              { title : '附件类型', field : 'itemType', align : 'center', width : 70 },
+				              { title : '链接', field : 'uri', align : 'center', width : 450 }
 				          ] ]
 			});
 		},

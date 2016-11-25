@@ -61,6 +61,7 @@ public class CaseServiceImpl implements CaseService {
 		ListResult<CaseVM> list = new ListResult<CaseVM>(count, caseList);
 		return list;
 	}
+	
 
 	public CaseVM getCaseMainInfo(String caseId) {
 		return caseMapper.selectVMByPrimaryKey(caseId);

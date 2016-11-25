@@ -22,13 +22,13 @@
        		<label style="font-size:12px">案件编号：</label><input id="txtCaseNo" class="easyui-validatebox"  readonly="readonly"/>
        		<label style="font-size:12px">案件名称：</label><input id="txtCaseName" class="easyui-validatebox"  readonly="readonly"/>
        	  </p>
-       	  <p style="padding:5px">
-       		<label style="font-size:12px">案件类型：</label><input id="txtCaseType" class="easyui-validatebox"  readonly="readonly"/>
+       	  <p style="padding:5px">      	  
+       		<label style="font-size:12px">案发地域：</label><input id="txtCaseArea" class="easyui-validatebox" readonly="readonly" />       	 
        		<label style="font-size:12px">案发时间：</label><input id="txtCaseTime" class="easyui-validatebox"  readonly="readonly"/>
        	 </p>
        	  <p style="padding:5px">
-       		<label style="font-size:12px">案发地域：</label><input id="txtCaseArea" class="easyui-validatebox" readonly="readonly" />
-       	 </p>
+       	  <label style="font-size:12px">案件类型：</label><input id="txtCaseType" style="width:48%" class="easyui-validatebox"  readonly="readonly"/>
+       		</p>
        	 <p>
        		<label style="font-size:12px">简要案情：</label><textarea id="txtCaseDesc" style="width:63%" rows="4" readonly="readonly"></textarea>
        	 </p>
