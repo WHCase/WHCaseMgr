@@ -182,7 +182,7 @@ public class CaseAttchController {
 				caseAttachItem.setId(itemList.get(j).attributeValue("ID"));				
 				caseAttachItem.setName(itemList.get(j).attributeValue("Name"));
 				caseAttachItem.setUri(itemList.get(j).attributeValue("Uri"));
-				//caseAttachItem.setItemType(generateClassFromFileType(caseAttachItem.getUri()));
+				caseAttachItem.setItemType(generateClassFromFileType(caseAttachItem.getUri()));
 				caseAttachItem.setCaseAttchId(root.attributeValue("ID"));
 				caseItemList.add(caseAttachItem);
 			}
