@@ -66,5 +66,51 @@ public class ycylInterfaceTest extends BaseTest {
 	public void AddCase(){
 		
 	}
+	
+	
+	/**
+	 * 文件类型
+	 * @param uri
+	 * @return
+	 */
+	private String generateClassFromFileType(String uri){
+		if(uri == null || "".equals(uri))
+			return "";
+//		String[] names = uri.split(".");
+//		String fileType = names[names.length - 1];
+		String fileType=uri.substring(uri.lastIndexOf(".")+1);
+ 		if(fileType.toLowerCase().equals("png")||fileType.equals("jpg")||fileType.equals("jpeg")||fileType.equals("gif")||fileType.equals("ico")||fileType.equals("bmp")){
+			return "Image"; 
+		}else if(fileType.equals("doc")||fileType.equals("docx")){
+			return "document"; 
+		}else if(fileType.equals("ppt")||fileType.equals("pptx")){
+			return "document"; 
+		}else if(fileType.equals("xls")||fileType.equals("xlsx")){
+			return "document"; 
+		}else if(fileType.equals("txt")){
+			return "document"; 
+		}else if(fileType.toLowerCase().equals("3gp")||fileType.equals("avi")||fileType.equals("wma")||fileType.equals("rmvb")||fileType.equals("rm")||fileType.equals("flash")||fileType.equals("mp4")||fileType.equals("mid")){
+			return "Video"; 
+		}else if(fileType.toUpperCase().equals("MP3")||fileType.equals("WMA")||fileType.equals("WAV")||fileType.equals("ASF")||fileType.equals("AAC")||fileType.equals("Mp3Pro")||fileType.equals("VQF")||fileType.equals("FLAC")||fileType.equals("APE")||fileType.equals("MID")||fileType.equals("OGG")){
+			return "Audio"; 
+		}else{
+			return "Unknown"; 
+		}
+	}
+	
+	@Test
+	public void TestType(){
+		String uri1 = "resource://CaseCenter_ws1/Files/20161124/16/c0a73658-cfa6-78e4-40ae-dd8005050505.mp4";
+		String uri2 = "resource://CaseCenter_ws1/Files/20161121/13/788b3258-cfa6-a0e4-0ce9-037705050505.jpg";
+		
+		String type1 = generateClassFromFileType(uri1);
+		String type2 = generateClassFromFileType(uri2);
+		
+		System.out.println("文件1:"+uri1);
+		System.out.println("类型:"+type1);
+		System.out.println("文件2:"+uri2);
+		System.out.println("类型:"+type2);		
+	}
+	
 
 }

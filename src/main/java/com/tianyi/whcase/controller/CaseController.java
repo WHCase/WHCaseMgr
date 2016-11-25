@@ -324,7 +324,9 @@ public class CaseController {
         	Document document = DocumentHelper.parseText(requestBody);
     		Case c = getCaseInfoFromDocument(document);
     		System.out.println("传送过来的数据："+ c.getName());
+    		//调用捷尚接口获取案件及其相关信息
         	//temp = caseService.updateCCase(c);
+    		//插入案件主体信息
     		String result = caseService.insert(c);
     		if("".equals(result))
     			temp = 0;

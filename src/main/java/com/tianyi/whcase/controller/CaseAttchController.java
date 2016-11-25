@@ -206,8 +206,7 @@ public class CaseAttchController {
 	private String generateClassFromFileType(String uri){
 		if(uri == null || "".equals(uri))
 			return "";
-		String[] names = uri.split(".");
-		String fileType = names[names.length - 1];
+		String fileType=uri.substring(uri.lastIndexOf(".")+1);
  		if(fileType.toLowerCase().equals("png")||fileType.equals("jpg")||fileType.equals("jpeg")||fileType.equals("gif")||fileType.equals("ico")||fileType.equals("bmp")){
 			return "Image"; 
 		}else if(fileType.equals("doc")||fileType.equals("docx")){
