@@ -23,4 +23,10 @@ public class Constants {
 	public static final int RECEIVE_STATUS__ACCEPTED = 4;//已接收
 	public static final int RECEIVE_STATUS__NOT_FEEDBACK = 5;//
 	public static final int RECEIVE_STATUS__FEEDBACK = 6;//已反馈
+	
+	
+	/*服务器文件存放路径*/
+	public static final String serverPath = "D:\\code_github\\.metadata/.me_tcat7\\me-webapps\\WHCaseMgr";
+
+	
 }

@@ -1,5 +1,12 @@
 package com.tianyi.whcase.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +85,89 @@ public class CaseAttchController {
 		
 	}
 	
+	/**
+	 * 下载文件到本地
+	 * @param url
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "downloadAttchItem.do", produces = "application/json;charset=UTF-8")
+	public @ResponseBody String downloadAttchItem(
+			@RequestParam(value = "url", required = false) String url, 
+			HttpServletRequest request,HttpServletResponse response ){
+		String result = "-1";
+		try {
+			/*调取洁尚接口*/
+		result = jieShangService.downloadAttachFiles(url, request, response);
+//			
+//			System.out.println("文件路径:"+url);
+//			String[] filePaths = url.split("/");		
+//			int member = filePaths.length;
+//			String fileName = filePaths[member-1];
+//			String filePath = request.getSession().getServletContext().getRealPath("targ");
+//			filePath += filePaths[member-3]+filePaths[member-2];
+//			System.out.println("targ路径:"+filePath);
+//			
+//			
+//			
+//			 response.setContentType("APPLICATION/OCTET-STREAM; charset=UTF-8");
+//	            response.setHeader("Content-disposition", "attachment;filename=\""
+//	                    + new String(fileName.getBytes("GB2312"), "ISO-8859-1")
+//	                    + "\"");
+//
+//	            FileInputStream inStream = new FileInputStream(filePath);
+//	            byte[] b = new byte[100];
+//	            int len;
+//	            while ((len = inStream.read(b)) > 0) {
+//	                response.getOutputStream().write(b, 0, len);
+//	            }
+//	            inStream.close();
+//			
+			
+//			String path = "c:\\download";
+//			String[] fileName = filePath[1].split("/");
+//			int length = fileName.length;
+//			//文件夹
+//			for(int i=0;i<length-1;i++){
+//				
+//				File  dirFile = new File(path);
+//		        if(!dirFile.exists()){ 
+//		        //文件路径不存在时，自动创建目录
+//		            dirFile.mkdir();
+//		        }
+//		        path = path+"/"+fileName[i];
+//			}
+//				
+//			response.reset();
+//            response.setContentType("APPLICATION/OCTET-STREAM; charset=UTF-8");
+//            response.setHeader("Content-disposition", "attachment;filename=\""
+//                   + new String(path.getBytes("GB2312"), "ISO-8859-1")
+//                   + "\"");
+//			
+//			FileInputStream inStream = new FileInputStream(uriPath);
+//            byte[] b = new byte[100];
+//            int len;
+//            while ((len = inStream.read(b)) > 0) {
+//               response.getOutputStream().write(b, 0, len);
+//            }
+//            inStream.close();		
+            
+//            FileOutputStream outputStream = new FileOutputStream(path);
+//            outputStream.write(b);
+//            outputStream.flush();
+//            outputStream.close();
+//		    result = uriPath;
+			
+		} catch (Exception e) {
+			result = "-2";
+			e.printStackTrace();
+		}
+		
+		return result;
+		
+	}
+	
 	@RequestMapping(value = "deleteCaseAttach.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String deleteCaseAttach(
 			@RequestParam(value="caseId",required = false) String caseId,
@@ -93,7 +183,8 @@ public class CaseAttchController {
 		}
 		
 	}
-//	public  void main(String[] args) {
+
+	//	public  void main(String[] args) {
 //		/*String temp = caseAttchService.deleteCaseAttach("bb2a2458-92f1-0984-9021-40d005050505","ca624d2c-abf1-480b-9e82-3698fdaedd00");
 //	    System.out.println("------------"+temp);*/
 //		String uri1 = "resource://CaseCenter_ws1/Files/20161124/16/c0a73658-cfa6-78e4-40ae-dd8005050505.mp4";
@@ -182,7 +273,8 @@ public class CaseAttchController {
 				caseAttachItem.setId(itemList.get(j).attributeValue("ID"));				
 				caseAttachItem.setName(itemList.get(j).attributeValue("Name"));
 				caseAttachItem.setUri(itemList.get(j).attributeValue("Uri"));
-				caseAttachItem.setItemType(generateClassFromFileType(caseAttachItem.getUri()));
+				String Type = generateClassFromFileType(itemList.get(j).attributeValue("Uri"));
+				caseAttachItem.setItemType(Type);
 				caseAttachItem.setCaseAttchId(root.attributeValue("ID"));
 				caseItemList.add(caseAttachItem);
 			}
@@ -226,42 +318,42 @@ public class CaseAttchController {
 		}
 	}
 	
-	@Test
-	public void TestType(){
-		String uri1 = "resource://CaseCenter_ws1/Files/20161124/16/c0a73658-cfa6-78e4-40ae-dd8005050505.mp4";
-		String uri2 = "resource://CaseCenter_ws1/Files/20161121/13/788b3258-cfa6-a0e4-0ce9-037705050505.jpg";
-		
-		String type1 = generateClassFromFileType(uri1);
-		String type2 = generateClassFromFileType(uri2);
-		
-		System.out.println("文件1:"+uri1);
-		System.out.println("类型:"+type1);
-		System.out.println("文件2:"+uri2);
-		System.out.println("类型:"+type2);		
-	}
-	
-	@Test
-	public void TestAddCaseAttach(){
-//		String caseId = "bf5d3258-92f1-0884-9455-b9b905050505";
-//		String caseAttachId = "618b3258-cfa6-a0e4-0ce9-037505050505";
-//		try{
-//			int temp = caseAttchService.deleteLocalAttach(caseId,caseAttachId);
-//			System.out.print(getReturnXml(temp));
-//		}catch(Exception e){
-//			e.printStackTrace();
-//		}		
-	}
-	
-	@Test
-	public void TestDeleteLocalAttach(){
-//		String caseId = "bf5d3258-92f1-0884-9455-b9b905050505";
-//		String caseAttachId = "618b3258-cfa6-a0e4-0ce9-037505050505";
-//		try{
-//			int temp = 0;
-//			temp = caseAttchService.deleteLocalAttach(caseId,caseAttachId);
-//			System.out.print(getReturnXml(temp));
-//		}catch(Exception e){
-//			e.printStackTrace();
-//		}		
-	}
+//	@Test
+//	public void TestType(){
+//		String uri1 = "resource://CaseCenter_ws1/Files/20161124/16/c0a73658-cfa6-78e4-40ae-dd8005050505.mp4";
+//		String uri2 = "resource://CaseCenter_ws1/Files/20161121/13/788b3258-cfa6-a0e4-0ce9-037705050505.jpg";
+//		
+//		String type1 = generateClassFromFileType(uri1);
+//		String type2 = generateClassFromFileType(uri2);
+//		
+//		System.out.println("文件1:"+uri1);
+//		System.out.println("类型:"+type1);
+//		System.out.println("文件2:"+uri2);
+//		System.out.println("类型:"+type2);		
+//	}
+//	
+//	@Test
+//	public void TestAddCaseAttach(){
+////		String caseId = "bf5d3258-92f1-0884-9455-b9b905050505";
+////		String caseAttachId = "618b3258-cfa6-a0e4-0ce9-037505050505";
+////		try{
+////			int temp = caseAttchService.deleteLocalAttach(caseId,caseAttachId);
+////			System.out.print(getReturnXml(temp));
+////		}catch(Exception e){
+////			e.printStackTrace();
+////		}		
+//	}
+//	
+//	@Test
+//	public void TestDeleteLocalAttach(){
+////		String caseId = "bf5d3258-92f1-0884-9455-b9b905050505";
+////		String caseAttachId = "618b3258-cfa6-a0e4-0ce9-037505050505";
+////		try{
+////			int temp = 0;
+////			temp = caseAttchService.deleteLocalAttach(caseId,caseAttachId);
+////			System.out.print(getReturnXml(temp));
+////		}catch(Exception e){
+////			e.printStackTrace();
+////		}		
+//	}
 }

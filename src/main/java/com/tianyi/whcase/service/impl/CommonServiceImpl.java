@@ -17,6 +17,7 @@ import com.tianyi.whcase.model.CaseAttachItem;
 import com.tianyi.whcase.model.CaseCategory;
 import com.tianyi.whcase.model.detectUnit;
 import com.tianyi.whcase.service.CommonService;
+import com.tianyi.whcase.service.JieShangService;
 import com.tianyi.whcase.viewmodel.CaseAttachVM;
 import com.tianyi.whcase.viewmodel.CaseVM;
 
@@ -26,6 +27,7 @@ public class CommonServiceImpl implements CommonService{
 	@Autowired CaseMapper caseMapper;
 	@Autowired CaseAttachMapper caseAttachMapper;
 	@Autowired CaseAttachItemMapper caseAttachItemMapper;
+	@Autowired JieShangService jieShangService;
 	public int InsertCaseCategory(CaseCategory category) {
 		if(organMapper.selectCaseCategoryByCategoryId(category.getId())==0){
 			return organMapper.insertCaseCategory(category);
@@ -59,6 +61,7 @@ public class CommonServiceImpl implements CommonService{
 				List<CaseAttachItem> ilist = cavm.getAttachItemList();
 				for(CaseAttachItem item:ilist){
 					insertCaseAttachItem(item);
+
 				}
 			}
 			return 0;//成功编号
@@ -100,7 +103,7 @@ public class CommonServiceImpl implements CommonService{
 				System.out.println("更新附件信息:"+ca.getId());
 			}else{
 				ca.setResourceType("1");
-				caseAttachMapper.insert(ca);
+				caseAttachMapper.insert(ca);				
 			}
 		}
 	}
@@ -108,8 +111,9 @@ public class CommonServiceImpl implements CommonService{
 	/**
 	 * 文件信息更新
 	 * @param cai
+	 * @throws Exception 
 	 */
-	private void insertCaseAttachItem(CaseAttachItem cai){
+	private void insertCaseAttachItem(CaseAttachItem cai) throws Exception{
 		if(cai != null){
 			CaseAttachItem cs = new CaseAttachItem();
 			cs = caseAttachItemMapper.selectByPrimaryKey(cai.getId());
@@ -117,7 +121,9 @@ public class CommonServiceImpl implements CommonService{
 				caseAttachItemMapper.updateByPrimaryKey(cai);
 				System.out.println("更新文件信息:"+cai.getId());
 			}else{
-				caseAttachItemMapper.insert(cai);				
+				caseAttachItemMapper.insert(cai);
+				/*下载文件*/
+				//jieShangService.downloadAttachFiles(cai.getUri(), null, null);
 			}
 		}
 	}

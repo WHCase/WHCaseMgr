@@ -94,7 +94,7 @@ var CaseDetailsManage = {
 		        fileURL.close();*/
 			// 修改人 xie
 			$.ajax({
-				url:"caseAttch/downloadCaseAttch.do",
+				url:"caseAttch/downloadAttchItem.do",
 				dataType:"JSON",
 				data:{url:url},
 				type:"get",

@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.tianyi.whcase.core.Constants;
 import com.tianyi.whcase.model.Case;
 import com.tianyi.whcase.model.CaseAttach;
 import com.tianyi.whcase.model.CaseAttachItem;
@@ -266,6 +267,15 @@ public class JieShangService {
 		return wsInfo;
 	}
 
+	@Test
+	public void testDownload() throws Exception{
+//		String temp = getClass().getResource("/").getFile().toString();
+//		 System.out.println("temp:"+temp);
+//		String uri = "resource://CaseCenter_ws1/Files/20161124/17/a3b73658-cfa6-78e4-40ae-dd8505050505.jpg";
+//	    String temp1 = downloadAttachFiles(uri,null,null);
+	   
+	}
+	
 	/**
 	 * 下载文件接口
 	 * @param uri
@@ -286,6 +296,9 @@ public class JieShangService {
 			String serverPath = getClass().getResource("/").getFile()
 					.toString();
 			serverPath = serverPath.substring(0, (serverPath.length() - 16));
+//			String serverPath = Constants.serverPath;
+//			 String serverPath = request.getSession().getServletContext().getRealPath("targ");
+	            
             String[] path = uri.split("/Files");
             int ment = path.length;
 			File file = new File(serverPath + "/Files" + path[ment-1]);
@@ -381,35 +394,36 @@ public class JieShangService {
 		}
 		return result;
 	}
-	@Test
-	public void test66() throws Exception{
-		CaseAttach attach = new CaseAttach();
-		UUID u = java.util.UUID.randomUUID();
-		attach.setId(u.toString());
-		attach.setCaseId("bf5d3258-92f1-0884-9455-b9b905050505");
-		attach.setCreator(0);
-		// 修改人 xie
-		attach.setMessageType("66");
-	    attach.setOrganizationId(856);
-	    attach.setDescription("test附件");
-		attach.setResourceType("2");
-		//设置附件相关信息
-		attach.setName("派出所上传附件");
-		
-		CaseAttachItem attch = new CaseAttachItem();
-		UUID d = java.util.UUID.randomUUID();
-		attch.setId(d.toString());
-		attch.setCaseAttchId(attach.getId());
-		attch.setUri("resource://CaseCenter_ws1/Files/20161117/17/399.png");
-		attch.setItemType("Image");
-		attch.setName("test附件");
-		CaseAttachVM temp = new CaseAttachVM();
-		temp.SetCaseAttach(attach);
-		List<CaseAttachItem> li = new ArrayList<CaseAttachItem>();
-		li.add(attch);
-		temp.setAttachItemList(li);
-		String s = addCCaseMessage("bf5d3258-92f1-0884-9455-b9b905050505", temp);
-	}
+
+	//	@Test
+//	public void test66() throws Exception{
+//		CaseAttach attach = new CaseAttach();
+//		UUID u = java.util.UUID.randomUUID();
+//		attach.setId(u.toString());
+//		attach.setCaseId("bf5d3258-92f1-0884-9455-b9b905050505");
+//		attach.setCreator(0);
+//		// 修改人 xie
+//		attach.setMessageType("66");
+//	    attach.setOrganizationId(856);
+//	    attach.setDescription("test附件");
+//		attach.setResourceType("2");
+//		//设置附件相关信息
+//		attach.setName("派出所上传附件");
+//		
+//		CaseAttachItem attch = new CaseAttachItem();
+//		UUID d = java.util.UUID.randomUUID();
+//		attch.setId(d.toString());
+//		attch.setCaseAttchId(attach.getId());
+//		attch.setUri("resource://CaseCenter_ws1/Files/20161117/17/399.png");
+//		attch.setItemType("Image");
+//		attch.setName("test附件");
+//		CaseAttachVM temp = new CaseAttachVM();
+//		temp.SetCaseAttach(attach);
+//		List<CaseAttachItem> li = new ArrayList<CaseAttachItem>();
+//		li.add(attch);
+//		temp.setAttachItemList(li);
+//		String s = addCCaseMessage("bf5d3258-92f1-0884-9455-b9b905050505", temp);
+//	}
 	/**
 	 * 上传附件信息接口
 	 * @param caseId
@@ -734,7 +748,8 @@ public class JieShangService {
 					Element elements = (Element) items.next();
 					cai.setId(elements.attributeValue("ID"));
 					cai.setName(elements.attributeValue("Name"));
-					cai.setItemType(elements.attributeValue("Type"));
+					String Type = generateClassFromFileType(elements.attributeValue("Uri"));
+					cai.setItemType(Type);
 					cai.setUri(elements.attributeValue("Uri"));
 					cai.setCaseAttchId(ca.getId());
 					list.add(cai);
@@ -808,7 +823,9 @@ public class JieShangService {
 					Element elements = (Element) items.next();
 					cai.setId(elements.attributeValue("ID"));
 					cai.setName(elements.attributeValue("Name"));
-					cai.setItemType(elements.attributeValue("Type"));
+					//cai.setItemType(elements.attributeValue("Type"));
+					String Type = generateClassFromFileType(elements.attributeValue("Uri"));
+					cai.setItemType(Type);
 					cai.setUri(elements.attributeValue("Uri"));
 					cai.setCaseAttchId(ca.getId());
 					list.add(cai);
@@ -1120,59 +1137,84 @@ public class JieShangService {
 	/**
 	 * 
 	 */
-	@Test
-	public void download() {   
-
-		String uri = "case/caseAttch/DeleteCaseAttach.do";
-		String ip = "121.199.8.150";
-		int port = 80;
-		try {
-			String caseId = "bb2a2458-92f1-0984-9021-40d005050505";					
-			String caseAttachItemId = "84f4b846-cbbc-4825-8faf-d9574175e3e0";
-			
-			String urlStr = "http://" + ip + ":" + port + "/" + uri+"?caseId="+caseId+"&caseAttachItemId="+caseAttachItemId;
-			System.out.println(urlStr);
-			URL url = new URL(urlStr);
-			URLConnection con = url.openConnection();
-			con.setDoOutput(true);
-			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
-
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					con.getInputStream(),"UTF-8"));
-
-			String line = "";
-			for (line = br.readLine(); line != null; line = br.readLine()) {
-				System.out.println(line);
-				
-			}
-			
-			
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-
-		}
-
-	}
-	@Test
-	public void testConnect() throws DocumentException, ParseException {
+//	@Test
+//	public void download() {   
+//
+//		String uri = "case/caseAttch/DeleteCaseAttach.do";
+//		String ip = "121.199.8.150";
+//		int port = 80;
+//		try {
+//			String caseId = "bb2a2458-92f1-0984-9021-40d005050505";					
+//			String caseAttachItemId = "84f4b846-cbbc-4825-8faf-d9574175e3e0";
+//			
+//			String urlStr = "http://" + ip + ":" + port + "/" + uri+"?caseId="+caseId+"&caseAttachItemId="+caseAttachItemId;
+//			System.out.println(urlStr);
+//			URL url = new URL(urlStr);
+//			URLConnection con = url.openConnection();
+//			con.setDoOutput(true);
+//			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
+//
+//			BufferedReader br = new BufferedReader(new InputStreamReader(
+//					con.getInputStream(),"UTF-8"));
+//
+//			String line = "";
+//			for (line = br.readLine(); line != null; line = br.readLine()) {
+//				System.out.println(line);
+//				
+//			}
+//			
+//			
+//		} catch (Exception ex) {
+//			System.out.println(ex.getMessage());
+//
+//		}
+//
+//	}
+//	@Test
+//	public void testConnect() throws DocumentException, ParseException {
 //		
 //		String endTime = sdf.format(new Date());
 //		String startTime = "2001-01-01T00:00:01";
 //		List<CaseVM> list = new ArrayList<CaseVM>();
 //		list = QueryCases4WuHou(startTime,endTime,0,4);
 //		System.out.println(list.size());
-	//  MediaSvrStatus src = getAllMsSvrStatus();
-	//	CaseVM s = getCase("a75b2d58-92f1-0884-38d9-2caf05050505");
-	//	System.out.println(s.getId());
-	//	System.out.println(s.getCaseAttachVMlist().get(0).getId());
-		//int s = deleteCaseAttach("bf5d3258-92f1-0884-9455-b9b905050505","a113e4be-b9ed-47f6-a8ff-9c2da96af9ba");
-		//System.out.println(s);
-     	//List<CaseAttachVM> s = getCaseMessages("a75b2d58-92f1-0884-38d9-2caf05050505",66);
-     	//System.out.println(s.size());
-		WorkspaceInfo w = getWorkspaceInfo();
+//	    MediaSvrStatus src = getAllMsSvrStatus();
+//		CaseVM s = getCase("a75b2d58-92f1-0884-38d9-2caf05050505");
+//		System.out.println(s.getId());
+//		System.out.println(s.getCaseAttachVMlist().get(0).getId());
+//		int s = deleteCaseAttach("bf5d3258-92f1-0884-9455-b9b905050505","a113e4be-b9ed-47f6-a8ff-9c2da96af9ba");
+//		System.out.println(s);
+//     	List<CaseAttachVM> s = getCaseMessages("a75b2d58-92f1-0884-38d9-2caf05050505",66);
+//     	System.out.println(s.size());
+//		WorkspaceInfo w = getWorkspaceInfo();
+//	}
+	
+	 /** 文件类型
+	 * @param uri
+	 * @return
+	 */
+	private String generateClassFromFileType(String uri){
+		if(uri == null || "".equals(uri))
+			return "";
+		String fileType=uri.substring(uri.lastIndexOf(".")+1);
+ 		if(fileType.toLowerCase().equals("png")||fileType.equals("jpg")||fileType.equals("jpeg")||fileType.equals("gif")||fileType.equals("ico")||fileType.equals("bmp")){
+			return "Image"; 
+		}else if(fileType.equals("doc")||fileType.equals("docx")){
+			return "document"; 
+		}else if(fileType.equals("ppt")||fileType.equals("pptx")){
+			return "document"; 
+		}else if(fileType.equals("xls")||fileType.equals("xlsx")){
+			return "document"; 
+		}else if(fileType.equals("txt")){
+			return "document"; 
+		}else if(fileType.toLowerCase().equals("3gp")||fileType.equals("avi")||fileType.equals("wma")||fileType.equals("rmvb")||fileType.equals("rm")||fileType.equals("flash")||fileType.equals("mp4")||fileType.equals("mid")){
+			return "Video"; 
+		}else if(fileType.toUpperCase().equals("MP3")||fileType.equals("WMA")||fileType.equals("WAV")||fileType.equals("ASF")||fileType.equals("AAC")||fileType.equals("Mp3Pro")||fileType.equals("VQF")||fileType.equals("FLAC")||fileType.equals("APE")||fileType.equals("MID")||fileType.equals("OGG")){
+			return "Audio"; 
+		}else{
+			return "Unknown"; 
+		}
 	}
-	
-	
 
 	
 }

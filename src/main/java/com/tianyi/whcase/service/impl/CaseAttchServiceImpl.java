@@ -67,7 +67,7 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 			if(caseAttachMapper.selectByPrimaryKey(caseAttach.getId())!=null){
 				return 100;
 			}		
-			temp = caseAttachMapper.insert(caseAttach);		
+			temp = caseAttachMapper.insert(caseAttach);
 			/*
 			 * 获取附件文件列表，单独保存
 			 */
@@ -133,23 +133,5 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 	}
 
 	
-//	/**
-//	 * 案件附件信息更新
-//	 * @param list
-//	 */
-//	public void updateCaseAttach(List<CaseAttach> list){
-//		try{
-//			CaseAttach t = new CaseAttach();
-//			for(CaseAttach c:list){
-//				t = caseAttachMapper.selectByPrimaryKey(c.getId());
-//				if(t == null){
-//					caseAttachMapper.insert(c);
-//				}else{
-//					caseAttachMapper.updateByPrimaryKey(c);
-//				}
-//			}
-//		}catch(Exception e){
-//			e.printStackTrace();
-//		}
-//	}
+
 }
