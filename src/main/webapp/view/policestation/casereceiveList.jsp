@@ -51,8 +51,8 @@
 			</p>
 			<p>
 				<label style="font-size:12px">反馈结果：</label><input id="txtCaseResult"
-					class="easyui-validatebox" /> <label style="font-size:12px">反馈时间：</label><input
-					id="txtCaseTime" class="easyui-datebox" />
+					class="easyui-validatebox" /> <label style="font-size:12px;">反馈时间：</label>
+					<input id="txtCaseTime" class="easyui-datebox" style="width:160px;"/>
 			</p>
 			<p>
 				<!-- <label style="font-size:12px">录入单位：</label><input id="txtCaseOrgan" class="easyui-validatebox"  /> -->

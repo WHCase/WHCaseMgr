@@ -218,7 +218,7 @@ public class CaseAttchController {
 				caseAttachItem.setId(itemList.get(j).attributeValue("ID"));				
 				caseAttachItem.setName(itemList.get(j).attributeValue("Name"));
 				caseAttachItem.setUri(itemList.get(j).attributeValue("Uri"));
-				String Type = generateClassFromFileType(itemList.get(j).attributeValue("Uri"));
+				String Type = generateClassFromFileType(caseAttachItem.getUri());
 				caseAttachItem.setItemType(Type);
 				caseAttachItem.setCaseAttchId(root.attributeValue("ID"));
 				caseItemList.add(caseAttachItem);
@@ -252,7 +252,7 @@ public class CaseAttchController {
 			return "document"; 
 		}else if(fileType.equals("xls")||fileType.equals("xlsx")){
 			return "document"; 
-		}else if(fileType.equals("txt")){
+		}else if(fileType.equals("txt")||fileType.equals("log")){
 			return "document"; 
 		}else if(fileType.toLowerCase().equals("3gp")||fileType.equals("avi")||fileType.equals("wma")||fileType.equals("rmvb")||fileType.equals("rm")||fileType.equals("flash")||fileType.equals("mp4")||fileType.equals("mid")){
 			return "Video"; 

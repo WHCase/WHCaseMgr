@@ -14,6 +14,13 @@ var isFeed = false;
  */
 var m_rowIndex = -1;
 var m_rowData;
+/**
+ * basePath配置
+ */
+var local = window.location;  
+var contextPath = local.pathname.split("/")[1];  
+var basePath = local.protocol+"//"+local.host+"/"+contextPath;  
+
 
 $(function() { 
 	var obj = getUrlArgs();
@@ -53,7 +60,7 @@ $(function() {
 	var button = $('#btnUploadFile'),interval;
 	
 	new AjaxUpload(button,{
-		action:'fileUpload/uploadFile.do',
+		action:basePath+'/fileUpload/uploadFile.do',
 		name:'file',
 		onSubmit:function(file,ext){
 			debugger;
@@ -75,7 +82,7 @@ $(function() {
 			// button.text('上传图片(只允许上传大小不得大于10M)');
 			// 清楚按钮的状态
 			$("#caseBackAttchs").datagrid({
-				url : 'caseAttch/getUpCaseAttchMents.do?caseId='+m_rowData.id,
+				url : basePath+'/caseAttch/getUpCaseAttchMents.do?caseId='+m_rowData.id,
 				rownumbers : true,
 				pagination : false, 
 				nowrap : false,
@@ -107,7 +114,7 @@ var CaseManage = {
 		packageObject : function() {
 			m_caseInfo_Object.receiveStatus = m_caseType;
 			/*获取该机构下的案件*/
-			$.ajax('CaseOrgan/getCaseListByOrganId.do',{
+			$.ajax(basePath+'/CaseOrgan/getCaseListByOrganId.do',{
 				type:'POST',
 				data:{organId:m_organ_id},
 				success:function(responce){
@@ -121,7 +128,7 @@ var CaseManage = {
 		loadCaseList:function(){
 			
 			$('#caseReceiveListGrid').datagrid({
-				url : 'case/getDistributeCaseList.do',
+				url : basePath+'/case/getDistributeCaseList.do',
 				queryParams : {
 					'caseInfo' : JSON.stringify(m_caseInfo_Object)
 				},
@@ -180,7 +187,7 @@ var CaseManage = {
 			} 
 			var caseId = target.id;
 			var caseLevel = target.level;
-			$.ajax('case/acceptPushCase.do',{
+			$.ajax(basePath+'/case/acceptPushCase.do',{
 				type:'POST',
 				data:{caseId:caseId,
 					caseLevel:caseLevel,
@@ -213,7 +220,7 @@ var CaseManage = {
 							initFn : function() {
 								CaseManage.loadCaseMainInfo(m_rowData.id);
 								 $("#caseBackAttchs").datagrid({
-									 	url : 'caseAttch/getUpCaseAttchMents.do?caseId='+m_rowData.id,
+									 	url : basePath+'/caseAttch/getUpCaseAttchMents.do?caseId='+m_rowData.id,
 										rownumbers : true,
 										pagination : false, 
 										nowrap : false,
@@ -240,14 +247,14 @@ var CaseManage = {
 			}
 		},
 		deleteAttchs:function(attachItemId){
-			$.ajax('caseAttch/deleteCaseAttach.do',{
+			$.ajax(basePath+'/caseAttch/deleteCaseAttach.do',{
 				type:'POST',
 				data:{caseId:m_rowData.id,
 					caseAttachItemId:attachItemId},
 				success:function(responce){
 					if(responce.isSuccess){
 						$("#caseBackAttchs").datagrid({
-							url : 'caseAttch/getUpCaseAttchMents.do?caseId='+m_rowData.id,
+							url : basePath+'/caseAttch/getUpCaseAttchMents.do?caseId='+m_rowData.id,
 							rownumbers : true,
 							pagination : false, 
 							nowrap : false,
@@ -273,7 +280,7 @@ var CaseManage = {
 			});
 		},
 		loadCaseMainInfo:function(caseId){
-			$.ajax('case/getCaseMainInfo.do',{
+			$.ajax(basePath+'/case/getCaseMainInfo.do',{
 				type:'POST',
 				data:{caseId:caseId},
 				success:function(responce){
@@ -313,7 +320,7 @@ var CaseManage = {
 						.dialog({
 							id : 'dlgShowCaseInfo',
 							title : '查看案件信息', 
-							content : "<iframe scrolling='yes' frameborder='0' src='view/common/casedetailInfo.jsp?caseId="+m_rowData.id+"&caseNo="+caseNo+"' style='width:710px;height:450px;overflow:hidden'/>",
+							content : "<iframe scrolling='yes' frameborder='0' src='"+basePath+"/view/common/casedetailInfo.jsp?caseId="+m_rowData.id+"&caseNo="+caseNo+"' style='width:710px;height:450px;overflow:hidden'/>",
 							lock : true,
 							initFn : function() {
 							}
@@ -335,7 +342,7 @@ var CaseManage = {
 //				return false;
 //			}
 			
-			$.ajax('caseFeed/saveFeedBacInfo.do',{
+			$.ajax(basePath+'/caseFeed/saveFeedBacInfo.do',{
 				type:'POST',
 				data:{'feedBackInfo':JSON.stringify(caseFeed)},
 				success:function(responce){
@@ -382,7 +389,7 @@ var CaseManage = {
 		/**
 		 * 
 		 */	
-			$.ajax('Export/CaseInfoExportInExcel.do',{
+			$.ajax(basePath+'/Export/CaseInfoExportInExcel.do',{
 				type:'POST',
 				data:{caseId:m_rowData.id},
 				success:function(responce){
@@ -393,7 +400,7 @@ var CaseManage = {
 			        fileURL.close();*/
 			        
 					if(obj.isSuccess==true){ 
-						window.location.href = "data/tempFile"+obj.data;
+						window.location.href = basePath+"/data/tempFile"+obj.data;
 						$.messager.alert("提示","导出成功");		
 						CaseManage.loadCaseList();  
 						

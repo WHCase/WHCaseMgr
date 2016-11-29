@@ -12,6 +12,14 @@ var endTimes;
 var m_rowIndex = -1;
 var m_rowData;
 
+/**
+ * basePath配置
+ */
+var local = window.location;  
+var contextPath = local.pathname.split("/")[1];  
+var basePath = local.protocol+"//"+local.host+"/"+contextPath;  
+
+
 $(function() { 
 	var obj = getUrlArgs();
 	m_caseType = obj.caseType;
@@ -154,7 +162,7 @@ var CasePushManage = {
 		   endTimes = $("#sch_endTime").datebox("getValue"); 
 			//alert(startTime+endTime);
 			$('#casePushListGrid').datagrid({
-				url : 'case/getCaseList.do',
+				url : basePath+'/case/getCaseList.do',
 				queryParams : {
 					'case_Query' : JSON.stringify(m_caseInfo_Object),
 					'startTime':startTimes,
@@ -192,7 +200,7 @@ var CasePushManage = {
 		showDistrubutInfo:function(caseId){
 
 			$('#distributeRecGrid').datagrid({
-				url : 'CaseOrgan/getCaseDistributeRecordList.do?caseId='+caseId, 
+				url : basePath+'/CaseOrgan/getCaseDistributeRecordList.do?caseId='+caseId, 
 				fitColumns : true,
 				rownumbers : true,
 				pagination : false, 
@@ -245,7 +253,7 @@ var CasePushManage = {
 						.dialog({
 							id : 'dlgShowCaseInfo',
 							title : '案件信息编辑 查看', 
-							content : "<iframe scrolling='yes' frameborder='0' src='view/common/caseInfoEdit.jsp?caseId="+m_rowData.id+"&caseNo="+caseNo+"' style='width:710px;height:450px;overflow:hidden'/>",
+							content : "<iframe scrolling='yes' frameborder='0' src='"+basePath+"/view/common/caseInfoEdit.jsp?caseId="+m_rowData.id+"&caseNo="+caseNo+"' style='width:710px;height:450px;overflow:hidden'/>",
 							lock : true,
 							initFn : function() {
 							}
@@ -308,7 +316,7 @@ var CasePushManage = {
 						.dialog({
 							id : 'dlgShowCaseInfo',
 							title : '案件信息详情查看', 
-							content : "<iframe scrolling='yes' frameborder='0' src='view/common/casedetailInfo.jsp?caseId="+m_rowData.id+"&caseNo="+caseNo+"' style='width:710px;height:450px;overflow:hidden'/>",
+							content : "<iframe scrolling='yes' frameborder='0' src='"+basePath+"/view/common/casedetailInfo.jsp?caseId="+m_rowData.id+"&caseNo="+caseNo+"' style='width:710px;height:450px;overflow:hidden'/>",
 							lock : true,
 							initFn : function() {
 							}
@@ -332,7 +340,7 @@ var CasePushManage = {
 						.dialog({
 							id : 'dlgShowCaseInfo',
 							title : '案件反馈信息查看', 
-							content : "<iframe scrolling='yes' frameborder='0' src='view/common/caseBackInfo.jsp?caseId="+m_rowData.id+"&caseNo="+caseNo+"' style='width:710px;height:450px;overflow:hidden'/>",
+							content : "<iframe scrolling='yes' frameborder='0' src='"+basePath+"/view/common/caseBackInfo.jsp?caseId="+m_rowData.id+"&caseNo="+caseNo+"' style='width:710px;height:450px;overflow:hidden'/>",
 							lock : true,
 							initFn : function() {
 							}
@@ -380,7 +388,7 @@ var CasePushManage = {
 				$.messager.alert('操作提示', "请选择相关的派出所", "warning");
 				return;
 			}
-			$.ajax('case/changeCaseReceiveStatusAndLevel.do',{
+			$.ajax(basePath+'/case/changeCaseReceiveStatusAndLevel.do',{
 				type:'POST',
 				data:{
 					caseId:m_rowData.id,
@@ -391,12 +399,12 @@ var CasePushManage = {
 				}
 			});
 			/*将案件推送的派出所进行保存*/
-			$.ajax('CaseOrgan/pushCaseToOrgans.do',{
+			$.ajax(basePath+'/CaseOrgan/pushCaseToOrgans.do',{
 				type:'POST',
 				data:{caseOrgan:JSON.stringify({caseId:m_rowData.id,organList:organIdArray})},
 				success:function(responce){
 					if(responce.isSuccess){
-						$.ajax('CaseLevel/setCaseLevel.do',{
+						$.ajax(basePath+'/CaseLevel/setCaseLevel.do',{
 							type:'POST',
 							data:{caseLevel:JSON.stringify({caseId:m_rowData.id,caseLevel:caseLevel})},
 							success:function(responce){
@@ -448,7 +456,7 @@ var CasePushManage = {
 		/**
 		 * 
 		 */	
-			$.ajax('Export/CaseInfoExportInExcel.do',{
+			$.ajax(basePath+'/Export/CaseInfoExportInExcel.do',{
 				type:'POST',
 				data:{caseId:m_rowData.id},
 				success:function(responce){
@@ -459,7 +467,7 @@ var CasePushManage = {
 //			        fileURL.close();
 //			        
 					if(obj.isSuccess==true){
-						window.location.href = "data/tempFile"+obj.data;
+						window.location.href = basePath+"/data/tempFile"+obj.data;
 						$.messager.alert("提示","保存成功");
 						CasePushManage.loadCaseList();
 					}else{

@@ -687,10 +687,10 @@ public class JieShangService {
 					CaseAttachItem cai = new CaseAttachItem();
 					Element elements = (Element) items.next();
 					cai.setId(elements.attributeValue("ID"));
-					cai.setName(elements.attributeValue("Name"));
-					String Type = generateClassFromFileType(elements.attributeValue("Uri"));
-					cai.setItemType(Type);
+					cai.setName(elements.attributeValue("Name"));				
 					cai.setUri(elements.attributeValue("Uri"));
+					String Type = generateClassFromFileType(cai.getUri());
+					cai.setItemType(Type);
 					cai.setCaseAttchId(ca.getId());
 					list.add(cai);
 				}
@@ -763,10 +763,9 @@ public class JieShangService {
 					Element elements = (Element) items.next();
 					cai.setId(elements.attributeValue("ID"));
 					cai.setName(elements.attributeValue("Name"));
-					//cai.setItemType(elements.attributeValue("Type"));
-					String Type = generateClassFromFileType(elements.attributeValue("Uri"));
-					cai.setItemType(Type);
 					cai.setUri(elements.attributeValue("Uri"));
+					String Type = generateClassFromFileType(cai.getUri());
+					cai.setItemType(Type);
 					cai.setCaseAttchId(ca.getId());
 					list.add(cai);
 				}
@@ -1092,7 +1091,7 @@ public class JieShangService {
 			return "document"; 
 		}else if(fileType.equals("xls")||fileType.equals("xlsx")){
 			return "document"; 
-		}else if(fileType.equals("txt")){
+		}else if(fileType.equals("txt")||fileType.equals("log")){
 			return "document"; 
 		}else if(fileType.toLowerCase().equals("3gp")||fileType.equals("avi")||fileType.equals("wma")||fileType.equals("rmvb")||fileType.equals("rm")||fileType.equals("flash")||fileType.equals("mp4")||fileType.equals("mid")){
 			return "Video"; 

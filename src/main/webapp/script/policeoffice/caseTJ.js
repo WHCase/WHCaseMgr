@@ -1,6 +1,14 @@
 
 var m_organId;
 
+/**
+ * basePath配置
+ */
+var local = window.location;  
+var contextPath = local.pathname.split("/")[1];  
+var basePath = local.protocol+"//"+local.host+"/"+contextPath;  
+
+
 $(function() { 
 	var obj = getUrlArgs();
 	m_organId = obj.organId;
@@ -10,7 +18,7 @@ $(function() {
 var caseTJManage = {
 		loadcaseTJInfo:function(){
 			$("#caseTJListGrid").datagrid({
-				url : 'case/getCaseTJInfo.do',
+				url : basePath+'/case/getCaseTJInfo.do',
 				queryParams:{startTime:'',endTime:''},
 				rownumbers : true,
 				pagination : false, 

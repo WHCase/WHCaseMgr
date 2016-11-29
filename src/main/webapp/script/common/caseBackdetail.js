@@ -1,5 +1,14 @@
 var m_caseInfo_id; 
 var m_caseInfo_no; 
+
+/**
+ * basePath配置
+ */
+var local = window.location;  
+var contextPath = local.pathname.split("/")[1];  
+var basePath = local.protocol+"//"+local.host+"/"+contextPath;  
+
+
 $(function() { 
 	var obj = getUrlArgs(); 
 	m_caseInfo_no = obj.caseNo;  
@@ -7,7 +16,7 @@ $(function() {
 	CaseDetailsManage.loadCaseInfo();
 	$("#btnCancelSave").bind("click", CaseDetailsManage.cancelSave);
 	$("#feedbackOrgan").combobox({
-		url:'caseFeed/getFeedBackOrganById.do?caseId='+m_caseInfo_id,  
+		url:basePath+'/caseFeed/getFeedBackOrganById.do?caseId='+m_caseInfo_id,  
 	    valueField:'id',  
 	    textField:'name',
 	    onSelect:function(record){
@@ -28,7 +37,7 @@ var CaseDetailsManage = {
 		 * 加载案件主体信息
 		 */
 		loadCaseMainInfo:function(){
-			$.ajax('case/getCaseMainInfo.do',{
+			$.ajax(basePath+'/case/getCaseMainInfo.do',{
 				type:'POST',
 				data:{caseId:m_caseInfo_id},
 				success:function(responce){
@@ -48,7 +57,7 @@ var CaseDetailsManage = {
 		},
 		loadCaseRelative:function(){
 			$('#caseRelative').datagrid({
-				url : 'caseGroup/getCaseRelative.do?caseId='+m_caseInfo_id,
+				url : basePath+'/caseGroup/getCaseRelative.do?caseId='+m_caseInfo_id,
 				fitColumns : true,
 				rownumbers : true,
 				pagination : false, 
@@ -67,7 +76,7 @@ var CaseDetailsManage = {
 		},
 		loadCaseAttchMents:function(){
 			$('#caseAttchMents').datagrid({
-				url : 'caseAttch/getCaseAttchMents.do?caseId='+m_caseInfo_id, 
+				url : basePath+'/caseAttch/getCaseAttchMents.do?caseId='+m_caseInfo_id, 
 				rownumbers : true,
 				pagination : false, 
 				nowrap : false,
@@ -81,7 +90,7 @@ var CaseDetailsManage = {
 			});
 		},
 		loadCaseBackMainInfo:function(orgId){
-			$.ajax('caseFeed/getCaseBackMainInfo.do',{
+			$.ajax(basePath+'/caseFeed/getCaseBackMainInfo.do',{
 				type:'POST',
 				data:{caseId:m_caseInfo_id,organId:orgId},
 				success:function(responce){
@@ -100,7 +109,7 @@ var CaseDetailsManage = {
 		},
 		loadCaseBackAttchMents:function(){
 			$('#caseBackAttchMents').datagrid({
-				url : 'caseAttch/getUpCaseAttchMents.do?caseId='+m_caseInfo_id, 
+				url : basePath+'/caseAttch/getUpCaseAttchMents.do?caseId='+m_caseInfo_id, 
 				rownumbers : true,
 				pagination : false, 
 				nowrap : false,
@@ -136,14 +145,14 @@ var CaseDetailsManage = {
 		        fileURL.close();*/
 			// 修改人 xie
 			$.ajax({
-				url:"caseAttch/downloadCaseAttch.do",
+				url:basePath+"/caseAttch/downloadCaseAttch.do",
 				dataType:"JSON",
 				data:{url:url},
 				type:"get",
 				success: function(data){
 			        if(data == 0){
 			        	$.messager.alert('操作提示',"下载成功",'info',function(){
-			        		window.location.href="caseAttch/downloadFile.do?url="+url;
+			        		window.location.href=basePath+"/caseAttch/downloadFile.do?url="+url;
 			        	});
 			        }else{
 			        	$.messager.alert('操作提示',"下载失败",'error');
