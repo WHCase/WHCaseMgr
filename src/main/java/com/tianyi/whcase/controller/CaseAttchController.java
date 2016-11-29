@@ -95,7 +95,7 @@ public class CaseAttchController {
 	@RequestMapping(value = "downloadAttchItem.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String downloadAttchItem(
 			@RequestParam(value = "url", required = false) String url, 
-			HttpServletRequest request,HttpServletResponse response ){
+			HttpServletRequest request,HttpServletResponse response){
 		String result = "-1";
 		try {
 			String testPath = request.getSession().getServletContext().getRealPath("tempfile");
@@ -135,6 +135,15 @@ public class CaseAttchController {
 		
 	}
 	
+	
+	/**
+	 * 删除附件下指定文件
+	 * @param caseId
+	 * @param caseAttachItemId
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "deleteCaseAttach.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String deleteCaseAttach(
 			@RequestParam(value="caseId",required = false) String caseId,
