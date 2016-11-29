@@ -94,17 +94,22 @@ var CaseDetailsManage = {
 		        fileURL.close();*/
 			// 修改人 xie
 			$.ajax({
-				url:"caseAttch/downloadAttchItem.do",
+				url:"caseAttch/downloadCaseAttch.do",
 				dataType:"JSON",
 				data:{url:url},
 				type:"get",
 				success: function(data){
 			        if(data == 0){
-			        	$.messager.alert('操作提示',"下载成功",'info');
+			        	$.messager.alert('操作提示',"下载成功",'info',function(){
+			        		window.location.href="caseAttch/downloadFile.do?url="+url;
+			        	});
 			        }else{
 			        	$.messager.alert('操作提示',"下载失败",'error');
 			        }
 				},
+				error:function(){
+					alert("失败");
+				}
 			});
 			
 		},

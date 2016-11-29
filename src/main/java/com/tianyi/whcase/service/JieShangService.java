@@ -78,8 +78,6 @@ public class JieShangService {
 			OutputStreamWriter out = new OutputStreamWriter(
 					con.getOutputStream());
 			String xmlInfo = getXmlInfoForCase(caseInfo);
-			System.out.println("urlStr=" + urlStr);
-			System.out.println("xmlInfo=" + xmlInfo);
 			out.write(new String(xmlInfo.getBytes("UTF-8")));
 			out.flush();
 			out.close();
@@ -87,7 +85,6 @@ public class JieShangService {
 					con.getInputStream()));
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
-				System.out.println("\n\r 返回结果：" + line);
 				result = "" + getCodeFromLine(line);
 			}
 		} catch (Exception ex) {
@@ -123,9 +120,6 @@ public class JieShangService {
 			String readLine = null; 
 			while((readLine =br.readLine()) != null){ 		 
 			    response = response + readLine; 
-//			    String[] xmls = response.split(" ");
-//			    for(String p:xmls)
-//			        System.err.println(p);
 			    list = getCCaseFromXml(response);
 			}
 			br.close();
@@ -154,17 +148,11 @@ public class JieShangService {
 		
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream(),"UTF-8"));
-			/*String line = "";
-			for (line = br.readLine(); line != null; line = br.readLine()) {
-				System.out.println("\n\r 返回结果：" + line);
-			}*/
 			String response = ""; 
 			String readLine = null; 
-			while((readLine =br.readLine()) != null){ 
-			 
+			while((readLine =br.readLine()) != null){ 			 
 			    response = response + readLine; 		  
 			    ccase = getCaseMessagesFromXml(response);
-			    System.out.println(ccase.getId());
 			}
 			br.close();
 		} catch (Exception ex) {
@@ -196,9 +184,7 @@ public class JieShangService {
 					con.getInputStream(),"UTF-8"));
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
-			//	System.out.println("\n\r 返回结果：" + line);
 				list = getMessagesFromXml(line,caseID);
-				System.out.println("获取案件"+caseID+"附件数量:"+list.size());
 			}
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
@@ -225,7 +211,6 @@ public class JieShangService {
 
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
-				System.out.println(line);
 				s = getMediaSvrStatusInfoFromxml(line);
 			}
 
@@ -256,7 +241,6 @@ public class JieShangService {
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
 				wsInfo = getWorkspaceInfoFromxml(line);
-				System.out.println(wsInfo);
 			}
 
 		} catch (Exception ex) {
@@ -267,14 +251,7 @@ public class JieShangService {
 		return wsInfo;
 	}
 
-	@Test
-	public void testDownload() throws Exception{
-//		String temp = getClass().getResource("/").getFile().toString();
-//		 System.out.println("temp:"+temp);
-//		String uri = "resource://CaseCenter_ws1/Files/20161124/17/a3b73658-cfa6-78e4-40ae-dd8505050505.jpg";
-//	    String temp1 = downloadAttachFiles(uri,null,null);
-	   
-	}
+
 	
 	/**
 	 * 下载文件接口
@@ -305,7 +282,6 @@ public class JieShangService {
 			if (!file.getParentFile().exists()) {
 				file.getParentFile().mkdirs();
 			}
-			System.out.println("文件路径："+serverPath + "/Files" + path[ment-1]);
 			String urlStr = "http://" + ip + ":" + port + "/" + uri;
 			URL url = new URL(urlStr);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -382,8 +358,7 @@ public class JieShangService {
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 			String line = "";
-			for (line = br.readLine(); line != null; line = br.readLine()) {
-				System.out.println("\n\r 返回结果：" + line);
+			for (line = br.readLine(); line != null; line = br.readLine()) {				
 				int s = getCodeFromLine(line);
 				result = String.valueOf(s);
 			}
@@ -395,35 +370,7 @@ public class JieShangService {
 		return result;
 	}
 
-	//	@Test
-//	public void test66() throws Exception{
-//		CaseAttach attach = new CaseAttach();
-//		UUID u = java.util.UUID.randomUUID();
-//		attach.setId(u.toString());
-//		attach.setCaseId("bf5d3258-92f1-0884-9455-b9b905050505");
-//		attach.setCreator(0);
-//		// 修改人 xie
-//		attach.setMessageType("66");
-//	    attach.setOrganizationId(856);
-//	    attach.setDescription("test附件");
-//		attach.setResourceType("2");
-//		//设置附件相关信息
-//		attach.setName("派出所上传附件");
-//		
-//		CaseAttachItem attch = new CaseAttachItem();
-//		UUID d = java.util.UUID.randomUUID();
-//		attch.setId(d.toString());
-//		attch.setCaseAttchId(attach.getId());
-//		attch.setUri("resource://CaseCenter_ws1/Files/20161117/17/399.png");
-//		attch.setItemType("Image");
-//		attch.setName("test附件");
-//		CaseAttachVM temp = new CaseAttachVM();
-//		temp.SetCaseAttach(attach);
-//		List<CaseAttachItem> li = new ArrayList<CaseAttachItem>();
-//		li.add(attch);
-//		temp.setAttachItemList(li);
-//		String s = addCCaseMessage("bf5d3258-92f1-0884-9455-b9b905050505", temp);
-//	}
+
 	/**
 	 * 上传附件信息接口
 	 * @param caseId
@@ -437,7 +384,6 @@ public class JieShangService {
 		try {
 			//String urlStr = "http://121.199.8.150:80/case/caseAttch/AddCaseAttach.do?caseId="+caseId;
 		    String urlStr ="http://101.69.255.110:40000/center/AddCCaseMessage";
-            System.out.println(urlStr);
 			URL url = new URL(urlStr);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
@@ -460,7 +406,6 @@ public class JieShangService {
 			String line = "";
 			
 			for (line = br.readLine(); line != null; line = br.readLine()) {
-				System.out.println("\n\r 返回结果：" + line);
 				int s = getCodeFromLine(line);
 				result = String.valueOf(s);
 			}
@@ -493,7 +438,6 @@ public class JieShangService {
 			String line = "";
 			int s = -1;
 			for (line = br.readLine(); line != null; line = br.readLine()) {
-				System.out.println(line);
 				s = getCodeFromLine(line);
 			}
 			return s;
@@ -546,11 +490,8 @@ public class JieShangService {
 
 			String line = "";
 			for (line = br.readLine(); line != null; line = br.readLine()) {
-				System.out.println(line);
 				List<Organ> organList = getOrganListFromXml(line);
-				System.out.println(organList.size());
 				for (int i = 0; i < organList.size(); i++) {
-					System.out.println(organList.get(i).getName());
 					organService.insert(organList.get(i));
 				}
 				result = "组织机构类型更新成功!";
@@ -596,7 +537,6 @@ public class JieShangService {
 					con.getInputStream(),"UTF-8");
 			BufferedReader br1 = new BufferedReader(br);
 			for (line = br1.readLine(); line != null; line = br1.readLine()) {
-				System.out.println(line);
 				List<CaseCategory> categoryList = getCaseCategoryFromXml(line);
 				for (int i = 0; i < categoryList.size(); i++) {
 					commonService.InsertCaseCategory(categoryList.get(i));
@@ -1134,60 +1074,7 @@ public class JieShangService {
 		
 	}
 
-	/**
-	 * 
-	 */
-//	@Test
-//	public void download() {   
-//
-//		String uri = "case/caseAttch/DeleteCaseAttach.do";
-//		String ip = "121.199.8.150";
-//		int port = 80;
-//		try {
-//			String caseId = "bb2a2458-92f1-0984-9021-40d005050505";					
-//			String caseAttachItemId = "84f4b846-cbbc-4825-8faf-d9574175e3e0";
-//			
-//			String urlStr = "http://" + ip + ":" + port + "/" + uri+"?caseId="+caseId+"&caseAttachItemId="+caseAttachItemId;
-//			System.out.println(urlStr);
-//			URL url = new URL(urlStr);
-//			URLConnection con = url.openConnection();
-//			con.setDoOutput(true);
-//			con.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
-//
-//			BufferedReader br = new BufferedReader(new InputStreamReader(
-//					con.getInputStream(),"UTF-8"));
-//
-//			String line = "";
-//			for (line = br.readLine(); line != null; line = br.readLine()) {
-//				System.out.println(line);
-//				
-//			}
-//			
-//			
-//		} catch (Exception ex) {
-//			System.out.println(ex.getMessage());
-//
-//		}
-//
-//	}
-//	@Test
-//	public void testConnect() throws DocumentException, ParseException {
-//		
-//		String endTime = sdf.format(new Date());
-//		String startTime = "2001-01-01T00:00:01";
-//		List<CaseVM> list = new ArrayList<CaseVM>();
-//		list = QueryCases4WuHou(startTime,endTime,0,4);
-//		System.out.println(list.size());
-//	    MediaSvrStatus src = getAllMsSvrStatus();
-//		CaseVM s = getCase("a75b2d58-92f1-0884-38d9-2caf05050505");
-//		System.out.println(s.getId());
-//		System.out.println(s.getCaseAttachVMlist().get(0).getId());
-//		int s = deleteCaseAttach("bf5d3258-92f1-0884-9455-b9b905050505","a113e4be-b9ed-47f6-a8ff-9c2da96af9ba");
-//		System.out.println(s);
-//     	List<CaseAttachVM> s = getCaseMessages("a75b2d58-92f1-0884-38d9-2caf05050505",66);
-//     	System.out.println(s.size());
-//		WorkspaceInfo w = getWorkspaceInfo();
-//	}
+
 	
 	 /** 文件类型
 	 * @param uri

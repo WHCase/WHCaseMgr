@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -77,62 +78,43 @@ public class CaseAttchController {
 			/*调取洁尚接口*/
 			result = jieShangService.downloadAttachFiles(url, request, response);
 		} catch (Exception e) {
-			
 			e.printStackTrace();
 		}
-		
 		return result;
 		
 	}
 	
-	/**
-	 * 下载文件到本地
-	 * @param url
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@RequestMapping(value = "downloadAttchItem.do", produces = "application/json;charset=UTF-8")
-	public @ResponseBody String downloadAttchItem(
-			@RequestParam(value = "url", required = false) String url, 
-			HttpServletRequest request,HttpServletResponse response){
-		String result = "-1";
-		try {
-			String testPath = request.getSession().getServletContext().getRealPath("tempfile");
-			System.out.println("tempfile路径:"+testPath);
-			
 
-			/*调取洁尚接口*/
-			result = jieShangService.downloadAttachFiles(url, request, response);
-			if(result.equals("0")){
-				String path = getClass().getResource("/").getFile().toString();
-				System.out.println("path路径:"+path);
-				path = path.substring(0, (path.length() - 16));
-	            String[] basePath = url.split("/Files");
-	            int ment = basePath.length;
-				path = path + "Files" + basePath[ment-1];
-				response.reset();
-	            response.setContentType("APPLICATION/OCTET-STREAM; charset=UTF-8");
-	            response.setHeader("Content-disposition", "attachment;filename=\""
-	                   + new String(path.getBytes("GB2312"), "ISO-8859-1")
-	                   + "\"");
-				FileInputStream inStream = new FileInputStream(path);
-	            byte[] b = new byte[100];
-	            int len;
-	            while ((len = inStream.read(b)) > 0) {
-	               response.getOutputStream().write(b, 0, len);
-	            }
-	            inStream.close();
+	
+	@ResponseBody
+	@RequestMapping(value = "downloadFile.do", produces = "application/json;charset=UTF-8")
+	public void downloadFile(
+			@RequestParam(value="url",required=true)String url,
+			HttpServletRequest req,HttpServletResponse response
+			){
+        try {
+        	String path = getClass().getResource("/").getFile().toString();
+        	path = path.substring(0, (path.length() - 16));
+        	String[] basePath = url.split("/Files");
+        	int ment = basePath.length;
+        	path = path + "Files" + basePath[ment-1];
+        	response.reset();
+        	String[] fileName = basePath[1].split("/");
+        	String filename = fileName[fileName.length-1];
+        	response.setContentType("APPLICATION/OCTET-STREAM; charset=UTF-8");
+			response.setHeader("Content-disposition", "attachment;filename=\""
+			       + new String(filename.getBytes("GB2312"), "ISO-8859-1")
+			       + "\"");
+			FileInputStream inStream = new FileInputStream(path);
+			byte[] b = new byte[100];
+			int len;
+			while ((len = inStream.read(b)) > 0) {
+				response.getOutputStream().write(b, 0, len);
 			}
-			
-			
+			inStream.close();
 		} catch (Exception e) {
-			result = "-2";
 			e.printStackTrace();
 		}
-		System.out.println("返回值:"+result);
-		return result;
-		
 	}
 	
 	
@@ -160,20 +142,7 @@ public class CaseAttchController {
 		
 	}
 
-	//	public  void main(String[] args) {
-//		/*String temp = caseAttchService.deleteCaseAttach("bb2a2458-92f1-0984-9021-40d005050505","ca624d2c-abf1-480b-9e82-3698fdaedd00");
-//	    System.out.println("------------"+temp);*/
-//		String uri1 = "resource://CaseCenter_ws1/Files/20161124/16/c0a73658-cfa6-78e4-40ae-dd8005050505.mp4";
-//		String uri2 = "resource://CaseCenter_ws1/Files/20161121/13/788b3258-cfa6-a0e4-0ce9-037705050505.jpg";
-//		
-//		String type1 = generateClassFromFileType(uri1);
-//		String type2 = generateClassFromFileType(uri2);
-//		
-//		System.out.println("文件1:"+uri1);
-//		System.out.println("类型:"+type1);
-//		System.out.println("文件2:"+uri2);
-//		System.out.println("类型:"+type2);	
-//	}
+
 	
 	/**
 	 * (优创接口)当用户删除附件，捷尚通过调用这个接口来通知优创
@@ -294,42 +263,5 @@ public class CaseAttchController {
 		}
 	}
 	
-//	@Test
-//	public void TestType(){
-//		String uri1 = "resource://CaseCenter_ws1/Files/20161124/16/c0a73658-cfa6-78e4-40ae-dd8005050505.mp4";
-//		String uri2 = "resource://CaseCenter_ws1/Files/20161121/13/788b3258-cfa6-a0e4-0ce9-037705050505.jpg";
-//		
-//		String type1 = generateClassFromFileType(uri1);
-//		String type2 = generateClassFromFileType(uri2);
-//		
-//		System.out.println("文件1:"+uri1);
-//		System.out.println("类型:"+type1);
-//		System.out.println("文件2:"+uri2);
-//		System.out.println("类型:"+type2);		
-//	}
-//	
-//	@Test
-//	public void TestAddCaseAttach(){
-////		String caseId = "bf5d3258-92f1-0884-9455-b9b905050505";
-////		String caseAttachId = "618b3258-cfa6-a0e4-0ce9-037505050505";
-////		try{
-////			int temp = caseAttchService.deleteLocalAttach(caseId,caseAttachId);
-////			System.out.print(getReturnXml(temp));
-////		}catch(Exception e){
-////			e.printStackTrace();
-////		}		
-//	}
-//	
-//	@Test
-//	public void TestDeleteLocalAttach(){
-////		String caseId = "bf5d3258-92f1-0884-9455-b9b905050505";
-////		String caseAttachId = "618b3258-cfa6-a0e4-0ce9-037505050505";
-////		try{
-////			int temp = 0;
-////			temp = caseAttchService.deleteLocalAttach(caseId,caseAttachId);
-////			System.out.print(getReturnXml(temp));
-////		}catch(Exception e){
-////			e.printStackTrace();
-////		}		
-//	}
+
 }
