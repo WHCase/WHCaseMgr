@@ -141,6 +141,7 @@ var CaseDetailsManage = {
 				data:{url:url},
 				type:"get",
 				success: function(data){
+					alert(data);
 			        if(data == 0){
 			        	$.messager.alert('操作提示',"下载成功",'info');
 			        }

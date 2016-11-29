@@ -98,72 +98,39 @@ public class CaseAttchController {
 			HttpServletRequest request,HttpServletResponse response ){
 		String result = "-1";
 		try {
-			/*调取洁尚接口*/
-		result = jieShangService.downloadAttachFiles(url, request, response);
-//			
-//			System.out.println("文件路径:"+url);
-//			String[] filePaths = url.split("/");		
-//			int member = filePaths.length;
-//			String fileName = filePaths[member-1];
-//			String filePath = request.getSession().getServletContext().getRealPath("targ");
-//			filePath += filePaths[member-3]+filePaths[member-2];
-//			System.out.println("targ路径:"+filePath);
-//			
-//			
-//			
-//			 response.setContentType("APPLICATION/OCTET-STREAM; charset=UTF-8");
-//	            response.setHeader("Content-disposition", "attachment;filename=\""
-//	                    + new String(fileName.getBytes("GB2312"), "ISO-8859-1")
-//	                    + "\"");
-//
-//	            FileInputStream inStream = new FileInputStream(filePath);
-//	            byte[] b = new byte[100];
-//	            int len;
-//	            while ((len = inStream.read(b)) > 0) {
-//	                response.getOutputStream().write(b, 0, len);
-//	            }
-//	            inStream.close();
-//			
+			String testPath = request.getSession().getServletContext().getRealPath("tempfile");
+			System.out.println("tempfile路径:"+testPath);
 			
-//			String path = "c:\\download";
-//			String[] fileName = filePath[1].split("/");
-//			int length = fileName.length;
-//			//文件夹
-//			for(int i=0;i<length-1;i++){
-//				
-//				File  dirFile = new File(path);
-//		        if(!dirFile.exists()){ 
-//		        //文件路径不存在时，自动创建目录
-//		            dirFile.mkdir();
-//		        }
-//		        path = path+"/"+fileName[i];
-//			}
-//				
-//			response.reset();
-//            response.setContentType("APPLICATION/OCTET-STREAM; charset=UTF-8");
-//            response.setHeader("Content-disposition", "attachment;filename=\""
-//                   + new String(path.getBytes("GB2312"), "ISO-8859-1")
-//                   + "\"");
-//			
-//			FileInputStream inStream = new FileInputStream(uriPath);
-//            byte[] b = new byte[100];
-//            int len;
-//            while ((len = inStream.read(b)) > 0) {
-//               response.getOutputStream().write(b, 0, len);
-//            }
-//            inStream.close();		
-            
-//            FileOutputStream outputStream = new FileOutputStream(path);
-//            outputStream.write(b);
-//            outputStream.flush();
-//            outputStream.close();
-//		    result = uriPath;
+
+			/*调取洁尚接口*/
+			result = jieShangService.downloadAttachFiles(url, request, response);
+			if(result.equals("0")){
+				String path = getClass().getResource("/").getFile().toString();
+				System.out.println("path路径:"+path);
+				path = path.substring(0, (path.length() - 16));
+	            String[] basePath = url.split("/Files");
+	            int ment = basePath.length;
+				path = path + "Files" + basePath[ment-1];
+				response.reset();
+	            response.setContentType("APPLICATION/OCTET-STREAM; charset=UTF-8");
+	            response.setHeader("Content-disposition", "attachment;filename=\""
+	                   + new String(path.getBytes("GB2312"), "ISO-8859-1")
+	                   + "\"");
+				FileInputStream inStream = new FileInputStream(path);
+	            byte[] b = new byte[100];
+	            int len;
+	            while ((len = inStream.read(b)) > 0) {
+	               response.getOutputStream().write(b, 0, len);
+	            }
+	            inStream.close();
+			}
+			
 			
 		} catch (Exception e) {
 			result = "-2";
 			e.printStackTrace();
 		}
-		
+		System.out.println("返回值:"+result);
 		return result;
 		
 	}

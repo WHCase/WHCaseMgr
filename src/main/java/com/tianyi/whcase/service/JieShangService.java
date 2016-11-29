@@ -297,7 +297,7 @@ public class JieShangService {
 					.toString();
 			serverPath = serverPath.substring(0, (serverPath.length() - 16));
 //			String serverPath = Constants.serverPath;
-//			 String serverPath = request.getSession().getServletContext().getRealPath("targ");
+//			 String serverPath = request.getSession().getServletContext().getRealPath("targ ");
 	            
             String[] path = uri.split("/Files");
             int ment = path.length;
@@ -305,7 +305,7 @@ public class JieShangService {
 			if (!file.getParentFile().exists()) {
 				file.getParentFile().mkdirs();
 			}
-			System.out.println(serverPath + "/Files" + path[ment-1]);
+			System.out.println("文件路径："+serverPath + "/Files" + path[ment-1]);
 			String urlStr = "http://" + ip + ":" + port + "/" + uri;
 			URL url = new URL(urlStr);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
