@@ -13,9 +13,11 @@
         connectionURL="jdbc:mysql://192.168.0.201:3306/whcase?useUnicode=true&amp;characterEncoding=UTF-8" 
          userId="root" password="123456"/>   -->
          
-           <jdbcConnection driverClass="org.gjt.mm.mysql.Driver" 
-        connectionURL="jdbc:mysql://121.199.8.150:3306/whcase?useUnicode=true&amp;characterEncoding=UTF-8" 
-         userId="root" password="8a5c94af1d"/>  
+       
+         
+            <jdbcConnection driverClass="org.gjt.mm.mysql.Driver" 
+        connectionURL="jdbc:mysql://189.149.0.232:3306/whcase?useUnicode=true&amp;characterEncoding=UTF-8" 
+         userId="root" password="root"/>  
          
         <!-- 指定生成的类型为java类型，避免数据库中number等类型字段 -->  
         <javaTypeResolver>  

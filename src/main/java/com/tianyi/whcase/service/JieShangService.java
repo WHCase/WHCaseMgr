@@ -58,6 +58,10 @@ public class JieShangService {
 	
 	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	
+	public static String IP="189.49.0.232";
+	
+	public static String port="8080";
+	
 	/**
 	 * 更新案件接口  通过
 	 * 
@@ -68,7 +72,7 @@ public class JieShangService {
 		String result = "-1";
 		try {
 						
-			String urlStr = "http://101.69.255.110:40000/center/UpdateCCase";  
+			String urlStr = "http://"+IP+":"+port+"/center/UpdateCCase";  
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -105,7 +109,7 @@ public class JieShangService {
 		List<CaseVM> list = new ArrayList<CaseVM>();
 		try {
 			
-			String urlStr = "http://101.69.255.110:40000/center/QueryCases4WuHou?start="+start+"&end="+end+"&pageIndex="+0+"&pageSize="+pageSize;
+			String urlStr = "http://"+IP+":"+port+"/center/QueryCases4WuHou?start="+start+"&end="+end+"&pageIndex="+0+"&pageSize="+pageSize;
 
 
 			URL url = new URL(urlStr);
@@ -138,7 +142,7 @@ public class JieShangService {
 	public  CaseVM getCase(String caseID){
 		CaseVM ccase = new CaseVM();
 		try {
-			String urlStr = "http://101.69.255.110:40000/center/getCase?caseID="+caseID;
+			String urlStr = "http://"+IP+":"+port+"/center/getCase?caseID="+caseID;
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -172,7 +176,7 @@ public class JieShangService {
 		List<CaseAttachVM> list = new ArrayList<CaseAttachVM>();
 		try {
 			
-			String urlStr = "http://101.69.255.110:40000/center/GetCaseMessages?caseID="+caseID+"&messageType="+66; 
+			String urlStr = "http://"+IP+":"+port+"/center/GetCaseMessages?caseID="+caseID+"&messageType="+66; 
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -200,7 +204,7 @@ public class JieShangService {
 		MediaSvrStatus s = new MediaSvrStatus();
 		try {
 			
-			String urlStr = "http://101.69.255.110:40000/center/GetAllMsSvrStatus";
+			String urlStr = "http://"+IP+":"+port+"/center/GetAllMsSvrStatus";
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true);
@@ -229,7 +233,7 @@ public class JieShangService {
 		WorkspaceInfo wsInfo = new WorkspaceInfo();
 		try {
 			//String urlStr = "http://223.223.183.242:40000/center/GetWorkspacesInfoList";
-			 String urlStr = "http://101.69.255.110:40000/center/GetAllWorkspaceInfo";
+			 String urlStr = "http://"+IP+":"+port+"/center/GetAllWorkspaceInfo";
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -383,7 +387,7 @@ public class JieShangService {
 		String result = "-1";
 		try {
 			//String urlStr = "http://121.199.8.150:80/case/caseAttch/AddCaseAttach.do?caseId="+caseId;
-		    String urlStr ="http://101.69.255.110:40000/center/AddCCaseMessage";
+		    String urlStr ="http://"+IP+":"+port+"/center/AddCCaseMessage";
 			URL url = new URL(urlStr);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
@@ -425,7 +429,7 @@ public class JieShangService {
 	public int deleteCaseAttach(String caseId, String attachItemId) {
 		try {
 			//String attachItemIds = "a113e4be-b9ed-47f6-a8ff-9c2da96af9ba";
-			String urlStr = "http://101.69.255.110:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
+			String urlStr = "http://"+IP+":"+port+"/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
 
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -476,7 +480,7 @@ public class JieShangService {
 	public String getAllOrganizations() {
 		//String urlStr = "http://223.223.183.242:40000/center/GetAllOrganizations";
 		 String urlStr =
-		 "http://101.69.255.110:40000/center/GetAllOrganizations";
+		 "http://"+IP+":"+port+"/center/GetAllOrganizations";
 		URL url;
 		String result = "组织机构类型更新失败!";
 		try {
@@ -512,7 +516,7 @@ public class JieShangService {
 	 */
 	public String getDictionary() {
 		//String urlStr = "http://223.223.183.242:40000/center/GetDictionary";
-		 String urlStr = "http://101.69.255.110:40000/center/GetDictionary";
+		 String urlStr = "http://"+IP+":"+port+"/center/GetDictionary";
 		String temp = "案件类型更新失败!";
 		try {
 			URL url = new URL(urlStr);

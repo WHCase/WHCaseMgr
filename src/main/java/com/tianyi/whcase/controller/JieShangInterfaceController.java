@@ -40,6 +40,9 @@ public class JieShangInterfaceController {
 	 * @return
 	 * @throws Exception
 	 */
+	
+	
+	
 	@RequestMapping(value = "updateCCase.do", produces = "application/json;charset=UTF-8")
 	public @ResponseBody String updateCCase(
 		@RequestParam(value="caseInfo",required = false) String caseInfo,
@@ -268,7 +271,7 @@ public class JieShangInterfaceController {
 		try {
 			//String s = DbConfig.getInstance().getIpUrl();
 			//String urlStr = "http://223.223.183.242:40000/center/UpdateCCase";
-			String urlStr = "http://172.16.4.238:40000/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+itemId;
+			String urlStr = "http://189.49.0.231:8080/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+itemId;
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
 			con.setDoOutput(true); 
