@@ -58,9 +58,9 @@ public class JieShangService {
 	
 	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	
-	public static String IP="189.49.0.232";
+	public static String IP="101.69.255.110";
 	
-	public static String port="8080";
+	public static String port="40000";
 	
 	/**
 	 * 更新案件接口  通过
@@ -428,7 +428,7 @@ public class JieShangService {
 	 */
 	public int deleteCaseAttach(String caseId, String attachItemId) {
 		try {
-			//String attachItemIds = "a113e4be-b9ed-47f6-a8ff-9c2da96af9ba";
+			 
 			String urlStr = "http://"+IP+":"+port+"/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
 
 			URL url = new URL(urlStr);
@@ -1105,6 +1105,9 @@ public class JieShangService {
 			return "Unknown"; 
 		}
 	}
-
-	
+	@Test
+	public void testConnect() throws DocumentException, ParseException {
+		int i = deleteCaseAttach("8d963758-92f1-1d84-241a-e51e05050505","ecc83e0f-1522-4b89-ac42-a735daf045f8");
+		System.out.println("dddddd:"+i);
+	}
 }
