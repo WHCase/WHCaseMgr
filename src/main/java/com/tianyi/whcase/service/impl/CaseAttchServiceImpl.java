@@ -94,15 +94,16 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 		CaseAttachItem cAttachItem = caseAttachItemMapper.selectByPrimaryKey(caseAttachItemId);
 		if(cAttachItem==null){
 			return "查询附件文件对应的附件信息不存在";
+		}		
+		// 修改人xie
+		if(jieShangService.deleteCaseAttach(caseId,cAttachItem.getId())<0){
+			return "调用捷尚删除接口删除失败";
 		}
 		/*本地数据库删除，调用捷尚接口删除远程文件*/
 		if(caseAttachItemMapper.deleteByPrimaryKey(caseAttachItemId)<0){
 			return "删除失败";
 		}
-		// 修改人xie
-		if(jieShangService.deleteCaseAttach(caseId,cAttachItem.getId())<0){
-			return "调用捷尚删除接口删除失败";
-		}
+		caseAttachMapper.deleteByCaseId(cAttachItem.getCaseAttchId());
 		return "0";
 	}
 	
@@ -130,6 +131,10 @@ public class CaseAttchServiceImpl implements CaseAttchService {
 	public CaseAttach getCaseAttachBycaseID(String caseID,Integer messageType) {
 		CaseAttach caseAttach = caseAttachMapper.selectByCaseId(caseID, messageType);
 		return caseAttach;
+	}
+	public CaseAttachItem getCaseAttachItemByID(String attachItemId) {
+		// TODO Auto-generated method stub
+		return caseAttachItemMapper.selectByPrimaryKey(attachItemId);
 	}
 
 	

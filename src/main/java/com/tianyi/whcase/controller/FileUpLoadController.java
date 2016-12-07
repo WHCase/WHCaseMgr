@@ -56,7 +56,7 @@ public class FileUpLoadController {
 		    
 		try {
 			String result = "";
-			
+			System.out.println("文件上传进入后台");
 			String realPath = getClass().getResource("/").getFile().toString();
 			realPath = realPath.substring(0, (realPath.length() - 16));
 			
@@ -102,12 +102,12 @@ public class FileUpLoadController {
 				attach.setName("派出所上传附件");
 				String caseAttachId = "";
 				List<CaseAttach> c = caseAttachMapper.selectByCaseId(id, "2");
-				if( c==null||c.size()==0){
+				//if( c==null||c.size()==0){
 					caseAttachMapper.insert(attach);
 					caseAttachId = u.toString();
-				}else{
-					caseAttachId =c.get(0).getId(); 
-				}
+//				}else{
+//					caseAttachId =c.get(0).getId(); 
+//				}
 				
 				CaseAttachItem attch = new CaseAttachItem();
 				UUID d = java.util.UUID.randomUUID();
@@ -167,7 +167,7 @@ public class FileUpLoadController {
 	public  WorkspaceInfo getWorkspaceInfo(){
 		WorkspaceInfo wsInfo = new WorkspaceInfo();
 		try {
-			String urlStr = "http://101.69.255.110:40000/center/GetAllWorkspaceInfo";
+			String urlStr = "http://189.49.0.231:40000/center/GetAllWorkspaceInfo";
 			//String urlStr = "http://192.168.0.201:40000/center/GetWorkspacesInfoList";
 			
 			URL url = new URL(urlStr);

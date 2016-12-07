@@ -55,10 +55,9 @@ public class JieShangService {
 	OrganService organService;	
 	@Autowired 
 	CaseAttchService caseAttchService;
-	
 	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	
-	public static String IP="101.69.255.110";
+	public static String IP="189.49.0.231";
 	
 	public static String port="40000";
 	
@@ -196,6 +195,11 @@ public class JieShangService {
 		return list;
 	}
 
+//	@Test
+//	public void testM(){
+//		getAllMsSvrStatus();
+//	}
+	
 	/**
 	 * 获取流媒体信息接口
 	 * @return
@@ -203,7 +207,6 @@ public class JieShangService {
 	public MediaSvrStatus getAllMsSvrStatus() {
 		MediaSvrStatus s = new MediaSvrStatus();
 		try {
-			
 			String urlStr = "http://"+IP+":"+port+"/center/GetAllMsSvrStatus";
 			URL url = new URL(urlStr);
 			URLConnection con = url.openConnection();
@@ -255,7 +258,7 @@ public class JieShangService {
 		return wsInfo;
 	}
 
-
+   
 	
 	/**
 	 * 下载文件接口
@@ -286,7 +289,8 @@ public class JieShangService {
 			if (!file.getParentFile().exists()) {
 				file.getParentFile().mkdirs();
 			}
-			String urlStr = "http://" + ip + ":" + port + "/" + uri;
+			String urlStr = "http://" + IP + ":" + port + "/" + uri;
+			//String urlStr = "http://" + ip + ":" + port + "/" + uri;
 			URL url = new URL(urlStr);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoInput(true);
@@ -324,12 +328,12 @@ public class JieShangService {
 		// String ip = mss.getServerAddress();
 		// int port = mss.getPort();
 		String result = "-1";
-		String ip = "101.69.255.110";
+		//String ip = "101.69.255.110";
 		int port = 21000;
 		//WorkspaceInfo ws = getWorkspaceInfo();
 		try {
-			
-			String urlStr = "http://" + ip + ":" + port
+			String urlStr = "http://" + IP + ":" + port
+		//	String urlStr = "http://" + ip + ":" + port
 					+ "/media/UploadFile?s=CaseCenter_ws1&p="
 					+ URLEncoder.encode(relativePath, "UTF-8");
 			URL url = new URL(urlStr);
@@ -356,7 +360,7 @@ public class JieShangService {
             outputStream.close();
             
           //获得响应状态
-           // int responseCode = con.getResponseCode();
+            int responseCode = con.getResponseCode();
             
             
 			BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -405,6 +409,7 @@ public class JieShangService {
 			out.write(xmlInfo, 0, len);
 			out.flush();
 			out.close();
+			System.out.println(xmlInfo);
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 			String line = "";
@@ -414,12 +419,18 @@ public class JieShangService {
 				result = String.valueOf(s);
 			}
 		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
+			ex.printStackTrace();
+			//System.out.println(ex.getMessage());
 			return "-2";
 		}
 		return result;
 	}
 
+//	@Test
+//	public void testDelete(){
+//		int i = deleteCaseAttach("873b4658-1025-0c04-d822-0fd105050505","55a5fbd0-80ff-4104-8ea3-7fc348cca5d2");
+//		System.out.println("-----i:"+ i);
+//	}
 	/**
 	 * 删除附件
 	 * @param caseId
@@ -428,7 +439,9 @@ public class JieShangService {
 	 */
 	public int deleteCaseAttach(String caseId, String attachItemId) {
 		try {
-			 
+			//附件ID
+			CaseAttachItem cai = caseAttchService.getCaseAttachItemByID(attachItemId);
+			 attachItemId = cai.getCaseAttchId();
 			String urlStr = "http://"+IP+":"+port+"/center/DeleteCCaseMessage?caseID="+caseId+"&itemId="+attachItemId;
 
 			URL url = new URL(urlStr);
@@ -452,6 +465,15 @@ public class JieShangService {
 		}
 
 	}
+	
+//	@Test
+//	public void testDelete(){
+//		String caseId = "ef204658-1025-0c04-d822-0fb005050505";
+//		String caseAttachId = "";
+//		int temp = 1000;
+//		//temp = deleteCaseAttach(caseId,caseAttachId);
+//		System.out.println("删除结果:"+temp);
+//	}
 
 	/**
 	 * 返回值(成功0)
@@ -479,6 +501,7 @@ public class JieShangService {
 	 */
 	public String getAllOrganizations() {
 		//String urlStr = "http://223.223.183.242:40000/center/GetAllOrganizations";
+		//int port = 40000;
 		 String urlStr =
 		 "http://"+IP+":"+port+"/center/GetAllOrganizations";
 		URL url;

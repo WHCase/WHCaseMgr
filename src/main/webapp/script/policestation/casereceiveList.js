@@ -20,13 +20,13 @@ var m_rowData;
 var local = window.location;  
 var contextPath = local.pathname.split("/")[1];  
 var basePath = local.protocol+"//"+local.host+"/"+contextPath;  
-
+//var basePath = "http://189.49.0.232:8080/case";  
 
 $(function() { 
 	var obj = getUrlArgs();
 	m_caseType = obj.caseType; 
 	m_organ_id = obj.organId;
-
+   // alert(basePath);
 	m_caseInfo_Object.organId = m_organ_id;
 	m_caseInfo_Object.caseType = m_caseType;
 	if(m_caseType==2||m_caseType == "2"){
@@ -58,7 +58,6 @@ $(function() {
 	$("#exportCaseInfo").bind("click",CaseManage.exportCaseInfo);
 	
 	var button = $('#btnUploadFile'),interval;
-	
 	new AjaxUpload(button,{
 		action:basePath+'/fileUpload/uploadFile.do',
 		name:'file',

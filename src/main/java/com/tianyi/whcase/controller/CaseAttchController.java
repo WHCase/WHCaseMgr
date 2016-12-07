@@ -131,12 +131,17 @@ public class CaseAttchController {
 			@RequestParam(value="caseId",required = false) String caseId,
 		@RequestParam(value="caseAttachItemId",required = false) String caseAttachItemId,
 		HttpServletRequest request)throws Exception{
+		System.out.println("删除文件接口:");
+		System.out.println("获取到得案件ID:"+caseId);
+		System.out.println("获取到得文件ID:"+caseAttachItemId);
 		String temp = caseAttchService.deleteCaseAttach(caseId,caseAttachItemId);
 		if("0".equals(temp)){
 			Result<CaseAttachItem> result = new Result<CaseAttachItem>(null, true, "删除成功");
+			System.out.println("删除文件接口成功！");
 			return result.toJson();
 		}else{
 			Result<CaseAttachItem> result = new Result<CaseAttachItem>(null, false, temp);
+			System.out.println("删除文件接口失败！");
 			return result.toJson();
 		}
 		
@@ -157,6 +162,8 @@ public class CaseAttchController {
 			@RequestParam(value="caseId",required = false) String caseId,
 		@RequestParam(value="caseAttachItemId",required = false) String caseAttachItemId,
 		HttpServletRequest request)throws Exception{
+		System.out.println("删除案件接口:");
+		System.out.println("获取到得案件ID:"+caseId);
 		int temp = -1;
 		try {
 			temp = caseAttchService.deleteLocalAttach(caseId,caseAttachItemId);
@@ -164,6 +171,7 @@ public class CaseAttchController {
 			e.printStackTrace();
 			System.out.println("捷尚删除附件错误");
 		}
+		System.out.println("删除案件接口接口返回值:"+temp);
 		return getReturnXml(temp);
 		
 	}
@@ -183,11 +191,12 @@ public class CaseAttchController {
 			HttpServletResponse response
 			)throws Exception{
 		Document document = DocumentHelper.parseText(requestBody);
-		
+		System.out.println("添加附件接口:");
+		System.out.println("获取到得附件xml:"+requestBody);
 		CaseAttachVM caseAttachVM =getAttachVMByDocument(document,id);
 		int temp = -1;
 		temp = caseAttchService.AddAttachVM(caseAttachVM,request,response);
-
+		System.out.println("添加附件接口返回值:"+temp);
 		return getReturnXml(temp);
 	}
 	private CaseAttachVM getAttachVMByDocument(Document document,String id) {

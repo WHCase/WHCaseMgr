@@ -318,7 +318,8 @@ public class CaseController {
 	public @ResponseBody
 	String AddCase(@RequestBody String requestBody, HttpServletRequest request)
 			throws Exception {	
-		System.out.println("添加案件接口调用开始:"+requestBody);
+		System.out.println("添加案件接口:");
+		System.out.println("获取到得案件XML:"+requestBody);
 		int temp = -1;
         try{
         	Document document = DocumentHelper.parseText(requestBody);
@@ -334,6 +335,7 @@ public class CaseController {
         	e.printStackTrace();
         	temp = -1;
         }
+        System.out.println("新增案件接口返回值:"+temp);
     	return getReturnXml(temp);	
 	}
 
@@ -398,6 +400,8 @@ public class CaseController {
 	String DeleteCase(
 			@RequestParam(value = "caseId", required = false) String caseId,
 			HttpServletRequest request) throws Exception {
+		System.out.println("删除案件接口:");
+		System.out.println("获取到得案件ID:"+caseId);
 		/*
 		 * 是否要删除案件相关的串并案、附件等相关信息？
 		 */
@@ -407,7 +411,8 @@ public class CaseController {
 		}catch(Exception e){
 			e.printStackTrace();
 			temp = -2;
-		}				
+		}
+		System.out.println("删除案件接口返回值:"+temp);
 		return getReturnXml(temp);
 	}
 
@@ -425,6 +430,8 @@ public class CaseController {
 	String UpdateCase(@RequestBody String requestBody,
 			HttpServletRequest request) throws Exception {
 		Document document = DocumentHelper.parseText(requestBody);
+		System.out.println("更新案件接口:");
+		System.out.println("获取到得案件xml:"+requestBody);
 		/**
 		 * 是否需要重新获取案件附件？
 		 */
@@ -437,7 +444,7 @@ public class CaseController {
 			e.printStackTrace();
 			temp = -2;
 		}
-		
+		System.out.println("更新案件接口返回值:"+temp);
 		return getReturnXml(temp);
 	}
 
