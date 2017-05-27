@@ -56,7 +56,7 @@ public class JieShangService {
 	@Autowired 
 	CaseAttchService caseAttchService;
 	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-	
+	//189.49.0.231
 	public static String IP="189.49.0.231";
 	
 	public static String port="40000";
@@ -273,7 +273,7 @@ public class JieShangService {
 		uri = uri.replace("resource://", "");
 		//String ip = "223.223.183.242";
 
-		String ip = "101.69.255.110";
+		String ip = "189.49.0.231";
 		int port = 21001;
         String result = "1";
 		try {
@@ -1066,7 +1066,7 @@ public class JieShangService {
 
 	//	CaseAttachItem item = new  CaseAttachItem();
 
-		String temp = "<?xml version=\"1.0\" encoding=\"utf-8\"?><CCaseMessageAdd CasdID=\""
+		String temp = "<?xml version=\"1.0\" encoding=\"utf-8\"?><CCaseMessageAdd CasdID=\"  "
 				+ caseId
 				+ "\">"
 				+ "<MessageItem ID=\""
@@ -1091,7 +1091,7 @@ public class JieShangService {
 					+ "\" Uri=\""
 					+ item.getUri()
 					+ "\" Type=\""
-					+ item.getItemType()
+					+ "Unknown"
 					+ "\"/>";
 		}
 		temp +=  "</Attachments></MessageItem></CCaseMessageAdd>";

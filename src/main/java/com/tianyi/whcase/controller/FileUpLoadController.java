@@ -166,6 +166,7 @@ public class FileUpLoadController {
 	}
 	public  WorkspaceInfo getWorkspaceInfo(){
 		WorkspaceInfo wsInfo = new WorkspaceInfo();
+		//101.69.255.110
 		try {
 			String urlStr = "http://189.49.0.231:40000/center/GetAllWorkspaceInfo";
 			//String urlStr = "http://192.168.0.201:40000/center/GetWorkspacesInfoList";
